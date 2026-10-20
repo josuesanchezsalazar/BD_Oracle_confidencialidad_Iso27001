@@ -1,0 +1,222 @@
+[
+  {
+    "id": "A5.12", "nombre": "Clasificación de la información", "tema": "Organizacional", "oficial": true, "tipo": "Preventivo",
+    "exige": "Clasificar la información según su sensibilidad y sus requisitos legales para saber cuánta protección necesita.",
+    "riesgos": ["R-CONF-03"], "tarea": "T-05",
+    "implementacion": "Mantener un inventario con un nivel de clasificación por columna (por ejemplo, COMMENT ON COLUMN con una etiqueta CLASIF:...) y, si la edición lo permite, Transparent Sensitive Data Protection para asociar políticas a los tipos de dato sensible.",
+    "ejemplo": "Etiquetar las 36 columnas de INSTITUTO como Sensible, Restringido, Interno o Público según la Ley 8968.",
+    "consulta": "SELECT table_name, column_name, comments FROM dba_col_comments WHERE owner = '<ESQUEMA>' AND comments LIKE 'CLASIF:%';",
+    "script": "V01_A5_12",
+    "auditor": { "observa": "Que cada columna con datos personales tenga un nivel de clasificación registrado.", "criterio": "0 columnas del esquema auditado sin etiqueta de clasificación.", "ejemplo": "36 de 36 columnas de INSTITUTO etiquetadas." },
+    "madurez": { "antes": 0, "justAntes": "Ninguna columna clasificada: 36 de 36 sin etiqueta", "meta": 3 }
+  },
+  {
+    "id": "A5.15", "nombre": "Control de acceso", "tema": "Organizacional", "oficial": true, "tipo": "Preventivo",
+    "exige": "Definir y aplicar reglas de acceso basadas en las necesidades del negocio y de seguridad.",
+    "riesgos": ["R-CONF-01", "R-CONF-02"], "tarea": "T-02",
+    "implementacion": "Política escrita de acceso por funciones implementada con roles: los permisos se otorgan a roles y no a usuarios, y nada se otorga a PUBLIC.",
+    "ejemplo": "ROL_DOCENTE, ROL_SECRETARIA, ROL_TESORERIA y ROL_APP_MATRICULA con una matriz rol–objeto aprobada.",
+    "consulta": "SELECT grantee, table_name, privilege FROM dba_tab_privs WHERE owner = '<ESQUEMA>' AND (grantee = 'PUBLIC' OR grantee IN (SELECT username FROM dba_users));",
+    "script": "V02_A5_15",
+    "auditor": { "observa": "Que los permisos sobre el esquema estén en roles y coincidan con la matriz de acceso aprobada.", "criterio": "0 permisos directos a usuarios y 0 permisos a PUBLIC sobre el esquema.", "ejemplo": "ADECUACIONES ya no está otorgada a PUBLIC y no hay grants directos sobre INSTITUTO." },
+    "madurez": { "antes": 0, "justAntes": "No hay roles propios; 21 permisos directos a usuarios y ADECUACIONES otorgada a PUBLIC", "meta": 3 }
+  },
+  {
+    "id": "A5.16", "nombre": "Gestión de identidades", "tema": "Organizacional", "oficial": true, "tipo": "Preventivo",
+    "exige": "Gestionar el ciclo de vida completo de las identidades: alta, cambios y baja.",
+    "riesgos": ["R-CONF-02"], "tarea": "T-01",
+    "implementacion": "Una cuenta nominal por persona o proceso, nunca compartida; bloqueo inmediato al terminar la relación (ALTER USER ... ACCOUNT LOCK) y revisión periódica de LAST_LOGIN y del estado de las cuentas.",
+    "ejemplo": "Bloquear EX_KSALAS y reemplazar SECRETARIA por una cuenta por secretaria.",
+    "consulta": "SELECT username, account_status, last_login, profile FROM dba_users WHERE oracle_maintained = 'N';",
+    "script": "V03_A5_16",
+    "auditor": { "observa": "Que no existan cuentas compartidas ni cuentas abiertas de personas que ya no trabajan en la organización.", "criterio": "Toda cuenta abierta corresponde a una persona o proceso vigente y es individual.", "ejemplo": "EX_KSALAS y SECRETARIA en estado LOCKED." },
+    "madurez": { "antes": 1, "justAntes": "Hay cuentas nominales para docentes, pero SECRETARIA es compartida y EX_KSALAS sigue OPEN; no hay procedimiento de bajas", "meta": 3 }
+  },
+  {
+    "id": "A5.17", "nombre": "Información de autenticación", "tema": "Organizacional", "oficial": true, "tipo": "Preventivo",
+    "exige": "Controlar la asignación y la calidad de las contraseñas y demás información de autenticación.",
+    "riesgos": ["R-CONF-02"], "tarea": "T-03",
+    "implementacion": "Perfiles con PASSWORD_VERIFY_FUNCTION, PASSWORD_LIFE_TIME y PASSWORD_REUSE_*; cambiar las contraseñas por defecto (DBA_USERS_WITH_DEFPWD) y no guardar contraseñas en texto plano.",
+    "ejemplo": "Un perfil con ORA12C_STRONG_VERIFY_FUNCTION (ya instalada y válida en la base), vida de 90 días y reuso máximo de 5.",
+    "consulta": "SELECT profile, resource_name, limit FROM dba_profiles WHERE resource_type = 'PASSWORD';  SELECT * FROM dba_users_with_defpwd;",
+    "script": "V04_A5_17",
+    "auditor": { "observa": "Que todas las cuentas usen un perfil con función de verificación y ninguna conserve una contraseña por defecto.", "criterio": "PASSWORD_VERIFY_FUNCTION distinta de NULL y 0 cuentas abiertas con contraseña por defecto.", "ejemplo": "El perfil de las cuentas de INSTITUTO usa ORA12C_STRONG_VERIFY_FUNCTION." },
+    "madurez": { "antes": 1, "justAntes": "Solo los valores por defecto de Oracle (vida 180 días, 10 intentos); sin función de verificación; se aceptan contraseñas débiles", "meta": 3 }
+  },
+  {
+    "id": "A5.18", "nombre": "Derechos de acceso", "tema": "Organizacional", "oficial": true, "tipo": "Preventivo / Detectivo",
+    "exige": "Otorgar, revisar periódicamente, modificar y retirar los derechos de acceso según la política.",
+    "riesgos": ["R-CONF-01"], "tarea": "T-02",
+    "implementacion": "Revisión periódica de los derechos contra una matriz aprobada, revocación de lo sobrante y sin WITH GRANT OPTION; opcionalmente Privilege Analysis (DBMS_PRIVILEGE_CAPTURE) para detectar privilegios que no se usan.",
+    "ejemplo": "Revocar el GRANT OPTION de TESO_PAULA y emitir un reporte trimestral de permisos sobre INSTITUTO.",
+    "consulta": "SELECT grantee, table_name, privilege, grantable FROM dba_tab_privs WHERE owner = '<ESQUEMA>';",
+    "script": "V05_A5_18",
+    "auditor": { "observa": "Que exista una revisión periódica fechada y que no haya derechos re-otorgables.", "criterio": "0 filas con GRANTABLE = YES y un reporte de revisión del último período.", "ejemplo": "TESO_PAULA sin GRANT OPTION y reporte del trimestre." },
+    "madurez": { "antes": 0, "justAntes": "Nunca se han revisado los derechos; TESO_PAULA tiene GRANT OPTION sobre BECAS", "meta": 4 }
+  },
+  {
+    "id": "A5.33", "nombre": "Protección de registros", "tema": "Organizacional", "oficial": true, "tipo": "Preventivo",
+    "exige": "Proteger los registros contra pérdida, destrucción, falsificación y acceso no autorizado.",
+    "riesgos": ["R-CONF-06"], "tarea": "T-07",
+    "implementacion": "Separar AUDIT_ADMIN (configura y purga) de AUDIT_VIEWER (solo lee); mantener el rastro en AUDSYS; definir retención con DBMS_AUDIT_MGMT; evitar que el DBA operativo administre su propia auditoría.",
+    "ejemplo": "AUDITOR_EXT solo con AUDIT_VIEWER; AUDIT_ADMIN en una cuenta distinta del DBA operativo.",
+    "consulta": "SELECT grantee, granted_role FROM dba_role_privs WHERE granted_role IN ('AUDIT_ADMIN','AUDIT_VIEWER');",
+    "script": "V06_A5_33",
+    "auditor": { "observa": "Quién puede leer, configurar o purgar el rastro de auditoría.", "criterio": "Ninguna cuenta operativa o de auditor externo con AUDIT_ADMIN.", "ejemplo": "AUDITOR_EXT solo con AUDIT_VIEWER." },
+    "madurez": { "antes": 1, "justAntes": "Oracle protege AUDSYS por defecto, pero AUDITOR_EXT tiene AUDIT_ADMIN y no hay política de retención propia", "meta": 3 }
+  },
+  {
+    "id": "A8.2", "nombre": "Derechos de acceso privilegiado", "tema": "Tecnológico", "oficial": true, "tipo": "Preventivo",
+    "exige": "Restringir y gestionar la asignación y el uso de los derechos de acceso privilegiado.",
+    "riesgos": ["R-CONF-01", "R-CONF-02"], "tarea": "T-02",
+    "implementacion": "Limitar el rol DBA, SYSDBA y los privilegios ANY a administradores identificados; usar privilegios administrativos separados (SYSBACKUP, SYSKM, SYSDG) y revisar V$PWFILE_USERS.",
+    "ejemplo": "REVOKE DBA FROM dev_ramiro y REVOKE SELECT ANY TABLE FROM app_matricula; cuentas nominales para el DBA.",
+    "consulta": "SELECT grantee, granted_role FROM dba_role_privs WHERE granted_role = 'DBA';  SELECT grantee, privilege FROM dba_sys_privs WHERE privilege LIKE '%ANY%';",
+    "script": "V07_A8_2",
+    "auditor": { "observa": "Que las cuentas con privilegios elevados sean solo las de administración aprobadas.", "criterio": "0 cuentas no administrativas con rol DBA o privilegios ANY.", "ejemplo": "DEV_RAMIRO y APP_MATRICULA sin rol DBA ni privilegios ANY." },
+    "madurez": { "antes": 0, "justAntes": "DEV_RAMIRO tiene rol DBA (160 privilegios peligrosos efectivos) y APP_MATRICULA tiene SELECT ANY TABLE", "meta": 3 }
+  },
+  {
+    "id": "A8.3", "nombre": "Restricción de acceso a la información", "tema": "Tecnológico", "oficial": true, "tipo": "Preventivo",
+    "exige": "Restringir el acceso a la información según la política, a nivel de los datos y no solo del sistema.",
+    "riesgos": ["R-CONF-01"], "tarea": "T-05",
+    "implementacion": "Restricción por filas con VPD (DBMS_RLS) o vistas, y por columnas con vistas y permisos de columna, aplicando necesidad de saber.",
+    "ejemplo": "Política VPD sobre NOTAS y ADECUACIONES: cada docente ve solo las filas de su id_docente, según DOCENTES.USUARIO_BD.",
+    "consulta": "SELECT object_name, policy_name, function, enable FROM dba_policies WHERE object_owner = '<ESQUEMA>';",
+    "script": "V08_A8_3",
+    "auditor": { "observa": "Que un usuario funcional no pueda ver filas o columnas que no le corresponden.", "criterio": "Política de fila o vista activa y comprobada con dos usuarios que obtienen resultados distintos.", "ejemplo": "DOC_MCHAVES ve solo las notas del docente 1." },
+    "madurez": { "antes": 0, "justAntes": "Sin VPD ni vistas; DOC_MCHAVES ve las 2000 notas de los 6 docentes y las 120 adecuaciones", "meta": 3 }
+  },
+  {
+    "id": "A8.5", "nombre": "Autenticación segura", "tema": "Tecnológico", "oficial": true, "tipo": "Preventivo",
+    "exige": "Implementar mecanismos de autenticación seguros acordes con la sensibilidad del acceso.",
+    "riesgos": ["R-CONF-02"], "tarea": "T-03",
+    "implementacion": "Perfil con FAILED_LOGIN_ATTEMPTS, PASSWORD_LOCK_TIME e IDLE_TIME; solo verificadores 12C (SQLNET.ALLOWED_LOGON_VERSION_SERVER); autenticación multifactor o centralizada para administradores donde sea posible.",
+    "ejemplo": "5 intentos, bloqueo de 1 hora e IDLE_TIME de 15 minutos; solo verificadores 12C.",
+    "consulta": "SELECT profile, resource_name, limit FROM dba_profiles WHERE resource_name IN ('FAILED_LOGIN_ATTEMPTS','IDLE_TIME');  SELECT username, password_versions FROM dba_users;",
+    "script": "V09_A8_5",
+    "auditor": { "observa": "Que las cuentas se bloqueen tras intentos fallidos y las sesiones inactivas se cierren.", "criterio": "Ningún perfil con intentos ilimitados, IDLE_TIME definido y solo verificadores 12C.", "ejemplo": "Todas las cuentas de INSTITUTO con 5 intentos y 15 minutos de inactividad." },
+    "madurez": { "antes": 1, "justAntes": "Bloqueo por defecto a los 10 intentos, pero PERFIL_APLICACIONES es ilimitado, IDLE_TIME es ilimitado y hay verificadores 11G", "meta": 3 }
+  },
+  {
+    "id": "A8.10", "nombre": "Eliminación de la información", "tema": "Tecnológico", "oficial": true, "tipo": "Preventivo",
+    "exige": "Eliminar la información cuando ya no se necesita, de forma segura.",
+    "riesgos": ["R-CONF-03"], "tarea": "T-10",
+    "implementacion": "Purgar la papelera (PURGE DBA_RECYCLEBIN), aplicar retención y DELETE OBSOLETE en RMAN, dar de baja esquemas (DROP USER ... CASCADE) y borrar dumps; PURGE no sobrescribe los bloques, por eso TDE complementa la eliminación segura.",
+    "ejemplo": "Purgar ESTUDIANTES_RESPALDO_2025 de la papelera.",
+    "consulta": "SELECT owner, original_name, droptime FROM dba_recyclebin;",
+    "script": "V10_A8_10",
+    "auditor": { "observa": "Que los datos borrados no sigan recuperables en la papelera ni en copias vencidas.", "criterio": "0 objetos del esquema en la papelera y procedimiento de eliminación documentado.", "ejemplo": "Papelera de INSTITUTO vacía." },
+    "madurez": { "antes": 0, "justAntes": "ESTUDIANTES_RESPALDO_2025 sigue en la papelera con los 500 estudiantes; no hay procedimiento", "meta": 3 }
+  },
+  {
+    "id": "A8.11", "nombre": "Enmascaramiento de datos", "tema": "Tecnológico", "oficial": true, "tipo": "Preventivo",
+    "exige": "Ocultar los datos personales según la política de acceso y los requisitos legales.",
+    "riesgos": ["R-CONF-01", "R-CONF-04"], "tarea": "T-05",
+    "implementacion": "Data Redaction (DBMS_REDACT) para ocultar columnas en el resultado según el usuario o rol; masking estático en las copias no productivas; controlar quién tiene EXEMPT REDACTION POLICY.",
+    "ejemplo": "DETALLE_CONDICION e INGRESO_FAMILIAR con redacción FULL y NUM_CUENTA con PARTIAL; clon INSTITUTO_DEV enmascarado.",
+    "consulta": "SELECT object_name, column_name, function_type FROM redaction_columns;  SELECT grantee FROM dba_sys_privs WHERE privilege = 'EXEMPT REDACTION POLICY';",
+    "script": "V11_A8_11",
+    "auditor": { "observa": "Que las columnas sensibles se vean ocultas para quien no las necesita y que casi nadie esté exento.", "criterio": "Políticas activas sobre las columnas sensibles y ninguna cuenta operativa exenta.", "ejemplo": "DETALLE_CONDICION, INGRESO_FAMILIAR y NUM_CUENTA redactados; DEV_RAMIRO y SOPORTE_TI sin exención." },
+    "madurez": { "antes": 0, "justAntes": "Sin políticas de redacción; DEV_RAMIRO y SOPORTE_TI exentos por EXP_FULL_DATABASE; clon DEV sin enmascarar", "meta": 3 }
+  },
+  {
+    "id": "A8.12", "nombre": "Prevención de fuga de datos", "tema": "Tecnológico", "oficial": true, "tipo": "Preventivo / Detectivo",
+    "exige": "Aplicar medidas contra la divulgación no autorizada de datos desde los sistemas y las redes.",
+    "riesgos": ["R-CONF-04"], "tarea": "T-12",
+    "implementacion": "Restringir los roles de exportación, los privilegios sobre DIRECTORY y los paquetes UTL_* otorgados a PUBLIC; ACLs de red; exportar con ENCRYPTION y auditar Data Pump.",
+    "ejemplo": "Revocar DATAPUMP_EXP_FULL_DATABASE a SOPORTE_TI y quitar PUBLIC de DIR_EXPORTES y de UTL_*.",
+    "consulta": "SELECT grantee, table_name FROM dba_tab_privs WHERE grantee = 'PUBLIC' AND table_name LIKE 'UTL_%';",
+    "script": "V12_A8_12",
+    "auditor": { "observa": "Quién puede sacar datos de la base en forma masiva y si queda registrado.", "criterio": "0 permisos de PUBLIC sobre UTL_* y directorios; exportaciones auditadas.", "ejemplo": "Sin UTL_* ni DIR_EXPORTES para PUBLIC." },
+    "madurez": { "antes": 0, "justAntes": "PUBLIC ejecuta 5 paquetes UTL_* y escribe en DIR_EXPORTES; SOPORTE_TI exporta la base completa sin auditoría", "meta": 3 }
+  },
+  {
+    "id": "A8.13", "nombre": "Respaldo de la información", "tema": "Tecnológico", "oficial": true, "tipo": "Preventivo / Correctivo",
+    "exige": "Mantener copias de respaldo y probarlas periódicamente según una política.",
+    "riesgos": ["R-CONF-03"], "tarea": "T-06",
+    "implementacion": "RMAN con cifrado (transparente con keystore, por contraseña o dual), retención definida y restauración de prueba (RESTORE ... VALIDATE); proteger la ubicación de los backups.",
+    "ejemplo": "XE funciona en NOARCHIVELOG: backup con la base montada, AES256 y RESTORE VALIDATE mensual.",
+    "consulta": "SELECT handle, encrypted, completion_time FROM v$backup_piece;  RMAN> SHOW ALL;",
+    "script": "V13_A8_13",
+    "auditor": { "observa": "Que existan backups recientes, cifrados y con restauración probada.", "criterio": "Piezas con ENCRYPTED = YES y registro de la última restauración de prueba.", "ejemplo": "Backup de INSTITUTO cifrado y validado." },
+    "madurez": { "antes": 0, "justAntes": "No hay ningún backup RMAN; la configuración está por defecto con el cifrado desactivado", "meta": 3 }
+  },
+  {
+    "id": "A8.15", "nombre": "Registro (logging)", "tema": "Tecnológico", "oficial": true, "tipo": "Detectivo",
+    "exige": "Producir, guardar, proteger y analizar registros de actividades y eventos de seguridad.",
+    "riesgos": ["R-CONF-06"], "tarea": "T-07",
+    "implementacion": "Auditoría unificada con políticas sobre datos sensibles, gestión de accesos y Data Pump, y revisión periódica de UNIFIED_AUDIT_TRAIL.",
+    "ejemplo": "POL_CONF_DATOS_SENSIBLES sobre ADECUACIONES y BECAS, POL_CONF_GESTION_ACCESOS y POL_CONF_EXPORTACIONES.",
+    "consulta": "SELECT policy_name, enabled_option FROM audit_unified_enabled_policies;",
+    "script": "V14_A8_15",
+    "auditor": { "observa": "Que el acceso a datos sensibles y los cambios de permisos queden registrados y se revisen.", "criterio": "Políticas activas sobre los objetos sensibles y evidencia de revisión periódica.", "ejemplo": "Una lectura de ADECUACIONES por un docente aparece en UNIFIED_AUDIT_TRAIL." },
+    "madurez": { "antes": 1, "justAntes": "Solo ORA_LOGON_FAILURES y ORA_SECURECONFIG por defecto; ninguna política sobre ADECUACIONES; nadie revisa el rastro", "meta": 4 }
+  },
+  {
+    "id": "A8.20", "nombre": "Seguridad de redes", "tema": "Tecnológico", "oficial": true, "tipo": "Preventivo",
+    "exige": "Proteger las redes y los dispositivos de red que transportan la información.",
+    "riesgos": ["R-CONF-05"], "tarea": "T-09",
+    "implementacion": "Cifrado nativo de Oracle Net (SQLNET.ENCRYPTION_SERVER) o TLS (TCPS) con checksum; el valor por defecto ACCEPTED no cifra si el cliente no lo pide.",
+    "ejemplo": "sqlnet.ora con ENCRYPTION_SERVER = REQUIRED, AES256 y CRYPTO_CHECKSUM_SERVER = REQUIRED.",
+    "consulta": "SELECT network_service_banner FROM v$session_connect_info WHERE sid = SYS_CONTEXT('USERENV','SID');",
+    "script": "V15_A8_20",
+    "auditor": { "observa": "Que el tráfico entre la aplicación y la base viaje cifrado (sesión por TCP, no local).", "criterio": "El banner de una sesión TCP muestra el adaptador de cifrado con algoritmo AES256 activo.", "ejemplo": "Sesión a localhost:1521/XEPDB1 con AES256." },
+    "madurez": { "antes": 0, "justAntes": "Sin cifrado configurado: el banner por TCP lista los adaptadores pero ningún algoritmo activo", "meta": 3 }
+  },
+  {
+    "id": "A8.24*", "nombre": "Uso de criptografía", "tema": "Tecnológico", "oficial": false, "tipo": "Preventivo",
+    "exige": "Definir y aplicar reglas para el uso eficaz de la criptografía y la gestión de claves.",
+    "riesgos": ["R-CONF-03"], "tarea": "T-04",
+    "implementacion": "TDE: keystore (WALLET_ROOT y TDE_CONFIGURATION), clave maestra y tablespaces cifrados; gestión y respaldo de la clave.",
+    "ejemplo": "Keystore en CDB$ROOT, clave maestra en XEPDB1 y un tablespace cifrado con AES256 para las tablas de INSTITUTO.",
+    "consulta": "SELECT con_id, status, wallet_type FROM v$encryption_wallet;  SELECT tablespace_name, encrypted FROM dba_tablespaces;",
+    "script": "V16_A8_24",
+    "auditor": { "observa": "Que los datos sensibles estén en un tablespace cifrado y el keystore esté abierto.", "criterio": "Keystore OPEN y tablespace con los datos sensibles con ENCRYPTED = YES.", "ejemplo": "TS_INSTITUTO_SEGURO cifrado." },
+    "madurez": { "antes": 0, "justAntes": "Keystore NOT_AVAILABLE; WALLET_ROOT vacío; ningún tablespace cifrado", "meta": 3 }
+  },
+  {
+    "id": "A8.8*", "nombre": "Gestión de vulnerabilidades técnicas", "tema": "Tecnológico", "oficial": false, "tipo": "Preventivo / Correctivo",
+    "exige": "Conocer las vulnerabilidades técnicas y aplicar las medidas adecuadas a tiempo.",
+    "riesgos": ["R-CONF-02", "R-CONF-03"], "tarea": "T-08",
+    "implementacion": "Registrar la versión y los parches (V$VERSION, DBA_REGISTRY_SQLPATCH) y aplicar los Release Updates; en XE no existen parches, por lo que se documenta el riesgo aceptado.",
+    "ejemplo": "Oracle XE 21.3.0.0.0 sin parches: riesgo aceptado y recomendación de una edición con soporte en producción.",
+    "consulta": "SELECT banner_full FROM v$version;  SELECT patch_id, status FROM dba_registry_sqlpatch;",
+    "script": "V17_A8_8",
+    "auditor": { "observa": "Qué versión corre y si el riesgo de no parchear está documentado y aceptado.", "criterio": "Versión registrada y riesgo aceptado por escrito.", "ejemplo": "XE 21.3 con la limitación documentada." },
+    "madurez": { "antes": 1, "justAntes": "Versión 21.3.0.0.0 sin parches; la limitación no estaba documentada", "meta": 2 }
+  },
+  {
+    "id": "A8.16*", "nombre": "Actividades de monitoreo", "tema": "Tecnológico", "oficial": false, "tipo": "Detectivo",
+    "exige": "Monitorear redes, sistemas y aplicaciones para detectar comportamientos anómalos y evaluar posibles incidentes.",
+    "riesgos": ["R-CONF-06"], "tarea": "T-11",
+    "implementacion": "Reporte periódico automatizado de accesos fallidos y cambios de privilegios con DBMS_SCHEDULER y, si existe, envío del rastro a un sistema externo (SIEM o Visor de eventos).",
+    "ejemplo": "Reporte semanal sobre UNIFIED_AUDIT_TRAIL; las operaciones de SYS ya se escriben en el Visor de eventos de Windows.",
+    "consulta": "SELECT job_name, enabled FROM dba_scheduler_jobs;  SELECT job_name, status, actual_start_date FROM dba_scheduler_job_run_details;",
+    "script": null, "evidenciaManual": "Salida del reporte semanal y DBA_SCHEDULER_JOB_RUN_DETAILS",
+    "auditor": { "observa": "Que alguien revise periódicamente el rastro y que quede constancia de las ejecuciones.", "criterio": "Job habilitado con varias ejecuciones registradas.", "ejemplo": "Job semanal de INSTITUTO con su historial." },
+    "madurez": { "antes": 0, "justAntes": "No existe reporte ni revisión periódica del rastro", "meta": 4 }
+  },
+  {
+    "id": "A8.21*", "nombre": "Seguridad de los servicios de red", "tema": "Tecnológico", "oficial": false, "tipo": "Preventivo",
+    "exige": "Identificar, implementar y supervisar los mecanismos de seguridad y los niveles de servicio de los servicios de red.",
+    "riesgos": ["R-CONF-05"], "tarea": "T-09",
+    "implementacion": "Listener configurado solo en las interfaces necesarias, administración remota deshabilitada, restricción de nodos con TCP.VALIDNODE_CHECKING y puerto no expuesto a internet.",
+    "ejemplo": "El listener apuntaba a una IP de red inexistente y no arrancaba; hoy escucha solo en 127.0.0.1.",
+    "consulta": "lsnrctl status  (sección Resumen de Puntos Finales);  SELECT value FROM v$parameter WHERE name = 'local_listener';",
+    "script": null, "evidenciaManual": "Salida de lsnrctl status y copia de listener.ora",
+    "auditor": { "observa": "En qué interfaces escucha el listener y quién puede conectarse.", "criterio": "El listener escucha solo en las direcciones necesarias.", "ejemplo": "Solo 127.0.0.1:1521." },
+    "madurez": { "antes": 0, "justAntes": "Listener sobre una IP de red que no existía y sin restricciones; se corrigió a localhost el 19/10", "meta": 3 }
+  },
+  {
+    "id": "A8.33*", "nombre": "Información de prueba", "tema": "Tecnológico", "oficial": false, "tipo": "Preventivo",
+    "exige": "Seleccionar, proteger y gestionar adecuadamente la información que se usa para pruebas.",
+    "riesgos": ["R-CONF-04"], "tarea": "T-12",
+    "implementacion": "Usar datos enmascarados o sintéticos en desarrollo y pruebas y no clonar producción sin enmascarar, con esquemas y cuentas separados.",
+    "ejemplo": "INSTITUTO_DEV con condiciones de salud e ingresos enmascarados.",
+    "consulta": "SELECT COUNT(*) FROM <PRUEBAS>.<TABLA> p JOIN <PRODUCCION>.<TABLA> r ON p.<ID> = r.<ID> AND p.<COLUMNA_SENSIBLE> = r.<COLUMNA_SENSIBLE>;",
+    "script": null, "evidenciaManual": "Resultado de la comparación entre producción y el clon (prueba PT-26)",
+    "auditor": { "observa": "Que el entorno de pruebas no contenga datos sensibles reales.", "criterio": "0 coincidencias de valores sensibles entre producción y el entorno de pruebas.", "ejemplo": "0 condiciones de salud reales en INSTITUTO_DEV." },
+    "madurez": { "antes": 0, "justAntes": "INSTITUTO_DEV contiene los estudiantes y adecuaciones reales sin enmascarar", "meta": 3 }
+  }
+]

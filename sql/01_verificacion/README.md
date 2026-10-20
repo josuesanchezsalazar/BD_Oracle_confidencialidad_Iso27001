@@ -5,7 +5,7 @@ Inspeccionan el **estado** de cada control y guardan la salida como evidencia co
 ## Cómo ejecutar
 
 1. Iniciar el servicio `OracleServiceXE` (PowerShell como administrador).
-2. El esquema auditado se define en [_config.sql](_config.sql) (`CLINICA`), que además cambia la sesión a `XEPDB1`.
+2. El esquema auditado se define en [_config.sql](_config.sql) (`INSTITUTO`), que además cambia la sesión a `XEPDB1`.
 3. Desde la **raíz del repositorio** (para que el `SPOOL` caiga en `evidencias/`):
 
 ```powershell

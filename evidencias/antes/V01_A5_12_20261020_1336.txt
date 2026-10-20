@@ -1,0 +1,57 @@
+======================================================================
+Evidencia: V01_A5_12   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-20 13:36:19 -06:00
+
+1 fila seleccionada.
+
+--- 1) Columnas etiquetadas con clasificacion (COMMENT 'CLASIF:...')
+
+ninguna fila seleccionada
+
+--- 2) Columnas del esquema SIN clasificacion (deberia ser 0 filas)
+
+OWNER           TABLE_NAME                COLUMN_NAME
+--------------- ------------------------- -------------------------
+INSTITUTO       ADECUACIONES              ID_ADECUACION
+INSTITUTO       ADECUACIONES              ID_ESTUDIANTE
+INSTITUTO       ADECUACIONES              ID_DOCENTE
+INSTITUTO       ADECUACIONES              TIPO_ADECUACION
+INSTITUTO       ADECUACIONES              DETALLE_CONDICION
+INSTITUTO       ADECUACIONES              RECOMENDACIONES
+INSTITUTO       ADECUACIONES              FECHA_RESOLUCION
+INSTITUTO       BECAS                     ID_BECA
+INSTITUTO       BECAS                     ID_ESTUDIANTE
+INSTITUTO       BECAS                     TIPO_BECA
+INSTITUTO       BECAS                     INGRESO_FAMILIAR
+INSTITUTO       BECAS                     MONTO_MENSUAL
+INSTITUTO       BECAS                     NUM_CUENTA
+INSTITUTO       BECAS                     FECHA_APROBACION
+INSTITUTO       DOCENTES                  ID_DOCENTE
+INSTITUTO       DOCENTES                  NOMBRE
+INSTITUTO       DOCENTES                  ESPECIALIDAD
+INSTITUTO       DOCENTES                  CODIGO_EMPLEADO
+INSTITUTO       DOCENTES                  USUARIO_BD
+INSTITUTO       ESTUDIANTES               ID_ESTUDIANTE
+INSTITUTO       ESTUDIANTES               CEDULA
+INSTITUTO       ESTUDIANTES               NOMBRE
+INSTITUTO       ESTUDIANTES               FECHA_NAC
+INSTITUTO       ESTUDIANTES               SEXO
+INSTITUTO       ESTUDIANTES               GRUPO
+INSTITUTO       ESTUDIANTES               TELEFONO
+INSTITUTO       ESTUDIANTES               CORREO
+INSTITUTO       ESTUDIANTES               DIRECCION
+INSTITUTO       ESTUDIANTES               ENCARGADO
+INSTITUTO       ESTUDIANTES               FECHA_INGRESO
+INSTITUTO       NOTAS                     ID_NOTA
+INSTITUTO       NOTAS                     ID_ESTUDIANTE
+INSTITUTO       NOTAS                     ID_DOCENTE
+INSTITUTO       NOTAS                     MATERIA
+INSTITUTO       NOTAS                     PERIODO
+INSTITUTO       NOTAS                     NOTA
+
+36 filas seleccionadas.
+

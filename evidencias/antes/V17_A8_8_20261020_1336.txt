@@ -1,0 +1,24 @@
+======================================================================
+Evidencia: V17_A8_8   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-20 13:36:31 -06:00
+
+1 fila seleccionada.
+
+--- 1) Version exacta del motor
+
+BANNER_FULL
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Oracle Database 21c Express Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+
+1 fila seleccionada.
+
+--- 2) Parches SQL aplicados
+
+ninguna fila seleccionada
+

@@ -1,0 +1,26 @@
+======================================================================
+Evidencia: V08_A8_3   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-20 13:36:23 -06:00
+
+1 fila seleccionada.
+
+--- 1) Politicas VPD (DBMS_RLS) sobre el esquema
+
+ninguna fila seleccionada
+
+--- 2) Vistas del esquema (acceso restringido por columnas)
+
+ninguna fila seleccionada
+
+--- 3) Quien puede saltarse VPD (EXEMPT ACCESS POLICY)
+
+GRANTEE                   PRIVILEGE
+------------------------- -----------------------------------
+GSMUSER_ROLE              EXEMPT ACCESS POLICY
+
+1 fila seleccionada.
+

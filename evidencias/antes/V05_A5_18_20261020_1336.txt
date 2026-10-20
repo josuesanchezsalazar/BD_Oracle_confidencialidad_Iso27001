@@ -1,0 +1,53 @@
+======================================================================
+Evidencia: V05_A5_18   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-20 13:36:21 -06:00
+
+1 fila seleccionada.
+
+--- 1) Privilegios de objeto sobre el esquema (comparar con matriz rol-objeto)
+
+GRANTEE                   TABLE_NAME                PRIVILEGE                           GRA
+------------------------- ------------------------- ----------------------------------- ---
+APP_MATRICULA             ESTUDIANTES               INSERT                              NO
+APP_MATRICULA             ESTUDIANTES               UPDATE                              NO
+DOC_MCHAVES               ADECUACIONES              SELECT                              NO
+DOC_MCHAVES               ESTUDIANTES               SELECT                              NO
+DOC_MCHAVES               NOTAS                     INSERT                              NO
+DOC_MCHAVES               NOTAS                     SELECT                              NO
+DOC_MCHAVES               NOTAS                     UPDATE                              NO
+DOC_RBRENES               ADECUACIONES              SELECT                              NO
+DOC_RBRENES               ESTUDIANTES               SELECT                              NO
+DOC_RBRENES               NOTAS                     INSERT                              NO
+DOC_RBRENES               NOTAS                     SELECT                              NO
+DOC_RBRENES               NOTAS                     UPDATE                              NO
+EX_KSALAS                 ESTUDIANTES               SELECT                              NO
+PUBLIC                    ADECUACIONES              SELECT                              NO
+SECRETARIA                BECAS                     SELECT                              NO
+SECRETARIA                ESTUDIANTES               SELECT                              NO
+SECRETARIA                NOTAS                     INSERT                              NO
+SECRETARIA                NOTAS                     SELECT                              NO
+SECRETARIA                NOTAS                     UPDATE                              NO
+TESO_PAULA                BECAS                     SELECT                              YES
+TESO_PAULA                BECAS                     UPDATE                              YES
+TESO_PAULA                ESTUDIANTES               SELECT                              NO
+
+22 filas seleccionadas.
+
+--- 2) Privilegios por columna sobre el esquema
+
+ninguna fila seleccionada
+
+--- 3) Derechos re-otorgables (WITH GRANT / WITH ADMIN) en cuentas propias
+
+GRANTEE                   OBJETO_O_ROL                                                                                                                     PRIVILEGE                           TIPO
+------------------------- -------------------------------------------------------------------------------------------------------------------------------- ----------------------------------- ------------
+PDBADMIN                  PDB_DBA                                                                                                                                                              ADMIN OPTION
+TESO_PAULA                BECAS                                                                                                                            SELECT                              GRANT OPTION
+TESO_PAULA                BECAS                                                                                                                            UPDATE                              GRANT OPTION
+
+3 filas seleccionadas.
+

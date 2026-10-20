@@ -1,0 +1,48 @@
+======================================================================
+Evidencia: V03_A5_16   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-20 13:36:21 -06:00
+
+1 fila seleccionada.
+
+--- 1) Cuentas propias (no mantenidas por Oracle)
+
+USERNAME                  ACCOUNT_STATUS       PROFILE              CREADA     ULTIMO_LOGIN     COM
+------------------------- -------------------- -------------------- ---------- ---------------- ---
+APP_MATRICULA             OPEN                 PERFIL_APLICACIONES  2026-10-20                  NO
+AUDITOR_EXT               OPEN                 DEFAULT              2026-10-20                  NO
+DEV_RAMIRO                OPEN                 DEFAULT              2026-10-20                  NO
+DOC_MCHAVES               OPEN                 DEFAULT              2026-10-20                  NO
+DOC_RBRENES               OPEN                 DEFAULT              2026-10-20                  NO
+EX_KSALAS                 OPEN                 DEFAULT              2026-10-20                  NO
+INSTITUTO                 OPEN                 DEFAULT              2026-10-20                  NO
+INSTITUTO_DEV             OPEN                 DEFAULT              2026-10-20                  NO
+PDBADMIN                  OPEN                 DEFAULT              2026-10-17                  NO
+SECRETARIA                OPEN                 DEFAULT              2026-10-20                  NO
+SOPORTE_TI                OPEN                 DEFAULT              2026-10-20                  NO
+TESO_PAULA                OPEN                 DEFAULT              2026-10-20                  NO
+
+12 filas seleccionadas.
+
+--- 2) Cuentas ABIERTAS sin acceso en 90 dias o que nunca han ingresado (candidatas a bloqueo)
+
+USERNAME                  ACCOUNT_STATUS       ULTIMO_LOG
+------------------------- -------------------- ----------
+APP_MATRICULA             OPEN
+AUDITOR_EXT               OPEN
+DEV_RAMIRO                OPEN
+DOC_MCHAVES               OPEN
+DOC_RBRENES               OPEN
+EX_KSALAS                 OPEN
+INSTITUTO                 OPEN
+INSTITUTO_DEV             OPEN
+PDBADMIN                  OPEN
+SECRETARIA                OPEN
+SOPORTE_TI                OPEN
+TESO_PAULA                OPEN
+
+12 filas seleccionadas.
+

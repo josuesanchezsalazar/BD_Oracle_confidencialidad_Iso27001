@@ -1,5 +1,5 @@
 -- _config.sql | Parametros comunes de los scripts de verificacion
-DEFINE esquema = CLINICA
+DEFINE esquema = INSTITUTO
 
 -- Cambia a la PDB del proyecto (permite conectarse con: sqlplus sys/<pwd> as sysdba)
 SET FEEDBACK OFF

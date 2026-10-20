@@ -1,0 +1,87 @@
+======================================================================
+Evidencia: V10_A8_10   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-20 13:36:23 -06:00
+
+1 fila seleccionada.
+
+--- 1) Estado de la papelera de reciclaje
+
+NAME
+--------------------------------------------------------------------------------
+VALUE
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+recyclebin
+on
+
+
+1 fila seleccionada.
+
+--- 2) Objetos en la papelera (deberia estar vacia o controlada)
+
+OWNER           ORIGINAL_NAME                                                                                                                    TYPE                      DROPTIME            CAN
+--------------- -------------------------------------------------------------------------------------------------------------------------------- ------------------------- ------------------- ---
+INSTITUTO       ESTUDIANTES_RESPALDO_2025                                                                                                        TABLE                     2026-10-20:13:36:18 YES
+
+1 fila seleccionada.
+
+--- 3) Directorios del servidor (posibles dumps o archivos olvidados)
+
+DIRECTORY_NAME
+--------------------------------------------------------------------------------------------------------------------------------
+DIRECTORY_PATH
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DATA_PUMP_DIR
+C:\app\tempadmin\product\21c\admin\xe\dpdump/2EA93D256D344A05BE24AF9F6640BCCE
+
+DBMS_OPTIM_ADMINDIR
+C:\app\tempadmin\product\21c\dbhomeXE/rdbms/admin
+
+DBMS_OPTIM_LOGDIR
+C:\app\tempadmin\product\21c\dbhomeXE/cfgtoollogs
+
+DIR_EXPORTES
+C:\oracle_lab\exportes
+
+JAVA$JOX$CUJS$DIRECTORY$
+C:\APP\TEMPADMIN\PRODUCT\21C\DBHOMEXE\JAVAVM\ADMIN\
+
+OPATCH_INST_DIR
+C:\app\tempadmin\product\21c\dbhomeXE\OPatch
+
+OPATCH_LOG_DIR
+C:\app\tempadmin\product\21c\homes\OraDB21Home1\rdbms\log
+
+OPATCH_SCRIPT_DIR
+C:\app\tempadmin\product\21c\dbhomeXE\QOpatch
+
+ORACLE_BASE
+C:\app\tempadmin\product\21c
+
+ORACLECLRDIR
+C:\app\tempadmin\product\21c\dbhomeXE\bin\clr
+
+ORACLE_HOME
+C:\app\tempadmin\product\21c\dbhomeXE
+
+ORACLE_OCM_CONFIG_DIR
+C:\app\tempadmin\product\21c\homes\OraDB21Home1\ccr\state
+
+ORACLE_OCM_CONFIG_DIR2
+C:\app\tempadmin\product\21c\homes\OraDB21Home1\ccr\state
+
+SDO_DIR_ADMIN
+C:\app\tempadmin\product\21c\dbhomeXE/md/admin
+
+XMLDIR
+C:\app\tempadmin\product\21c\dbhomeXE\rdbms\xml
+
+XSDDIR
+C:\app\tempadmin\product\21c\dbhomeXE\rdbms\xml\schema
+
+
+16 filas seleccionadas.
+

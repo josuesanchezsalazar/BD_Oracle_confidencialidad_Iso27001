@@ -1,6 +1,6 @@
 -- =====================================================================
--- 00_crear_escenario.sql | Centro Medico Los Robles - estado "ANTES"
--- Crea el esquema CLINICA con datos ficticios y siembra MALAS PRACTICAS
+-- 00_crear_escenario.sql | Instituto Oracle Heredia - estado "ANTES"
+-- Crea el esquema INSTITUTO con datos ficticios y siembra MALAS PRACTICAS
 -- deliberadas (MP-01..MP-12) que luego se diagnostican y remedian.
 --
 -- Uso (desde la raiz del repositorio):
@@ -12,7 +12,7 @@ SET ECHO OFF FEEDBACK ON SERVEROUTPUT ON VERIFY OFF
 ALTER SESSION SET CONTAINER = XEPDB1;
 WHENEVER SQLERROR EXIT FAILURE ROLLBACK
 
-PROMPT === 1) Tablespace TS_CLINICA (misma carpeta que los datafiles de XEPDB1)
+PROMPT === 1) Tablespace TS_INSTITUTO (misma carpeta que los datafiles de XEPDB1)
 DECLARE
   v_dir VARCHAR2(513);
 BEGIN
@@ -20,70 +20,70 @@ BEGIN
     INTO v_dir
     FROM dba_data_files
    WHERE tablespace_name = 'SYSTEM';
-  EXECUTE IMMEDIATE 'CREATE TABLESPACE ts_clinica DATAFILE ''' || v_dir ||
-                    'ts_clinica01.dbf'' SIZE 100M AUTOEXTEND ON NEXT 10M MAXSIZE 1G';
-  DBMS_OUTPUT.PUT_LINE('Datafile creado: ' || v_dir || 'ts_clinica01.dbf');
+  EXECUTE IMMEDIATE 'CREATE TABLESPACE ts_instituto DATAFILE ''' || v_dir ||
+                    'ts_instituto01.dbf'' SIZE 100M AUTOEXTEND ON NEXT 10M MAXSIZE 1G';
+  DBMS_OUTPUT.PUT_LINE('Datafile creado: ' || v_dir || 'ts_instituto01.dbf');
 END;
 /
 
-PROMPT === 2) Esquema CLINICA
-CREATE USER clinica IDENTIFIED BY "Clinica2026"
-  DEFAULT TABLESPACE ts_clinica QUOTA UNLIMITED ON ts_clinica;
-GRANT CREATE SESSION, CREATE TABLE, CREATE VIEW, CREATE SEQUENCE, CREATE PROCEDURE TO clinica;
+PROMPT === 2) Esquema INSTITUTO
+CREATE USER instituto IDENTIFIED BY "Instituto2026"
+  DEFAULT TABLESPACE ts_instituto QUOTA UNLIMITED ON ts_instituto;
+GRANT CREATE SESSION, CREATE TABLE, CREATE VIEW, CREATE SEQUENCE, CREATE PROCEDURE TO instituto;
 
 PROMPT === 3) Tablas
-CREATE TABLE clinica.medicos (
-  id_medico        NUMBER(4)     CONSTRAINT pk_medicos PRIMARY KEY,
-  nombre           VARCHAR2(80)  NOT NULL,
-  especialidad     VARCHAR2(40)  NOT NULL,
-  codigo_colegiado VARCHAR2(10)  NOT NULL,
-  usuario_bd       VARCHAR2(128)
-) TABLESPACE ts_clinica;
+CREATE TABLE instituto.docentes (
+  id_docente      NUMBER(4)     CONSTRAINT pk_docentes PRIMARY KEY,
+  nombre          VARCHAR2(80)  NOT NULL,
+  especialidad    VARCHAR2(40)  NOT NULL,
+  codigo_empleado VARCHAR2(10)  NOT NULL,
+  usuario_bd      VARCHAR2(128)
+) TABLESPACE ts_instituto;
 
-CREATE TABLE clinica.pacientes (
-  id_paciente    NUMBER(6)     CONSTRAINT pk_pacientes PRIMARY KEY,
-  cedula         VARCHAR2(12)  NOT NULL CONSTRAINT uq_pacientes_cedula UNIQUE,
-  nombre         VARCHAR2(80)  NOT NULL,
-  fecha_nac      DATE          NOT NULL,
-  sexo           CHAR(1),
-  telefono       VARCHAR2(9),
-  correo         VARCHAR2(80),
-  direccion      VARCHAR2(120),
-  fecha_registro DATE
-) TABLESPACE ts_clinica;
+CREATE TABLE instituto.estudiantes (
+  id_estudiante NUMBER(6)     CONSTRAINT pk_estudiantes PRIMARY KEY,
+  cedula        VARCHAR2(12)  NOT NULL CONSTRAINT uq_estudiantes_cedula UNIQUE,
+  nombre        VARCHAR2(80)  NOT NULL,
+  fecha_nac     DATE          NOT NULL,
+  sexo          CHAR(1),
+  grupo         VARCHAR2(6)   NOT NULL,
+  telefono      VARCHAR2(9),
+  correo        VARCHAR2(80),
+  direccion     VARCHAR2(120),
+  encargado     VARCHAR2(80),
+  fecha_ingreso DATE
+) TABLESPACE ts_instituto;
 
-CREATE TABLE clinica.consultas (
-  id_consulta   NUMBER(8)     CONSTRAINT pk_consultas PRIMARY KEY,
-  id_paciente   NUMBER(6)     NOT NULL CONSTRAINT fk_consultas_paciente REFERENCES clinica.pacientes,
-  id_medico     NUMBER(4)     NOT NULL CONSTRAINT fk_consultas_medico REFERENCES clinica.medicos,
-  fecha         DATE          NOT NULL,
-  motivo        VARCHAR2(120),
-  diagnostico   VARCHAR2(120),
-  tratamiento   VARCHAR2(200),
-  notas_medicas VARCHAR2(400)
-) TABLESPACE ts_clinica;
+CREATE TABLE instituto.notas (
+  id_nota       NUMBER(8)     CONSTRAINT pk_notas PRIMARY KEY,
+  id_estudiante NUMBER(6)     NOT NULL CONSTRAINT fk_notas_estudiante REFERENCES instituto.estudiantes,
+  id_docente    NUMBER(4)     NOT NULL CONSTRAINT fk_notas_docente REFERENCES instituto.docentes,
+  materia       VARCHAR2(40)  NOT NULL,
+  periodo       VARCHAR2(8)   NOT NULL,
+  nota          NUMBER(5,2)   NOT NULL
+) TABLESPACE ts_instituto;
 
-CREATE TABLE clinica.citas (
-  id_cita     NUMBER(8)     CONSTRAINT pk_citas PRIMARY KEY,
-  id_paciente NUMBER(6)     NOT NULL CONSTRAINT fk_citas_paciente REFERENCES clinica.pacientes,
-  id_medico   NUMBER(4)     NOT NULL CONSTRAINT fk_citas_medico REFERENCES clinica.medicos,
-  fecha_hora  DATE          NOT NULL,
-  estado      VARCHAR2(12)  NOT NULL
-) TABLESPACE ts_clinica;
+CREATE TABLE instituto.adecuaciones (
+  id_adecuacion     NUMBER(6)     CONSTRAINT pk_adecuaciones PRIMARY KEY,
+  id_estudiante     NUMBER(6)     NOT NULL CONSTRAINT fk_adec_estudiante REFERENCES instituto.estudiantes,
+  id_docente        NUMBER(4)     NOT NULL CONSTRAINT fk_adec_docente REFERENCES instituto.docentes,
+  tipo_adecuacion   VARCHAR2(20)  NOT NULL,
+  detalle_condicion VARCHAR2(120) NOT NULL,
+  recomendaciones   VARCHAR2(200),
+  fecha_resolucion  DATE          NOT NULL
+) TABLESPACE ts_instituto;
 
-CREATE TABLE clinica.facturas (
-  id_factura    NUMBER(8)     CONSTRAINT pk_facturas PRIMARY KEY,
-  id_consulta   NUMBER(8)     CONSTRAINT fk_facturas_consulta REFERENCES clinica.consultas,
-  id_paciente   NUMBER(6)     NOT NULL CONSTRAINT fk_facturas_paciente REFERENCES clinica.pacientes,
-  fecha         DATE          NOT NULL,
-  monto         NUMBER(10,2)  NOT NULL,
-  metodo_pago   VARCHAR2(10)  NOT NULL,
-  num_tarjeta   VARCHAR2(16),
-  aseguradora   VARCHAR2(40),
-  poliza_seguro VARCHAR2(20)
-) TABLESPACE ts_clinica;
+CREATE TABLE instituto.becas (
+  id_beca          NUMBER(6)     CONSTRAINT pk_becas PRIMARY KEY,
+  id_estudiante    NUMBER(6)     NOT NULL CONSTRAINT fk_becas_estudiante REFERENCES instituto.estudiantes,
+  tipo_beca        VARCHAR2(20)  NOT NULL,
+  ingreso_familiar NUMBER(10,2)  NOT NULL,
+  monto_mensual    NUMBER(10,2)  NOT NULL,
+  num_cuenta       VARCHAR2(22),
+  fecha_aprobacion DATE          NOT NULL
+) TABLESPACE ts_instituto;
 
-PROMPT === 4) Datos ficticios (6 medicos, 500 pacientes, 2000 consultas/facturas, 800 citas)
+PROMPT === 4) Datos ficticios (6 docentes, 500 estudiantes, 2000 notas, 120 adecuaciones, 90 becas)
 DECLARE
   TYPE t_lista IS TABLE OF VARCHAR2(200);
   nombres_f  t_lista := t_lista('Maria','Ana','Laura','Sofia','Valeria','Daniela','Carolina',
@@ -96,89 +96,77 @@ DECLARE
   lugares    t_lista := t_lista('Heredia centro','San Pablo','Santo Domingo','Barva',
                                 'San Rafael','Belen','Flores','San Isidro');
   rumbos     t_lista := t_lista('norte','sur','este','oeste');
-  aseguradoras t_lista := t_lista('Aseguradora Pacifica','Seguros del Valle','MediProteccion');
-  notas      t_lista := t_lista('Signos vitales dentro de rango.',
-                                'Se solicita hemograma y control en 15 dias.',
-                                'Antecedentes familiares de diabetes.',
-                                'Refiere episodios similares el ano anterior.',
-                                'Se explica plan de tratamiento al paciente y acompanante.',
-                                'Paciente fumador, se recomienda cesacion.');
-  -- Formato: diagnostico | tratamiento | motivo de consulta
-  diag_general t_lista := t_lista(
-    'J06.9 Infeccion aguda de vias respiratorias superiores|Acetaminofen 500 mg c/8h por 5 dias|Fiebre y dolor de garganta',
-    'K29.7 Gastritis no especificada|Omeprazol 20 mg en ayunas por 30 dias|Dolor abdominal',
-    'M54.5 Lumbago|Ibuprofeno 400 mg c/8h y fisioterapia|Dolor lumbar',
-    'N39.0 Infeccion de vias urinarias|Nitrofurantoina 100 mg c/12h por 7 dias|Ardor al orinar',
-    'Z00.0 Examen medico general|Sin tratamiento, control anual|Chequeo anual',
-    'F41.1 Trastorno de ansiedad generalizada|Referencia a psicologia y sertralina 50 mg|Ansiedad e insomnio',
-    'F32.1 Episodio depresivo moderado|Fluoxetina 20 mg diaria y psicoterapia|Tristeza persistente',
-    'E11.9 Diabetes mellitus tipo 2|Metformina 850 mg c/12h y dieta|Control de glicemia',
-    'B20 Enfermedad por VIH|Terapia antirretroviral, control trimestral|Control de carga viral');
-  diag_pediatria t_lista := t_lista(
-    'J06.9 Infeccion aguda de vias respiratorias superiores|Acetaminofen pediatrico segun peso|Fiebre y tos',
-    'J45.9 Asma|Salbutamol inhalado segun necesidad|Dificultad para respirar',
-    'A09 Gastroenteritis infecciosa|Suero oral y dieta blanda|Diarrea y vomito',
-    'H66.9 Otitis media|Amoxicilina pediatrica por 7 dias|Dolor de oido',
-    'Z00.1 Control de nino sano|Vacunacion al dia, control en 6 meses|Control de crecimiento',
-    'L20.9 Dermatitis atopica|Crema hidratante y antihistaminico|Lesiones en la piel');
-  diag_cardio t_lista := t_lista(
-    'I10 Hipertension esencial|Losartan 50 mg diario y dieta baja en sodio|Control de presion arterial',
-    'I25.1 Cardiopatia aterosclerotica|Aspirina 100 mg y atorvastatina 40 mg|Dolor de pecho al esfuerzo',
-    'I48 Fibrilacion auricular|Anticoagulacion y control de frecuencia|Palpitaciones',
-    'I50.9 Insuficiencia cardiaca|Furosemida 40 mg y enalapril|Cansancio y edema en piernas',
-    'E78.5 Hiperlipidemia|Atorvastatina 20 mg nocturna|Colesterol elevado');
+  grupos     t_lista := t_lista('10-1','10-2','10-3','11-1','11-2','11-3','12-1','12-2','12-3');
+  periodos   t_lista := t_lista('2025-II','2026-I','2026-II');
+  tipos_adec t_lista := t_lista('Acceso','No significativa','Significativa');
+  tipos_beca t_lista := t_lista('Transporte','Alimentacion','Socioeconomica');
+  -- Condiciones (codigos CIE-10) que justifican una adecuacion curricular
+  condiciones t_lista := t_lista(
+    'F90.0 Trastorno por deficit de atencion con hiperactividad',
+    'F81.0 Trastorno especifico de la lectura (dislexia)',
+    'F84.0 Trastorno del espectro autista',
+    'H90 Hipoacusia',
+    'H54 Discapacidad visual',
+    'G40 Epilepsia',
+    'E10 Diabetes mellitus tipo 1',
+    'F41.1 Trastorno de ansiedad generalizada',
+    'F32.1 Episodio depresivo moderado');
+  recomendaciones t_lista := t_lista(
+    'Tiempo adicional en las evaluaciones',
+    'Ubicacion cercana a la pizarra',
+    'Material en formato ampliado',
+    'Pausas durante las pruebas',
+    'Apoyo de un docente de educacion especial',
+    'Acompanamiento del departamento de orientacion');
 
   v_sexo   CHAR(1);
   v_nombre VARCHAR2(80);
-  v_nac    DATE;
-  v_pac    NUMBER;
-  v_med    NUMBER;
-  v_reg    VARCHAR2(200);
-  v_fecha  DATE;
-  v_metodo VARCHAR2(10);
-  v_tarj   VARCHAR2(16);
-  v_aseg   VARCHAR2(40);
-  v_poliza VARCHAR2(20);
-  v_estado VARCHAR2(12);
+  v_est    NUMBER;
+  v_doc    NUMBER;
   v_cedula VARCHAR2(12);
   v_tel    VARCHAR2(9);
   v_correo VARCHAR2(80);
   v_dir    VARCHAR2(120);
-  v_nota   VARCHAR2(400);
-  v_diag   VARCHAR2(120);
-  v_trat   VARCHAR2(200);
-  v_motivo VARCHAR2(120);
+  v_encarg VARCHAR2(80);
+  v_grupo  VARCHAR2(6);
+  v_mat    VARCHAR2(40);
+  v_per    VARCHAR2(8);
+  v_tipo   VARCHAR2(20);
+  v_cond   VARCHAR2(120);
+  v_reco   VARCHAR2(200);
 
   FUNCTION elegir(p t_lista) RETURN VARCHAR2 IS
   BEGIN
     RETURN p(TRUNC(DBMS_RANDOM.VALUE(1, p.COUNT + 1)));
   END;
 
-  -- Pediatras (3,4) atienden menores (id_paciente <= 120); el resto: general (1,2) o cardiologia (5,6)
-  FUNCTION medico_para(p_pac NUMBER) RETURN NUMBER IS
+  -- Cada docente imparte materias de su especialidad
+  FUNCTION materia_de(p_doc NUMBER) RETURN VARCHAR2 IS
+    v NUMBER := TRUNC(DBMS_RANDOM.VALUE(1, 3));
   BEGIN
-    IF p_pac <= 120 THEN
-      RETURN TRUNC(DBMS_RANDOM.VALUE(3, 5));
-    END IF;
-    RETURN CASE TRUNC(DBMS_RANDOM.VALUE(1, 5)) WHEN 1 THEN 1 WHEN 2 THEN 2 WHEN 3 THEN 5 ELSE 6 END;
+    RETURN CASE p_doc
+      WHEN 1 THEN CASE TRUNC(DBMS_RANDOM.VALUE(1, 4)) WHEN 1 THEN 'Programacion' WHEN 2 THEN 'Bases de datos' ELSE 'Redes' END
+      WHEN 2 THEN CASE v WHEN 1 THEN 'Circuitos' ELSE 'Electronica digital' END
+      WHEN 3 THEN CASE v WHEN 1 THEN 'Algebra' ELSE 'Estadistica' END
+      WHEN 4 THEN CASE v WHEN 1 THEN 'Lengua' ELSE 'Literatura' END
+      WHEN 5 THEN CASE v WHEN 1 THEN 'Fisica' ELSE 'Quimica' END
+      ELSE        CASE v WHEN 1 THEN 'Ingles conversacional' ELSE 'Ingles tecnico' END
+    END;
   END;
 BEGIN
   DBMS_RANDOM.SEED(2026);
 
-  INSERT INTO clinica.medicos VALUES (1, 'Dra. Laura Solis Campos',  'Medicina General', 'MED-10234', 'MED_LSOLIS');
-  INSERT INTO clinica.medicos VALUES (2, 'Dr. Andres Mora Arias',    'Medicina General', 'MED-11872', NULL);
-  INSERT INTO clinica.medicos VALUES (3, 'Dra. Paula Chaves Monge',  'Pediatria',        'MED-09541', NULL);
-  INSERT INTO clinica.medicos VALUES (4, 'Dr. Diego Rojas Calderon', 'Pediatria',        'MED-12650', NULL);
-  INSERT INTO clinica.medicos VALUES (5, 'Dra. Elena Vargas Brenes', 'Cardiologia',      'MED-08317', 'MED_EVARGAS');
-  INSERT INTO clinica.medicos VALUES (6, 'Dr. Mario Quesada Salas',  'Cardiologia',      'MED-13009', NULL);
+  INSERT INTO instituto.docentes VALUES (1, 'Prof. Maria Chaves Solis',    'Informatica', 'EMP-10234', 'DOC_MCHAVES');
+  INSERT INTO instituto.docentes VALUES (2, 'Prof. Andres Mora Arias',     'Electronica', 'EMP-11872', NULL);
+  INSERT INTO instituto.docentes VALUES (3, 'Prof. Paula Chaves Monge',    'Matematica',  'EMP-09541', NULL);
+  INSERT INTO instituto.docentes VALUES (4, 'Prof. Diego Rojas Calderon',  'Espanol',     'EMP-12650', NULL);
+  INSERT INTO instituto.docentes VALUES (5, 'Prof. Rebeca Brenes Salas',   'Ciencias',    'EMP-08317', 'DOC_RBRENES');
+  INSERT INTO instituto.docentes VALUES (6, 'Prof. Mario Quesada Salas',   'Ingles',      'EMP-13009', NULL);
 
   FOR i IN 1 .. 500 LOOP
     v_sexo   := CASE WHEN DBMS_RANDOM.VALUE < 0.5 THEN 'F' ELSE 'M' END;
     v_nombre := CASE v_sexo WHEN 'F' THEN elegir(nombres_f) ELSE elegir(nombres_m) END
                 || ' ' || elegir(apellidos) || ' ' || elegir(apellidos);
-    v_nac    := CASE WHEN i <= 120
-                     THEN DATE '2012-01-01' + TRUNC(DBMS_RANDOM.VALUE(0, 4700))
-                     ELSE DATE '1940-01-01' + TRUNC(DBMS_RANDOM.VALUE(0, 23000)) END;
     v_cedula := TRUNC(DBMS_RANDOM.VALUE(1, 8)) || '-' || LPAD(TRUNC(DBMS_RANDOM.VALUE(100, 1300)), 4, '0')
                 || '-' || LPAD(i, 4, '0');
     v_tel    := CASE WHEN DBMS_RANDOM.VALUE < 0.5 THEN '8' ELSE '6' END
@@ -186,47 +174,46 @@ BEGIN
     v_correo := LOWER(REPLACE(v_nombre, ' ', '.')) || i || '@correo.test';
     v_dir    := elegir(lugares) || ', ' || TRUNC(DBMS_RANDOM.VALUE(25, 500)) || ' m '
                 || elegir(rumbos) || ' de la iglesia';
-    INSERT INTO clinica.pacientes
-    VALUES (i, v_cedula, v_nombre, v_nac, v_sexo, v_tel, v_correo, v_dir,
-            DATE '2023-01-01' + TRUNC(DBMS_RANDOM.VALUE(0, 1000)));
+    v_encarg := CASE WHEN DBMS_RANDOM.VALUE < 0.5 THEN elegir(nombres_f) ELSE elegir(nombres_m) END
+                || ' ' || elegir(apellidos) || ' ' || elegir(apellidos);
+    v_grupo  := elegir(grupos);
+    INSERT INTO instituto.estudiantes
+    VALUES (i, v_cedula, v_nombre,
+            DATE '2008-09-01' + TRUNC(DBMS_RANDOM.VALUE(0, 1500)),
+            v_sexo, v_grupo, v_tel, v_correo, v_dir, v_encarg,
+            DATE '2023-02-01' + TRUNC(DBMS_RANDOM.VALUE(0, 1000)));
   END LOOP;
 
   FOR i IN 1 .. 2000 LOOP
-    v_pac   := TRUNC(DBMS_RANDOM.VALUE(1, 501));
-    v_med   := medico_para(v_pac);
-    v_reg   := CASE WHEN v_med IN (3, 4) THEN elegir(diag_pediatria)
-                    WHEN v_med IN (5, 6) THEN elegir(diag_cardio)
-                    ELSE elegir(diag_general) END;
-    v_fecha := DATE '2024-01-01' + TRUNC(DBMS_RANDOM.VALUE(0, 1000))
-               + TRUNC(DBMS_RANDOM.VALUE(7, 17)) / 24;
-    v_diag   := REGEXP_SUBSTR(v_reg, '[^|]+', 1, 1);
-    v_trat   := REGEXP_SUBSTR(v_reg, '[^|]+', 1, 2);
-    v_motivo := REGEXP_SUBSTR(v_reg, '[^|]+', 1, 3);
-    v_nota   := 'Paciente consciente y orientado. ' || elegir(notas);
-    INSERT INTO clinica.consultas
-    VALUES (i, v_pac, v_med, v_fecha, v_motivo, v_diag, v_trat, v_nota);
-
-    v_metodo := CASE TRUNC(DBMS_RANDOM.VALUE(1, 4)) WHEN 1 THEN 'TARJETA' WHEN 2 THEN 'EFECTIVO' ELSE 'SEGURO' END;
-    v_tarj   := NULL; v_aseg := NULL; v_poliza := NULL;
-    IF v_metodo = 'TARJETA' THEN
-      v_tarj := '4' || LPAD(TRUNC(DBMS_RANDOM.VALUE(0, 999999999999999)), 15, '0');
-    ELSIF v_metodo = 'SEGURO' THEN
-      v_aseg   := elegir(aseguradoras);
-      v_poliza := 'POL-' || LPAD(TRUNC(DBMS_RANDOM.VALUE(0, 999999)), 6, '0');
-    END IF;
-    INSERT INTO clinica.facturas
-    VALUES (i, i, v_pac, TRUNC(v_fecha), ROUND(DBMS_RANDOM.VALUE(25000, 150000), -2),
-            v_metodo, v_tarj, v_aseg, v_poliza);
+    v_est := TRUNC(DBMS_RANDOM.VALUE(1, 501));
+    v_doc := TRUNC(DBMS_RANDOM.VALUE(1, 7));
+    v_mat := materia_de(v_doc);
+    v_per := elegir(periodos);
+    INSERT INTO instituto.notas
+    VALUES (i, v_est, v_doc, v_mat, v_per, ROUND(DBMS_RANDOM.VALUE(45, 100), 1));
   END LOOP;
 
-  FOR i IN 1 .. 800 LOOP
-    v_pac    := TRUNC(DBMS_RANDOM.VALUE(1, 501));
-    v_med    := medico_para(v_pac);
-    v_estado := CASE TRUNC(DBMS_RANDOM.VALUE(1, 5)) WHEN 1 THEN 'CANCELADA' WHEN 2 THEN 'ATENDIDA' ELSE 'PROGRAMADA' END;
-    INSERT INTO clinica.citas
-    VALUES (i, v_pac, v_med,
-            DATE '2026-09-01' + TRUNC(DBMS_RANDOM.VALUE(0, 120)) + TRUNC(DBMS_RANDOM.VALUE(7, 17)) / 24,
-            v_estado);
+  FOR i IN 1 .. 120 LOOP
+    v_est := TRUNC(DBMS_RANDOM.VALUE(1, 501));
+    v_doc := TRUNC(DBMS_RANDOM.VALUE(1, 7));
+    v_tipo := elegir(tipos_adec);
+    v_cond := elegir(condiciones);
+    v_reco := elegir(recomendaciones);
+    INSERT INTO instituto.adecuaciones
+    VALUES (i, v_est, v_doc, v_tipo, v_cond, v_reco,
+            DATE '2024-02-01' + TRUNC(DBMS_RANDOM.VALUE(0, 900)));
+  END LOOP;
+
+  FOR i IN 1 .. 90 LOOP
+    v_tipo := elegir(tipos_beca);
+    INSERT INTO instituto.becas
+    VALUES (i, i * 5, v_tipo,
+            ROUND(DBMS_RANDOM.VALUE(150000, 900000), -3),
+            ROUND(DBMS_RANDOM.VALUE(15000, 60000), -3),
+            'CR' || LPAD(TRUNC(DBMS_RANDOM.VALUE(0, 99)), 2, '0')
+                 || LPAD(TRUNC(DBMS_RANDOM.VALUE(0, 999999999)), 9, '0')
+                 || LPAD(TRUNC(DBMS_RANDOM.VALUE(0, 999999999)), 9, '0'),
+            DATE '2025-02-01' + TRUNC(DBMS_RANDOM.VALUE(0, 600)));
   END LOOP;
 
   COMMIT;
@@ -239,43 +226,45 @@ END;
 PROMPT === 5) Malas practicas deliberadas
 
 -- MP-01 | R-CONF-01 | A8.2: desarrollador con rol DBA y contrasena debil
-CREATE USER dev_carlos IDENTIFIED BY "carlos123";
-GRANT CREATE SESSION, DBA TO dev_carlos;
+CREATE USER dev_ramiro IDENTIFIED BY "ramiro123";
+GRANT CREATE SESSION, DBA TO dev_ramiro;
 
--- MP-02 | R-CONF-01 | A8.2, A5.15: la aplicacion de citas puede leer CUALQUIER tabla
-CREATE USER app_citas IDENTIFIED BY "app";
-GRANT CREATE SESSION, SELECT ANY TABLE TO app_citas;
-GRANT INSERT, UPDATE ON clinica.citas TO app_citas;
+-- MP-02 | R-CONF-01 | A8.2, A5.15: la aplicacion de matricula puede leer CUALQUIER tabla
+CREATE USER app_matricula IDENTIFIED BY "app";
+GRANT CREATE SESSION, SELECT ANY TABLE TO app_matricula;
+GRANT INSERT, UPDATE ON instituto.estudiantes TO app_matricula;
 
--- MP-03 | R-CONF-01 | A5.15, A5.18, A8.3: diagnosticos visibles para TODOS (PUBLIC)
-GRANT SELECT ON clinica.consultas TO PUBLIC;
+-- MP-03 | R-CONF-01 | A5.15, A5.18, A8.3: adecuaciones (condiciones de salud) visibles para TODOS (PUBLIC)
+GRANT SELECT ON instituto.adecuaciones TO PUBLIC;
 
--- MP-04 | R-CONF-02 | A5.16, A5.15: cuenta COMPARTIDA de recepcion con grants directos excesivos
-CREATE USER recepcion IDENTIFIED BY "recepcion";
-GRANT CREATE SESSION TO recepcion;
-GRANT SELECT ON clinica.pacientes TO recepcion;
-GRANT SELECT ON clinica.facturas  TO recepcion;
-GRANT SELECT, INSERT, UPDATE ON clinica.citas TO recepcion;
+-- MP-04 | R-CONF-02 | A5.16, A5.15: cuenta COMPARTIDA de secretaria con grants directos excesivos
+CREATE USER secretaria IDENTIFIED BY "secretaria";
+GRANT CREATE SESSION TO secretaria;
+GRANT SELECT ON instituto.estudiantes TO secretaria;
+GRANT SELECT ON instituto.becas       TO secretaria;
+GRANT SELECT, INSERT, UPDATE ON instituto.notas TO secretaria;
 
--- MP-05 | R-CONF-02 | A5.16: recepcionista que renuncio y su cuenta sigue activa
-CREATE USER ex_mrojas IDENTIFIED BY "temporal";
-GRANT CREATE SESSION TO ex_mrojas;
-GRANT SELECT ON clinica.pacientes TO ex_mrojas;
+-- MP-05 | R-CONF-02 | A5.16: secretaria que renuncio y su cuenta sigue activa
+CREATE USER ex_ksalas IDENTIFIED BY "temporal";
+GRANT CREATE SESSION TO ex_ksalas;
+GRANT SELECT ON instituto.estudiantes TO ex_ksalas;
 
--- MP-06 | R-CONF-01 | A5.18: facturacion puede re-otorgar acceso (WITH GRANT OPTION)
-CREATE USER fact_ana IDENTIFIED BY "Factura1";
-GRANT CREATE SESSION TO fact_ana;
-GRANT SELECT, UPDATE ON clinica.facturas TO fact_ana WITH GRANT OPTION;
-GRANT SELECT ON clinica.pacientes TO fact_ana;
+-- MP-06 | R-CONF-01 | A5.18: tesoreria puede re-otorgar acceso (WITH GRANT OPTION)
+CREATE USER teso_paula IDENTIFIED BY "Tesoreria1";
+GRANT CREATE SESSION TO teso_paula;
+GRANT SELECT, UPDATE ON instituto.becas TO teso_paula WITH GRANT OPTION;
+GRANT SELECT ON instituto.estudiantes TO teso_paula;
 
--- MP-07 | R-CONF-01 | A8.3: cada medico ve las consultas de TODOS los pacientes (sin VPD)
-CREATE USER med_lsolis  IDENTIFIED BY "Medico2026";
-CREATE USER med_evargas IDENTIFIED BY "Medico2026";
-GRANT CREATE SESSION TO med_lsolis, med_evargas;
-GRANT SELECT, INSERT, UPDATE ON clinica.consultas TO med_lsolis;
-GRANT SELECT, INSERT, UPDATE ON clinica.consultas TO med_evargas;
-GRANT SELECT ON clinica.pacientes TO med_lsolis;
-GRANT SELECT ON clinica.pacientes TO med_evargas;
+-- MP-07 | R-CONF-01 | A8.3: cada docente ve las notas y adecuaciones de TODOS los estudiantes (sin VPD)
+CREATE USER doc_mchaves IDENTIFIED BY "Docente2026";
+CREATE USER doc_rbrenes IDENTIFIED BY "Docente2026";
+GRANT CREATE SESSION TO doc_mchaves, doc_rbrenes;
+GRANT SELECT, INSERT, UPDATE ON instituto.notas TO doc_mchaves;
+GRANT SELECT, INSERT, UPDATE ON instituto.notas TO doc_rbrenes;
+GRANT SELECT ON instituto.adecuaciones TO doc_mchaves;
+GRANT SELECT ON instituto.adecuaciones TO doc_rbrenes;
+GRANT SELECT ON instituto.estudiantes  TO doc_mchaves;
+GRANT SELECT ON instituto.estudiantes  TO doc_rbrenes;
 
 -- MP-08 | R-CONF-06 | A5.33: auditor externo con AUDIT_ADMIN (puede purgar el rastro)
 CREATE USER auditor_ext IDENTIFIED BY "Auditor2026";
@@ -287,36 +276,36 @@ GRANT CREATE SESSION, DATAPUMP_EXP_FULL_DATABASE TO soporte_ti;
 CREATE OR REPLACE DIRECTORY dir_exportes AS 'C:\oracle_lab\exportes';
 GRANT READ, WRITE ON DIRECTORY dir_exportes TO PUBLIC;
 
--- MP-10 | R-CONF-03 | A8.10: copia de pacientes "borrada" que sigue en la papelera
-CREATE TABLE clinica.pacientes_respaldo_2025 TABLESPACE ts_clinica
-  AS SELECT * FROM clinica.pacientes;
-DROP TABLE clinica.pacientes_respaldo_2025;
+-- MP-10 | R-CONF-03 | A8.10: copia de estudiantes "borrada" que sigue en la papelera
+CREATE TABLE instituto.estudiantes_respaldo_2025 TABLESPACE ts_instituto
+  AS SELECT * FROM instituto.estudiantes;
+DROP TABLE instituto.estudiantes_respaldo_2025;
 
 -- MP-11 | R-CONF-04 | A8.11, A8.33*: clon DEV con datos REALES sin enmascarar
-CREATE USER clinica_dev IDENTIFIED BY "dev"
-  DEFAULT TABLESPACE ts_clinica QUOTA UNLIMITED ON ts_clinica;
-GRANT CREATE SESSION TO clinica_dev;
-CREATE TABLE clinica_dev.pacientes TABLESPACE ts_clinica AS SELECT * FROM clinica.pacientes;
-CREATE TABLE clinica_dev.consultas TABLESPACE ts_clinica AS SELECT * FROM clinica.consultas;
+CREATE USER instituto_dev IDENTIFIED BY "dev"
+  DEFAULT TABLESPACE ts_instituto QUOTA UNLIMITED ON ts_instituto;
+GRANT CREATE SESSION TO instituto_dev;
+CREATE TABLE instituto_dev.estudiantes  TABLESPACE ts_instituto AS SELECT * FROM instituto.estudiantes;
+CREATE TABLE instituto_dev.adecuaciones TABLESPACE ts_instituto AS SELECT * FROM instituto.adecuaciones;
 
 -- MP-12 | R-CONF-02 | A8.5, A5.17: perfil sin limite de intentos fallidos (fuerza bruta)
 CREATE PROFILE perfil_aplicaciones LIMIT
   FAILED_LOGIN_ATTEMPTS UNLIMITED
   PASSWORD_LIFE_TIME    UNLIMITED;
-ALTER USER app_citas PROFILE perfil_aplicaciones;
+ALTER USER app_matricula PROFILE perfil_aplicaciones;
 
 -- Nota: no hay clasificacion (A5.12), ni auditoria propia (A8.15), ni redaccion (A8.11),
 -- ni TDE (A8.24*), ni cifrado de red (A8.20): esa ausencia ES parte del estado ANTES.
 
 WHENEVER SQLERROR CONTINUE
 PROMPT === 6) Resumen
-SELECT 'MEDICOS' tabla, COUNT(*) filas FROM clinica.medicos
-UNION ALL SELECT 'PACIENTES', COUNT(*) FROM clinica.pacientes
-UNION ALL SELECT 'CONSULTAS', COUNT(*) FROM clinica.consultas
-UNION ALL SELECT 'CITAS',     COUNT(*) FROM clinica.citas
-UNION ALL SELECT 'FACTURAS',  COUNT(*) FROM clinica.facturas;
+SELECT 'DOCENTES' tabla, COUNT(*) filas FROM instituto.docentes
+UNION ALL SELECT 'ESTUDIANTES',  COUNT(*) FROM instituto.estudiantes
+UNION ALL SELECT 'NOTAS',        COUNT(*) FROM instituto.notas
+UNION ALL SELECT 'ADECUACIONES', COUNT(*) FROM instituto.adecuaciones
+UNION ALL SELECT 'BECAS',        COUNT(*) FROM instituto.becas;
 
-SELECT owner, original_name, droptime FROM dba_recyclebin WHERE owner = 'CLINICA';
+SELECT owner, original_name, droptime FROM dba_recyclebin WHERE owner = 'INSTITUTO';
 
 PROMPT Escenario creado. Siguiente paso: V00_ejecutar_todo.sql antes
 EXIT

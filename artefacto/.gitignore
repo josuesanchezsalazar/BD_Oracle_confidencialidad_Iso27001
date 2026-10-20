@@ -1,0 +1,4 @@
+node_modules/
+dist/
+# Copia generada desde ../evidencias por scripts/sync-evidencias.mjs
+public/evidencias/

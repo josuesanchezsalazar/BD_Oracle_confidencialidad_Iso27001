@@ -1,0 +1,27 @@
+======================================================================
+Evidencia: V11_A8_11   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-20 13:36:23 -06:00
+
+1 fila seleccionada.
+
+--- 1) Politicas de redaccion
+
+ninguna fila seleccionada
+
+--- 2) Columnas redactadas y tipo de redaccion
+
+ninguna fila seleccionada
+
+--- 3) Cuentas propias EXENTAS de redaccion (directo o por roles) - deben ser minimas
+
+USERNAME                  VIA
+------------------------- ------------------------------
+DEV_RAMIRO                EXP_FULL_DATABASE
+SOPORTE_TI                EXP_FULL_DATABASE
+
+2 filas seleccionadas.
+

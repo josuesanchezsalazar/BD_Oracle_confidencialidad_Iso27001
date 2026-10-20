@@ -1,0 +1,46 @@
+======================================================================
+Evidencia: V16_A8_24   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-20 13:36:31 -06:00
+
+1 fila seleccionada.
+
+--- 1) Estado del keystore (wallet) TDE
+
+    CON_ID WRL_TYPE
+---------- --------------------
+WRL_PARAMETER
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+STATUS                         WALLET_TYPE          KEYSTORE
+------------------------------ -------------------- --------
+         3 FILE
+
+NOT_AVAILABLE                  UNKNOWN              UNITED
+
+
+1 fila seleccionada.
+
+--- 2) Tablespaces y si estan cifrados
+
+TABLESPACE_NAME                ENC STATUS
+------------------------------ --- ---------
+SYSAUX                         NO  ONLINE
+SYSTEM                         NO  ONLINE
+TEMP                           NO  ONLINE
+TS_INSTITUTO                   NO  ONLINE
+UNDOTBS1                       NO  ONLINE
+USERS                          NO  ONLINE
+
+6 filas seleccionadas.
+
+--- 3) Detalle de tablespaces cifrados (algoritmo)
+
+ninguna fila seleccionada
+
+--- 4) Columnas cifradas con TDE de columna
+
+ninguna fila seleccionada
+

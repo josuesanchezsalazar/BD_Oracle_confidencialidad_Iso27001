@@ -1,7 +1,7 @@
 -- =====================================================================
 -- 99_limpiar_escenario.sql | Borra TODO lo creado por el proyecto en XEPDB1
 -- (escenario, remediaciones, politicas de auditoria POL_CONF*, roles ROL_*,
---  perfiles PERFIL_*, tablespaces TS_CLINICA*) para repetir desde cero.
+--  perfiles PERFIL_*, tablespaces TS_INSTITUTO*) para repetir desde cero.
 --
 -- Uso:  sqlplus "sys/<clave> as sysdba" "@sql/00_escenario/99_limpiar_escenario.sql"
 -- Si un usuario tiene sesiones abiertas, cerrarlas y volver a ejecutar.
@@ -39,9 +39,9 @@ BEGIN
   -- 2) Usuarios del escenario (CASCADE borra sus objetos y su papelera)
   FOR u IN (SELECT column_value AS nombre
               FROM TABLE(sys.odcivarchar2list(
-                'DEV_CARLOS','APP_CITAS','RECEPCION','EX_MROJAS','FACT_ANA',
-                'MED_LSOLIS','MED_EVARGAS','AUDITOR_EXT','SOPORTE_TI',
-                'CLINICA_DEV','CLINICA'))) LOOP
+                'DEV_RAMIRO','APP_MATRICULA','SECRETARIA','EX_KSALAS','TESO_PAULA',
+                'DOC_MCHAVES','DOC_RBRENES','AUDITOR_EXT','SOPORTE_TI',
+                'INSTITUTO_DEV','INSTITUTO'))) LOOP
     ejecutar('DROP USER ' || u.nombre || ' CASCADE');
   END LOOP;
 
@@ -58,7 +58,7 @@ BEGIN
   -- 4) Directorio y tablespaces
   ejecutar('DROP DIRECTORY dir_exportes');
   FOR t IN (SELECT tablespace_name FROM dba_tablespaces
-             WHERE tablespace_name LIKE 'TS\_CLINICA%' ESCAPE '\') LOOP
+             WHERE tablespace_name LIKE 'TS\_INSTITUTO%' ESCAPE '\') LOOP
     ejecutar('DROP TABLESPACE ' || t.tablespace_name || ' INCLUDING CONTENTS AND DATAFILES');
   END LOOP;
 END;

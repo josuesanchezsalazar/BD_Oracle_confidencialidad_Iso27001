@@ -1,0 +1,70 @@
+{
+  "preparacion": [
+    { "paso": "Encender Oracle (solo después de reiniciar el equipo)", "comando": "Start-Service OracleServiceXE\nlsnrctl status", "nota": "PowerShell como administrador. Debe aparecer el servicio xepdb1." },
+    { "paso": "Abrir una terminal en la carpeta del proyecto", "comando": "cd C:\\Users\\josue\\OneDrive\\Desktop\\BD_Oracle_confidencialidad_Iso27001", "nota": "PowerShell normal." },
+    { "paso": "Entrar como administrador de la base", "comando": "sqlplus sys as sysdba", "nota": "La contraseña no se muestra al escribirla." },
+    { "paso": "Pasar a la base del proyecto y verificar dónde estoy", "comando": "ALTER SESSION SET CONTAINER = XEPDB1;\nSHOW CON_NAME\nSET LINESIZE 200 PAGESIZE 100\nCOLUMN nombre FORMAT A30\nCOLUMN detalle_condicion FORMAT A60", "nota": "Oracle XE es multitenant: los datos del instituto viven en la PDB XEPDB1, no en CDB$ROOT." }
+  ],
+  "escenario": {
+    "paso": "Mostrar el escenario (los activos)",
+    "comando": "SELECT 'DOCENTES' tabla, COUNT(*) filas FROM instituto.docentes\nUNION ALL SELECT 'ESTUDIANTES',  COUNT(*) FROM instituto.estudiantes\nUNION ALL SELECT 'NOTAS',        COUNT(*) FROM instituto.notas\nUNION ALL SELECT 'ADECUACIONES', COUNT(*) FROM instituto.adecuaciones\nUNION ALL SELECT 'BECAS',        COUNT(*) FROM instituto.becas;\n\n-- La columna de alta sensibilidad: condición de salud (dato sensible, Ley 8968)\nSELECT e.nombre, a.tipo_adecuacion, a.detalle_condicion\n  FROM instituto.adecuaciones a JOIN instituto.estudiantes e ON e.id_estudiante = a.id_estudiante\n FETCH FIRST 5 ROWS ONLY;\n\n-- Las cuentas que acceden a la base\nSELECT username, account_status, profile FROM dba_users WHERE oracle_maintained = 'N' ORDER BY username;",
+    "nota": "Cinco tablas con datos ficticios; la columna más sensible es DETALLE_CONDICION."
+  },
+  "cuentas": [
+    { "usuario": "ex_ksalas", "clave": "temporal", "mala": "MP-05 cuenta de ex-empleada activa" },
+    { "usuario": "doc_mchaves", "clave": "Docente2026", "mala": "MP-07 ve notas y adecuaciones de todos" },
+    { "usuario": "secretaria", "clave": "secretaria", "mala": "MP-04 cuenta compartida" },
+    { "usuario": "app_matricula", "clave": "app", "mala": "MP-02 SELECT ANY TABLE" },
+    { "usuario": "dev_ramiro", "clave": "ramiro123", "mala": "MP-01 rol DBA" },
+    { "usuario": "teso_paula", "clave": "Tesoreria1", "mala": "MP-06 WITH GRANT OPTION" },
+    { "usuario": "auditor_ext", "clave": "Auditor2026", "mala": "MP-08 AUDIT_ADMIN" },
+    { "usuario": "soporte_ti", "clave": "soporte", "mala": "MP-09 exportación completa" }
+  ],
+  "demos": [
+    {
+      "id": "A",
+      "titulo": "Una ex-secretaria lee diagnósticos de estudiantes",
+      "malasPracticas": "MP-03 y MP-05",
+      "controles": ["A5.16", "A5.15", "A5.18"],
+      "general": "Una cuenta que ya no debería existir conserva acceso, y un permiso otorgado a PUBLIC llega a todas las cuentas, presentes y futuras.",
+      "sql": "CONNECT ex_ksalas/temporal@localhost:1521/XEPDB1\n\nSELECT e.nombre, a.detalle_condicion\n  FROM instituto.adecuaciones a JOIN instituto.estudiantes e ON e.id_estudiante = a.id_estudiante\n WHERE a.detalle_condicion LIKE 'F84%' FETCH FIRST 3 ROWS ONLY;",
+      "vera": "Tres filas con nombres de estudiantes y el diagnóstico F84.0 Trastorno del espectro autista.",
+      "vemos": "Una cuenta que debería estar dada de baja entra y lee las condiciones de salud de estudiantes menores de edad. Falla A5.16 porque la cuenta sigue activa, y A5.15 y A5.18 porque ADECUACIONES está otorgada a PUBLIC. Es un dato sensible según la Ley 8968."
+    },
+    {
+      "id": "B",
+      "titulo": "Una docente ve las notas de todos los docentes",
+      "malasPracticas": "MP-07",
+      "controles": ["A8.3"],
+      "general": "Sin restricción por filas, un usuario con permiso sobre una tabla ve todas sus filas, aunque su función solo requiera las suyas.",
+      "sql": "CONNECT doc_mchaves/Docente2026@localhost:1521/XEPDB1\n\nSELECT COUNT(*) AS notas_visibles FROM instituto.notas;\nSELECT id_docente, COUNT(*) FROM instituto.notas GROUP BY id_docente ORDER BY 1;\nSELECT COUNT(*) AS adecuaciones_visibles FROM instituto.adecuaciones;",
+      "vera": "2000 notas visibles con filas de los 6 docentes, y 120 adecuaciones.",
+      "vemos": "La profesora Chaves es la docente 1, pero ve las 2000 notas de los 6 docentes y las 120 adecuaciones, no solo lo suyo. Falta restringir por fila (A8.3) y ocultar la condición de salud (A8.11). VPD sí funciona en este XE 21c, así que es la corrección prevista."
+    },
+    {
+      "id": "C",
+      "titulo": "Secretaría ve el ingreso familiar y la cuenta bancaria completa",
+      "malasPracticas": "MP-04",
+      "controles": ["A5.16", "A5.15", "A8.11"],
+      "general": "Una cuenta compartida no deja rastro de quién actuó, y sin redacción un permiso de lectura muestra el dato completo.",
+      "sql": "CONNECT secretaria/secretaria@localhost:1521/XEPDB1\n\nSELECT id_beca, tipo_beca, ingreso_familiar, num_cuenta\n  FROM instituto.becas FETCH FIRST 3 ROWS ONLY;",
+      "vera": "Tres filas con el ingreso familiar y la cuenta bancaria completa.",
+      "vemos": "La cuenta la comparten todas las secretarias, así que no se sabe quién consultó (A5.16), y además muestra el ingreso familiar y la cuenta bancaria completos. Se corrige con cuentas nominales, roles y redacción (A8.11)."
+    },
+    {
+      "id": "D",
+      "titulo": "La aplicación de matrícula lee cualquier tabla",
+      "malasPracticas": "MP-02",
+      "controles": ["A8.2", "A5.15"],
+      "general": "Un privilegio ANY otorgado a una cuenta de aplicación convierte cualquier vulnerabilidad de la aplicación en acceso a toda la base.",
+      "sql": "CONNECT app_matricula/app@localhost:1521/XEPDB1\n\nSELECT COUNT(*) AS becas_que_ve_la_app FROM instituto.becas;",
+      "vera": "90 becas visibles.",
+      "vemos": "La app solo debería tocar los datos de contacto de los estudiantes, pero lee todas las becas porque tiene SELECT ANY TABLE (A8.2). Si alguien vulnera la app, queda expuesta toda la base."
+    }
+  ],
+  "cierre": {
+    "paso": "Mostrar la evidencia observable que vería un auditor",
+    "comando": "CONNECT sys as sysdba\nDEFINE fase = antes\n@sql/01_verificacion/V07_A8_2_acceso_privilegiado.sql",
+    "nota": "El script guarda su salida con fecha, usuario y contenedor en evidencias/antes. Después de remediar se repite con fase = despues y se comparan."
+  }
+}

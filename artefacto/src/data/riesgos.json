@@ -1,0 +1,177 @@
+{
+  "escala": {
+    "probabilidad": [
+      { "valor": 1, "nombre": "Rara", "criterio": "Casi imposible con la configuración actual" },
+      { "valor": 2, "nombre": "Improbable", "criterio": "Requiere varias fallas juntas o estar en la red interna" },
+      { "valor": 3, "nombre": "Posible", "criterio": "Requiere conocimiento técnico o acceso al servidor" },
+      { "valor": 4, "nombre": "Probable", "criterio": "Una cuenta interna puede hacerlo sin conocimientos especiales" },
+      { "valor": 5, "nombre": "Casi segura", "criterio": "Es trivial o ya se demostró en el diagnóstico" }
+    ],
+    "impacto": [
+      { "valor": 1, "nombre": "Insignificante", "criterio": "Sin datos personales expuestos" },
+      { "valor": 2, "nombre": "Menor", "criterio": "Datos internos o pocos registros" },
+      { "valor": 3, "nombre": "Moderado", "criterio": "Datos restringidos de pocos titulares, o pérdida de capacidad de detección" },
+      { "valor": 4, "nombre": "Mayor", "criterio": "Datos restringidos masivos o datos sensibles de pocos titulares" },
+      { "valor": 5, "nombre": "Catastrófico", "criterio": "Datos sensibles masivos; falta gravísima de la Ley 8968" }
+    ],
+    "bandas": [
+      { "nombre": "Bajo", "min": 1, "max": 4 },
+      { "nombre": "Medio", "min": 5, "max": 9 },
+      { "nombre": "Alto", "min": 10, "max": 14 },
+      { "nombre": "Crítico", "min": 15, "max": 25 }
+    ],
+    "apetito": {
+      "max": 6,
+      "nota": "Propuesta: un riesgo residual de 6 o menos se considera aceptable. Pendiente de confirmar con el profesor (pregunta 3)."
+    }
+  },
+  "riesgos": [
+    {
+      "id": "R-CONF-01",
+      "nombre": "Acceso no autorizado por privilegios excesivos o mal asignados",
+      "descripcion": "Un usuario, aplicación o proceso accede a datos que su función no requiere porque la base le concedió más permisos de los necesarios. Es la causa más frecuente de fuga de confidencialidad en una base de datos, porque ocurre con acceso legítimo.",
+      "causas": [
+        "Rol DBA o privilegios ANY otorgados a cuentas que no administran",
+        "Permisos otorgados a PUBLIC",
+        "Permisos directos a usuarios en lugar de roles",
+        "WITH GRANT OPTION o WITH ADMIN OPTION sin control",
+        "Ausencia de restricción por fila o por columna"
+      ],
+      "activo": "Tablas y columnas con datos personales o sensibles",
+      "p": 5,
+      "justP": "Ya se demostró: PUBLIC implica que cualquier cuenta, actual o futura, tiene acceso, y la ex-secretaria lo usó en la demo",
+      "i": 5,
+      "justI": "Expone las condiciones de salud de 120 adecuaciones, en su mayoría de menores de edad: datos sensibles masivos según el art. 3 y el art. 9 de la Ley 8968",
+      "manifestacion": {
+        "resumen": "Un desarrollador con rol DBA, una app con SELECT ANY TABLE, condiciones de salud legibles por PUBLIC y docentes que ven las notas y adecuaciones de todos.",
+        "activo": "ADECUACIONES, NOTAS, BECAS y ESTUDIANTES",
+        "malasPracticas": ["MP-01", "MP-02", "MP-03", "MP-06", "MP-07"]
+      },
+      "meta": { "p": 2, "i": 3, "provisional": true },
+      "justMeta": "Con roles mínimos y filtro por fila baja la probabilidad a 2; la redacción reduce lo que se vería si ocurre (impacto 3).",
+      "controles": ["A8.2", "A5.15", "A5.18", "A8.3", "A8.11"]
+    },
+    {
+      "id": "R-CONF-02",
+      "nombre": "Suplantación de identidad por autenticación débil o cuentas sin gestión",
+      "descripcion": "Un atacante, o una persona sin autorización, se hace pasar por un usuario legítimo porque la base acepta contraseñas débiles, no bloquea intentos repetidos o conserva cuentas que ya no deberían existir.",
+      "causas": [
+        "Contraseñas débiles o por defecto, sin función de verificación",
+        "Perfiles sin límite de intentos fallidos ni de inactividad",
+        "Cuentas compartidas, sin trazabilidad individual",
+        "Cuentas de personas que ya no pertenecen a la organización",
+        "Verificadores de contraseña antiguos (11G) habilitados"
+      ],
+      "activo": "Cuentas de la base de datos y sus credenciales",
+      "p": 4,
+      "justP": "Contraseñas como \"app\" o \"temporal\" se adivinan sin conocimiento técnico y el perfil de la aplicación no bloquea nunca",
+      "i": 5,
+      "justI": "Suplantar una cuenta con rol DBA (contraseña ramiro123) da acceso total a los datos sensibles",
+      "manifestacion": {
+        "resumen": "Contraseñas como \"app\" o \"temporal\", una cuenta compartida de secretaría, la cuenta de una ex-secretaria activa y un perfil con intentos ilimitados.",
+        "activo": "Cuentas APP_MATRICULA, SECRETARIA, EX_KSALAS y DEV_RAMIRO",
+        "malasPracticas": ["MP-04", "MP-05", "MP-12"]
+      },
+      "meta": { "p": 2, "i": 3, "provisional": true },
+      "justMeta": "El bloqueo y las contraseñas fuertes bajan la probabilidad a 2; con privilegios mínimos (A8.2, A5.15) una cuenta suplantada ya no tiene acceso amplio (impacto 3).",
+      "controles": ["A5.16", "A5.17", "A8.5", "A8.2", "A5.15", "A8.8*"]
+    },
+    {
+      "id": "R-CONF-03",
+      "nombre": "Exposición de datos en reposo y eliminación insegura",
+      "descripcion": "Quien obtenga los archivos de datos, un respaldo o un objeto \"borrado\" puede leer la información sin pasar por los controles de acceso de la base.",
+      "causas": [
+        "Datafiles y backups sin cifrar (sin TDE ni cifrado de RMAN)",
+        "Objetos eliminados que permanecen en la papelera de reciclaje",
+        "Backups y dumps vencidos que no se destruyen",
+        "Keystore o claves sin gestión"
+      ],
+      "activo": "Datafiles, backups, papelera y dumps",
+      "p": 3,
+      "justP": "Requiere acceso al sistema de archivos del servidor o a una copia del backup",
+      "i": 5,
+      "justI": "Quien copie el datafile o el backup obtiene la base completa en texto legible",
+      "manifestacion": {
+        "resumen": "Datafile ts_instituto01.dbf sin cifrar, ningún backup y una copia de estudiantes que sigue en la papelera.",
+        "activo": "ts_instituto01.dbf y la papelera de INSTITUTO",
+        "malasPracticas": ["MP-10"]
+      },
+      "meta": { "p": 1, "i": 5, "provisional": true },
+      "justMeta": "TDE y backups cifrados bajan la probabilidad a 1. El impacto se deja en 5 hasta medirlo: se revisará con la evidencia de la fase Verificar.",
+      "controles": ["A8.10", "A8.13", "A8.24*", "A5.12", "A8.8*"]
+    },
+    {
+      "id": "R-CONF-04",
+      "nombre": "Fuga por exportaciones y entornos no productivos",
+      "descripcion": "Los datos salen de producción mediante exportaciones, copias o canales de red que no tienen los mismos controles que la base original.",
+      "causas": [
+        "Roles de exportación completa asignados a cuentas operativas",
+        "Directorios y paquetes UTL_* abiertos a PUBLIC",
+        "Clones DEV/TEST con datos reales sin enmascarar",
+        "Exportaciones sin cifrar ni auditar",
+        "Database links sin control"
+      ],
+      "activo": "Dumps de Data Pump y esquemas de desarrollo y pruebas",
+      "p": 3,
+      "justP": "Exportar requiere la cuenta de soporte o de desarrollo, pero el clon con datos reales ya existe",
+      "i": 5,
+      "justI": "Un dump o el clon contienen todas las condiciones de salud y los ingresos familiares fuera de producción",
+      "manifestacion": {
+        "resumen": "SOPORTE_TI puede exportar toda la base, DIR_EXPORTES es de PUBLIC, PUBLIC ejecuta UTL_* y el clon INSTITUTO_DEV contiene condiciones de salud reales.",
+        "activo": "Dumps y esquema INSTITUTO_DEV",
+        "malasPracticas": ["MP-09", "MP-11"]
+      },
+      "meta": { "p": 1, "i": 5, "provisional": true },
+      "justMeta": "Sin exportación abierta ni clon real baja la probabilidad a 1. El impacto sigue en 5 si un dump sin cifrar llegara a filtrarse; se revisará al medir.",
+      "controles": ["A8.12", "A8.11", "A8.33*"]
+    },
+    {
+      "id": "R-CONF-05",
+      "nombre": "Interceptación de datos en tránsito",
+      "descripcion": "El tráfico entre clientes y servidor (consultas y resultados) puede ser capturado si viaja sin cifrar o si el listener está expuesto a redes no confiables.",
+      "causas": [
+        "Cifrado de Oracle Net sin configurar (ENCRYPTION_SERVER en ACCEPTED por defecto)",
+        "Listener escuchando en interfaces innecesarias",
+        "Sin restricción de los nodos que pueden conectarse",
+        "Conexiones desde redes compartidas"
+      ],
+      "activo": "Sesiones SQL*Net entre aplicación y base",
+      "p": 2,
+      "justP": "Requiere estar en la red y capturar tráfico; hoy el listener solo escucha en localhost",
+      "i": 4,
+      "justI": "Se verían las consultas y los resultados de las sesiones capturadas, no la base completa",
+      "manifestacion": {
+        "resumen": "Sin cifrado de red en sqlnet.ora; el listener estaba configurado sobre una IP de la red local y se limitó a localhost el 19/10.",
+        "activo": "Sesiones de la aplicación de matrícula",
+        "malasPracticas": []
+      },
+      "meta": { "p": 1, "i": 3, "provisional": true },
+      "justMeta": "El cifrado AES256 baja la probabilidad a 1 y lo capturado deja de ser legible (impacto 3).",
+      "controles": ["A8.20", "A8.21*"]
+    },
+    {
+      "id": "R-CONF-06",
+      "nombre": "Falta de trazabilidad y manipulación del registro de auditoría",
+      "descripcion": "Sin un registro confiable de quién accedió a qué, el abuso de accesos legítimos pasa inadvertido y no se puede demostrar el cumplimiento.",
+      "causas": [
+        "Sin políticas de auditoría sobre los datos sensibles",
+        "Auditoría que nadie revisa",
+        "Cuentas operativas con AUDIT_ADMIN que pueden purgar el rastro",
+        "Sin copia del rastro fuera de la base (SIEM)"
+      ],
+      "activo": "Rastro de auditoría (UNIFIED_AUDIT_TRAIL)",
+      "p": 4,
+      "justP": "Hoy ningún acceso a los datos sensibles queda registrado, salvo los de SYS",
+      "i": 3,
+      "justI": "No expone datos por sí mismo, pero impide detectar el abuso y demostrar el cumplimiento del art. 10 de la Ley 8968",
+      "manifestacion": {
+        "resumen": "Solo hay políticas por defecto, ninguna sobre ADECUACIONES, y el auditor externo tiene AUDIT_ADMIN.",
+        "activo": "UNIFIED_AUDIT_TRAIL",
+        "malasPracticas": ["MP-08"]
+      },
+      "meta": { "p": 2, "i": 2, "provisional": true },
+      "justMeta": "Con auditoría revisada cada semana el abuso se detecta pronto: probabilidad 2 e impacto 2.",
+      "controles": ["A8.15", "A5.33", "A8.16*"]
+    }
+  ]
+}

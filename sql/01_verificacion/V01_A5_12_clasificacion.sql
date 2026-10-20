@@ -15,6 +15,7 @@ SELECT c.owner, c.table_name, c.column_name
   LEFT JOIN dba_col_comments m
          ON m.owner = c.owner AND m.table_name = c.table_name AND m.column_name = c.column_name
  WHERE c.owner = UPPER('&esquema')
+   AND c.table_name NOT LIKE 'BIN$%'
    AND (m.comments IS NULL OR m.comments NOT LIKE 'CLASIF:%')
  ORDER BY c.table_name, c.column_id;
 

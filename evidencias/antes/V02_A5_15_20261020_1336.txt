@@ -1,0 +1,61 @@
+======================================================================
+Evidencia: V02_A5_15   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-20 13:36:19 -06:00
+
+1 fila seleccionada.
+
+--- 1) Roles propios (no mantenidos por Oracle)
+
+ninguna fila seleccionada
+
+--- 2) Roles otorgados a usuarios propios
+
+GRANTEE                   GRANTED_ROLE                   ADM DEF
+------------------------- ------------------------------ --- ---
+AUDITOR_EXT               AUDIT_ADMIN                    NO  YES
+DEV_RAMIRO                DBA                            NO  YES
+PDBADMIN                  PDB_DBA                        YES YES
+SOPORTE_TI                DATAPUMP_EXP_FULL_DATABASE     NO  YES
+
+4 filas seleccionadas.
+
+--- 3) Privilegios de objeto sobre el esquema otorgados DIRECTO a usuarios (deberia ser 0)
+
+GRANTEE                   TABLE_NAME                PRIVILEGE
+------------------------- ------------------------- -----------------------------------
+APP_MATRICULA             ESTUDIANTES               UPDATE
+APP_MATRICULA             ESTUDIANTES               INSERT
+DOC_MCHAVES               ADECUACIONES              SELECT
+DOC_MCHAVES               ESTUDIANTES               SELECT
+DOC_MCHAVES               NOTAS                     INSERT
+DOC_MCHAVES               NOTAS                     UPDATE
+DOC_MCHAVES               NOTAS                     SELECT
+DOC_RBRENES               ADECUACIONES              SELECT
+DOC_RBRENES               ESTUDIANTES               SELECT
+DOC_RBRENES               NOTAS                     SELECT
+DOC_RBRENES               NOTAS                     INSERT
+DOC_RBRENES               NOTAS                     UPDATE
+EX_KSALAS                 ESTUDIANTES               SELECT
+SECRETARIA                BECAS                     SELECT
+SECRETARIA                ESTUDIANTES               SELECT
+SECRETARIA                NOTAS                     SELECT
+SECRETARIA                NOTAS                     INSERT
+SECRETARIA                NOTAS                     UPDATE
+TESO_PAULA                BECAS                     UPDATE
+TESO_PAULA                BECAS                     SELECT
+TESO_PAULA                ESTUDIANTES               SELECT
+
+21 filas seleccionadas.
+
+--- 4) Privilegios sobre el esquema otorgados a PUBLIC (deberia ser 0)
+
+GRANTEE                   TABLE_NAME                PRIVILEGE
+------------------------- ------------------------- -----------------------------------
+PUBLIC                    ADECUACIONES              SELECT
+
+1 fila seleccionada.
+

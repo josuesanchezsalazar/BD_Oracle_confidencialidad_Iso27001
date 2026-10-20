@@ -1,0 +1,19 @@
+SQL> CONNECT app_matricula/app@localhost:1521/XEPDB1
+Conectado.
+SQL> SELECT USER, SYS_CONTEXT('USERENV','CON_NAME') AS pdb FROM dual;
+
+USER                                                                            
+--------------------------------------------------------------------------------
+PDB                                                                             
+--------------------------------------------------------------------------------
+APP_MATRICULA                                                                   
+XEPDB1                                                                          
+                                                                                
+
+SQL> SELECT COUNT(*) AS becas_que_ve_la_app FROM instituto.becas;
+
+BECAS_QUE_VE_LA_APP                                                             
+-------------------                                                             
+                 90                                                             
+
+SQL> SPOOL OFF

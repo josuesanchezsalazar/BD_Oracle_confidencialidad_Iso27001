@@ -1,0 +1,168 @@
+======================================================================
+Evidencia: V14_A8_15   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-20 13:36:27 -06:00
+
+1 fila seleccionada.
+
+--- 1) Modo de auditoria (TRUE = unificada pura; FALSE = modo mixto)
+
+PARAMETER                                                        VALUE
+---------------------------------------------------------------- ----------------------------------------------------------------
+Unified Auditing                                                 FALSE
+
+1 fila seleccionada.
+
+--- 2) Politicas de auditoria habilitadas
+
+POLICY_NAME                                                                                                                      ENABLED_OPTION
+-------------------------------------------------------------------------------------------------------------------------------- ---------------
+ENTITY_NAME                                                                                                                      SUC FAI
+-------------------------------------------------------------------------------------------------------------------------------- --- ---
+ORA_LOGON_FAILURES                                                                                                               BY USER
+ALL USERS                                                                                                                        NO  YES
+
+ORA_SECURECONFIG                                                                                                                 BY USER
+ALL USERS                                                                                                                        YES YES
+
+
+2 filas seleccionadas.
+
+--- 3) Definicion de politicas propias (no ORA_*)
+
+ninguna fila seleccionada
+
+--- 4) Ultimos 30 eventos sobre el esquema o de gestion de accesos
+
+FECHA                        DBUSERNAME
+---------------------------- --------------------------------------------------------------------------------------------------------------------------------
+ACTION_NAME                                                      OBJECT_SCHEMA
+---------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------
+OBJECT_NAME                                                                                                                      RETURN_CODE
+-------------------------------------------------------------------------------------------------------------------------------- -----------
+2026-10-20 13:36:18          SYS
+ALTER USER
+APP_MATRICULA                                                                                                                              0
+
+2026-10-20 13:36:18          SYS
+SELECT                                                           INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+2026-10-20 13:36:18          SYS
+SELECT                                                           INSTITUTO
+ESTUDIANTES                                                                                                                                0
+
+2026-10-20 13:36:18          SYS
+CREATE USER
+INSTITUTO_DEV                                                                                                                              0
+
+2026-10-20 13:36:18          SYS
+DROP TABLE                                                       INSTITUTO
+ESTUDIANTES_RESPALDO_2025                                                                                                                  0
+
+2026-10-20 13:36:18          SYS
+CREATE TABLE                                                     INSTITUTO
+ESTUDIANTES_RESPALDO_2025                                                                                                                  0
+
+2026-10-20 13:36:18          SYS
+SELECT                                                           INSTITUTO
+ESTUDIANTES                                                                                                                                0
+
+2026-10-20 13:36:18          SYS
+GRANT
+                                                                                                                                           0
+
+2026-10-20 13:36:18          SYS
+CREATE USER
+SOPORTE_TI                                                                                                                                 0
+
+2026-10-20 13:36:18          SYS
+GRANT
+                                                                                                                                           0
+
+2026-10-20 13:36:18          SYS
+CREATE USER
+AUDITOR_EXT                                                                                                                                0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+ESTUDIANTES                                                                                                                                0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+ESTUDIANTES                                                                                                                                0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+NOTAS                                                                                                                                      0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+NOTAS                                                                                                                                      0
+
+2026-10-20 13:36:18          SYS
+CREATE USER
+DOC_RBRENES                                                                                                                                0
+
+2026-10-20 13:36:18          SYS
+CREATE USER
+DOC_MCHAVES                                                                                                                                0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+ESTUDIANTES                                                                                                                                0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+BECAS                                                                                                                                      0
+
+2026-10-20 13:36:18          SYS
+CREATE USER
+TESO_PAULA                                                                                                                                 0
+
+2026-10-20 13:36:18          SYS
+CREATE USER
+EX_KSALAS                                                                                                                                  0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+ESTUDIANTES                                                                                                                                0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+NOTAS                                                                                                                                      0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+ESTUDIANTES                                                                                                                                0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+BECAS                                                                                                                                      0
+
+2026-10-20 13:36:18          SYS
+CREATE USER
+SECRETARIA                                                                                                                                 0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+ESTUDIANTES                                                                                                                                0
+
+2026-10-20 13:36:18          SYS
+GRANT                                                            INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+
+30 filas seleccionadas.
+

@@ -1,0 +1,39 @@
+======================================================================
+Evidencia: V04_A5_17   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-20 13:36:21 -06:00
+
+1 fila seleccionada.
+
+--- 1) Cuentas ABIERTAS con contrasena por defecto (deberia ser 0)
+
+ninguna fila seleccionada
+
+--- 2) Parametros de contrasena de los perfiles asignados a cuentas propias
+
+PROFILE              RESOURCE_NAME                LIMIT
+-------------------- ---------------------------- ----------------------------
+DEFAULT              FAILED_LOGIN_ATTEMPTS        10
+DEFAULT              INACTIVE_ACCOUNT_TIME        365
+DEFAULT              PASSWORD_GRACE_TIME          7
+DEFAULT              PASSWORD_LIFE_TIME           180
+DEFAULT              PASSWORD_LOCK_TIME           1
+DEFAULT              PASSWORD_REUSE_MAX           UNLIMITED
+DEFAULT              PASSWORD_REUSE_TIME          UNLIMITED
+DEFAULT              PASSWORD_ROLLOVER_TIME       0
+DEFAULT              PASSWORD_VERIFY_FUNCTION     NULL
+PERFIL_APLICACIONES  FAILED_LOGIN_ATTEMPTS        UNLIMITED
+PERFIL_APLICACIONES  INACTIVE_ACCOUNT_TIME        DEFAULT
+PERFIL_APLICACIONES  PASSWORD_GRACE_TIME          DEFAULT
+PERFIL_APLICACIONES  PASSWORD_LIFE_TIME           UNLIMITED
+PERFIL_APLICACIONES  PASSWORD_LOCK_TIME           DEFAULT
+PERFIL_APLICACIONES  PASSWORD_REUSE_MAX           DEFAULT
+PERFIL_APLICACIONES  PASSWORD_REUSE_TIME          DEFAULT
+PERFIL_APLICACIONES  PASSWORD_ROLLOVER_TIME       DEFAULT
+PERFIL_APLICACIONES  PASSWORD_VERIFY_FUNCTION     DEFAULT
+
+18 filas seleccionadas.
+
