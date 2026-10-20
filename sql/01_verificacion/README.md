@@ -4,12 +4,12 @@ Inspeccionan el **estado** de cada control y guardan la salida como evidencia co
 
 ## Cómo ejecutar
 
-1. Iniciar los servicios `OracleServiceXE` y `OracleOraDB21Home1TNSListener`.
-2. Ajustar `DEFINE esquema` en [_config.sql](_config.sql) al esquema de la organización.
+1. Iniciar el servicio `OracleServiceXE` (PowerShell como administrador).
+2. El esquema auditado se define en [_config.sql](_config.sql) (`CLINICA`), que además cambia la sesión a `XEPDB1`.
 3. Desde la **raíz del repositorio** (para que el `SPOOL` caiga en `evidencias/`):
 
 ```powershell
-sqlplus "sys@localhost:1521/XEPDB1 as sysdba" "@sql/01_verificacion/V00_ejecutar_todo.sql" antes
+sqlplus "sys/<clave> as sysdba" "@sql/01_verificacion/V00_ejecutar_todo.sql" antes
 ```
 
 Para un solo control, conectado en SQL*Plus desde la raíz:
@@ -19,7 +19,7 @@ DEFINE fase = antes
 @sql/01_verificacion/V07_A8_2_acceso_privilegiado.sql
 ```
 
-Se ejecutan como `SYS AS SYSDBA` porque `UNIFIED_AUDIT_TRAIL` y `V$PWFILE_USERS` requieren privilegios que `SYSTEM` no tiene por defecto. `_config.sql` aborta si el contenedor no es `XEPDB1`.
+Se ejecutan como `SYS AS SYSDBA` porque `UNIFIED_AUDIT_TRAIL` y `V$PWFILE_USERS` requieren privilegios que `SYSTEM` no tiene por defecto. `_config.sql` aborta si no logra quedar en `XEPDB1`.
 
 | Script | Control | Script | Control |
 |--------|---------|--------|---------|

@@ -1,0 +1,18 @@
+======================================================================
+Evidencia: V13_A8_13   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-19 22:22:41 -06:00
+
+1 fila seleccionada.
+
+--- 1) Piezas de respaldo recientes y si estan cifradas
+
+ninguna fila seleccionada
+
+--- 2) Configuracion RMAN distinta del valor por defecto (cifrado, retencion)
+
+ninguna fila seleccionada
+

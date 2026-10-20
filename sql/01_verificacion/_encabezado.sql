@@ -7,6 +7,10 @@ COLUMN fecha_ev NEW_VALUE f_ev NOPRINT
 SELECT TO_CHAR(SYSDATE,'YYYYMMDD_HH24MI') fecha_ev FROM dual;
 
 -- Formatos comunes de columnas
+COLUMN contenedor      FORMAT A12
+COLUMN usuario         FORMAT A12
+COLUMN host            FORMAT A25
+COLUMN fecha           FORMAT A28
 COLUMN username        FORMAT A25
 COLUMN grantee         FORMAT A25
 COLUMN granted_role    FORMAT A30

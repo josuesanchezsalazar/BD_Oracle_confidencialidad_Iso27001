@@ -1,0 +1,59 @@
+======================================================================
+Evidencia: V02_A5_15   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-19 22:22:28 -06:00
+
+1 fila seleccionada.
+
+--- 1) Roles propios (no mantenidos por Oracle)
+
+ninguna fila seleccionada
+
+--- 2) Roles otorgados a usuarios propios
+
+GRANTEE                   GRANTED_ROLE                   ADM DEF
+------------------------- ------------------------------ --- ---
+AUDITOR_EXT               AUDIT_ADMIN                    NO  YES
+DEV_CARLOS                DBA                            NO  YES
+PDBADMIN                  PDB_DBA                        YES YES
+SOPORTE_TI                DATAPUMP_EXP_FULL_DATABASE     NO  YES
+
+4 filas seleccionadas.
+
+--- 3) Privilegios de objeto sobre el esquema otorgados DIRECTO a usuarios (deberia ser 0)
+
+GRANTEE                   TABLE_NAME                PRIVILEGE
+------------------------- ------------------------- -----------------------------------
+APP_CITAS                 CITAS                     UPDATE
+APP_CITAS                 CITAS                     INSERT
+EX_MROJAS                 PACIENTES                 SELECT
+FACT_ANA                  FACTURAS                  UPDATE
+FACT_ANA                  FACTURAS                  SELECT
+FACT_ANA                  PACIENTES                 SELECT
+MED_EVARGAS               CONSULTAS                 SELECT
+MED_EVARGAS               CONSULTAS                 UPDATE
+MED_EVARGAS               CONSULTAS                 INSERT
+MED_EVARGAS               PACIENTES                 SELECT
+MED_LSOLIS                CONSULTAS                 SELECT
+MED_LSOLIS                CONSULTAS                 INSERT
+MED_LSOLIS                CONSULTAS                 UPDATE
+MED_LSOLIS                PACIENTES                 SELECT
+RECEPCION                 CITAS                     SELECT
+RECEPCION                 CITAS                     UPDATE
+RECEPCION                 CITAS                     INSERT
+RECEPCION                 FACTURAS                  SELECT
+RECEPCION                 PACIENTES                 SELECT
+
+19 filas seleccionadas.
+
+--- 4) Privilegios sobre el esquema otorgados a PUBLIC (deberia ser 0)
+
+GRANTEE                   TABLE_NAME                PRIVILEGE
+------------------------- ------------------------- -----------------------------------
+PUBLIC                    CONSULTAS                 SELECT
+
+1 fila seleccionada.
+

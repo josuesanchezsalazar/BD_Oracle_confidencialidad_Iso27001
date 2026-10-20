@@ -1,8 +1,9 @@
 -- V00_ejecutar_todo.sql | Ejecuta todas las verificaciones y guarda evidencias
 --
 -- Uso (desde la RAIZ del repositorio, para que el SPOOL caiga en evidencias/):
---   sqlplus "sys@localhost:1521/XEPDB1 as sysdba" "@sql/01_verificacion/V00_ejecutar_todo.sql" antes
---   sqlplus "sys@localhost:1521/XEPDB1 as sysdba" "@sql/01_verificacion/V00_ejecutar_todo.sql" despues
+--   sqlplus "sys/<clave> as sysdba" "@sql/01_verificacion/V00_ejecutar_todo.sql" antes
+--   sqlplus "sys/<clave> as sysdba" "@sql/01_verificacion/V00_ejecutar_todo.sql" despues
+-- (_config.sql cambia automaticamente a XEPDB1.)
 -- (En PowerShell el @ debe ir entre comillas.)
 DEFINE fase = &1
 

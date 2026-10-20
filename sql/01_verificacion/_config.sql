@@ -1,8 +1,12 @@
 -- _config.sql | Parametros comunes de los scripts de verificacion
--- Cambiar 'esquema' por el nombre del esquema de la organizacion ficticia.
-DEFINE esquema = EMPRESA
+DEFINE esquema = CLINICA
 
--- Seguridad: abortar si no se esta conectado a la PDB correcta
+-- Cambia a la PDB del proyecto (permite conectarse con: sqlplus sys/<pwd> as sysdba)
+SET FEEDBACK OFF
+ALTER SESSION SET CONTAINER = XEPDB1;
+SET FEEDBACK ON
+
+-- Seguridad: abortar si no se esta en la PDB correcta
 WHENEVER SQLERROR EXIT FAILURE
 BEGIN
   IF SYS_CONTEXT('USERENV','CON_NAME') <> 'XEPDB1' THEN

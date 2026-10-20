@@ -1,0 +1,48 @@
+======================================================================
+Evidencia: V03_A5_16   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-19 22:22:30 -06:00
+
+1 fila seleccionada.
+
+--- 1) Cuentas propias (no mantenidas por Oracle)
+
+USERNAME                  ACCOUNT_STATUS       PROFILE              CREADA     ULTIMO_LOGIN     COM
+------------------------- -------------------- -------------------- ---------- ---------------- ---
+APP_CITAS                 OPEN                 PERFIL_APLICACIONES  2026-10-19                  NO
+AUDITOR_EXT               OPEN                 DEFAULT              2026-10-19                  NO
+CLINICA                   OPEN                 DEFAULT              2026-10-19                  NO
+CLINICA_DEV               OPEN                 DEFAULT              2026-10-19                  NO
+DEV_CARLOS                OPEN                 DEFAULT              2026-10-19                  NO
+EX_MROJAS                 OPEN                 DEFAULT              2026-10-19                  NO
+FACT_ANA                  OPEN                 DEFAULT              2026-10-19                  NO
+MED_EVARGAS               OPEN                 DEFAULT              2026-10-19                  NO
+MED_LSOLIS                OPEN                 DEFAULT              2026-10-19                  NO
+PDBADMIN                  OPEN                 DEFAULT              2026-10-17                  NO
+RECEPCION                 OPEN                 DEFAULT              2026-10-19                  NO
+SOPORTE_TI                OPEN                 DEFAULT              2026-10-19                  NO
+
+12 filas seleccionadas.
+
+--- 2) Cuentas ABIERTAS sin acceso en 90 dias o que nunca han ingresado (candidatas a bloqueo)
+
+USERNAME                  ACCOUNT_STATUS       ULTIMO_LOG
+------------------------- -------------------- ----------
+APP_CITAS                 OPEN
+AUDITOR_EXT               OPEN
+CLINICA                   OPEN
+CLINICA_DEV               OPEN
+DEV_CARLOS                OPEN
+EX_MROJAS                 OPEN
+FACT_ANA                  OPEN
+MED_EVARGAS               OPEN
+MED_LSOLIS                OPEN
+PDBADMIN                  OPEN
+RECEPCION                 OPEN
+SOPORTE_TI                OPEN
+
+12 filas seleccionadas.
+

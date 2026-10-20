@@ -1,0 +1,84 @@
+======================================================================
+Evidencia: V01_A5_12   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-19 22:22:28 -06:00
+
+1 fila seleccionada.
+
+--- 1) Columnas etiquetadas con clasificacion (COMMENT 'CLASIF:...')
+
+ninguna fila seleccionada
+
+--- 2) Columnas del esquema SIN clasificacion (deberia ser 0 filas)
+
+OWNER           TABLE_NAME                COLUMN_NAME
+--------------- ------------------------- -------------------------
+CLINICA         BIN$GZf1BX+LQASsIFEkbw/iM ID_PACIENTE
+                w==$0
+
+CLINICA         BIN$GZf1BX+LQASsIFEkbw/iM CEDULA
+                w==$0
+
+CLINICA         BIN$GZf1BX+LQASsIFEkbw/iM NOMBRE
+                w==$0
+
+CLINICA         BIN$GZf1BX+LQASsIFEkbw/iM FECHA_NAC
+                w==$0
+
+CLINICA         BIN$GZf1BX+LQASsIFEkbw/iM SEXO
+                w==$0
+
+CLINICA         BIN$GZf1BX+LQASsIFEkbw/iM TELEFONO
+                w==$0
+
+CLINICA         BIN$GZf1BX+LQASsIFEkbw/iM CORREO
+                w==$0
+
+CLINICA         BIN$GZf1BX+LQASsIFEkbw/iM DIRECCION
+                w==$0
+
+CLINICA         BIN$GZf1BX+LQASsIFEkbw/iM FECHA_REGISTRO
+                w==$0
+
+CLINICA         CITAS                     ID_CITA
+CLINICA         CITAS                     ID_PACIENTE
+CLINICA         CITAS                     ID_MEDICO
+CLINICA         CITAS                     FECHA_HORA
+CLINICA         CITAS                     ESTADO
+CLINICA         CONSULTAS                 ID_CONSULTA
+CLINICA         CONSULTAS                 ID_PACIENTE
+CLINICA         CONSULTAS                 ID_MEDICO
+CLINICA         CONSULTAS                 FECHA
+CLINICA         CONSULTAS                 MOTIVO
+CLINICA         CONSULTAS                 DIAGNOSTICO
+CLINICA         CONSULTAS                 TRATAMIENTO
+CLINICA         CONSULTAS                 NOTAS_MEDICAS
+CLINICA         FACTURAS                  ID_FACTURA
+CLINICA         FACTURAS                  ID_CONSULTA
+CLINICA         FACTURAS                  ID_PACIENTE
+CLINICA         FACTURAS                  FECHA
+CLINICA         FACTURAS                  MONTO
+CLINICA         FACTURAS                  METODO_PAGO
+CLINICA         FACTURAS                  NUM_TARJETA
+CLINICA         FACTURAS                  ASEGURADORA
+CLINICA         FACTURAS                  POLIZA_SEGURO
+CLINICA         MEDICOS                   ID_MEDICO
+CLINICA         MEDICOS                   NOMBRE
+CLINICA         MEDICOS                   ESPECIALIDAD
+CLINICA         MEDICOS                   CODIGO_COLEGIADO
+CLINICA         MEDICOS                   USUARIO_BD
+CLINICA         PACIENTES                 ID_PACIENTE
+CLINICA         PACIENTES                 CEDULA
+CLINICA         PACIENTES                 NOMBRE
+CLINICA         PACIENTES                 FECHA_NAC
+CLINICA         PACIENTES                 SEXO
+CLINICA         PACIENTES                 TELEFONO
+CLINICA         PACIENTES                 CORREO
+CLINICA         PACIENTES                 DIRECCION
+CLINICA         PACIENTES                 FECHA_REGISTRO
+
+45 filas seleccionadas.
+

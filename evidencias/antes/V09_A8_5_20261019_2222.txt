@@ -1,0 +1,62 @@
+======================================================================
+Evidencia: V09_A8_5   |   Fase: antes
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-19 22:22:32 -06:00
+
+1 fila seleccionada.
+
+--- 1) Limites de bloqueo y sesion en perfiles asignados a cuentas propias
+
+PROFILE              RESOURCE_NAME                LIMIT
+-------------------- ---------------------------- ----------------------------
+DEFAULT              CONNECT_TIME                 UNLIMITED
+DEFAULT              FAILED_LOGIN_ATTEMPTS        10
+DEFAULT              IDLE_TIME                    UNLIMITED
+DEFAULT              PASSWORD_LOCK_TIME           1
+DEFAULT              SESSIONS_PER_USER            UNLIMITED
+PERFIL_APLICACIONES  CONNECT_TIME                 DEFAULT
+PERFIL_APLICACIONES  FAILED_LOGIN_ATTEMPTS        UNLIMITED
+PERFIL_APLICACIONES  IDLE_TIME                    DEFAULT
+PERFIL_APLICACIONES  PASSWORD_LOCK_TIME           DEFAULT
+PERFIL_APLICACIONES  SESSIONS_PER_USER            DEFAULT
+
+10 filas seleccionadas.
+
+--- 2) Parametro RESOURCE_LIMIT (debe ser TRUE para que IDLE_TIME aplique)
+
+NAME
+--------------------------------------------------------------------------------
+VALUE
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+resource_limit
+TRUE
+
+
+1 fila seleccionada.
+
+--- 3) Versiones de verificador de contrasena (se espera solo 12C)
+
+USERNAME                  PASSWORD_VERSIONS AUTHENTI
+------------------------- ----------------- --------
+APP_CITAS                 11G 12C           PASSWORD
+AUDITOR_EXT               11G 12C           PASSWORD
+CLINICA                   11G 12C           PASSWORD
+CLINICA_DEV               11G 12C           PASSWORD
+DEV_CARLOS                11G 12C           PASSWORD
+EX_MROJAS                 11G 12C           PASSWORD
+FACT_ANA                  11G 12C           PASSWORD
+MED_EVARGAS               11G 12C           PASSWORD
+MED_LSOLIS                11G 12C           PASSWORD
+PDBADMIN                  11G 12C           PASSWORD
+RECEPCION                 11G 12C           PASSWORD
+SOPORTE_TI                11G 12C           PASSWORD
+
+12 filas seleccionadas.
+
+--- 4) Intentos de inicio de sesion fallidos registrados (ORA-01017) - ultimos 30 dias
+
+ninguna fila seleccionada
+
