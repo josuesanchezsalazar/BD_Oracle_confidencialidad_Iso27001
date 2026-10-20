@@ -1,0 +1,17 @@
+# Dependencias y builds del artefacto
+node_modules/
+dist/
+
+# Archivos de Oracle que NUNCA deben subirse
+*.log
+*.dbf
+*.bak
+*.dmp
+*.p12
+*.sso
+ewallet*
+cwallet*
+
+# Credenciales locales
+*.env
+.env*

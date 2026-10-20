@@ -1,0 +1,17 @@
+# Registro de uso de IA
+
+> Regla: cada uso de IA se registra **en el momento**, con el prompt exacto, qué aportó, qué se corrigió y contra qué fuente oficial se validó.
+
+| # | Fecha | Herramienta IA | Prompt exacto utilizado | Aporte de la IA | Validación / corrección del estudiante | Fuente verificada |
+|---|-------|----------------|-------------------------|-----------------|----------------------------------------|-------------------|
+| 1 | 19/10/2026 | Claude | Rol: Actúa como un DBA senior especializado en seguridad, auditoría y confidencialidad de bases de datos Oracle, con conocimientos de ISO/IEC 27001:2022, ISO/IEC 27002:2022 y metodología PHVA.<br>Contexto:  necesito desarrollar el proyecto descrito en los documentos que te proporcionaré. No comprendo completamente qué debo investigar, diseñar, implementar o programar, por lo que necesito que me guíes desde cero.<br>Instrucciones:<br>Analiza completamente el documento de asignación, que es la fuente principal para determinar los requisitos y la evaluación del profesor. Después, analiza mis notas de clase para identificar aclaraciones, recomendaciones y aspectos importantes. Distingue los requisitos oficiales de tus propias sugerencias.<br>Explícame en lenguaje claro qué debo hacer, qué producto debo entregar, qué conocimientos necesito y si debo desarrollar una aplicación, crear scripts SQL, realizar pruebas técnicas o elaborar principalmente documentación.<br>Diseña un plan de trabajo priorizado, con tareas, dependencias, entregables y fechas, desde el primer avance del jueves 22 de octubre de 2026 hasta la finalización del proyecto el 29 de noviembre de 2026.<br>Genera un archivo llamado PLAN_ACCION.md que contenga el análisis de requisitos, la explicación del proyecto, la arquitectura recomendada, las herramientas necesarias, una guía de implementación paso a paso, el plan de pruebas, la estructura del repositorio y una lista de preguntas que debo aclarar con el profesor.<br>Prioriza lo que necesito presentar en el primer avance. Recomienda la solución técnica más sencilla que cumpla los requisitos, sin desarrollar software innecesario.<br>Resultado esperado: Quiero comprender el proyecto, saber exactamente por dónde empezar y disponer de un PLAN_ACCION.md que pueda seguir para implementarlo progresivamente y defenderlo ante el profesor. Explícame también cuáles son mis primeras tareas después de revisar el plan. | Plan de acción, documento de contexto y paso a paso de inicio | Pendiente: validar controles y consultas contra ISO/IEC 27002:2022 y documentación de Oracle 21c | Pendiente |
+| 2 | 19/10/2026 | Claude Code (Opus 5.5) | "okay con base a como estamos trabajando primerametne quiero que analisis estos documetnos, con base a lo que tengamos que realizar hoy plantealo me dices que se debe de hacer y empezamos" | Análisis de los documentos, plan del día, estructura de carpetas del repositorio, `.gitignore`, plantilla de este registro y archivo de preguntas al profesor | Revisé la estructura contra la sección 9 de `PLAN_ACCION.md`; preguntas tomadas de la sección 10 del plan | `Asignacion-ISO27001-Confidencialidad-DBA-II-Ciclo-2026-UNA.pdf` (secciones 6, 7, 8 y 10) |
+
+## Declaración Jurada
+
+Yo, Josué Sánchez Salazar, declaro que todo contenido generado con IA ha sido declarado
+en la tabla anterior, validado contra fuentes oficiales (ISO, documentación del motor de BD)
+y que asumo responsabilidad por su veracidad. Entiendo que omitir esta declaración
+constituye falta grave.
+
+Firma: ______________________   Fecha: ______________
