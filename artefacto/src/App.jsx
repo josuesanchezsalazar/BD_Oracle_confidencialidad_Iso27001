@@ -62,7 +62,7 @@ export default function App() {
   return (
     <div className={`app${ejemplo ? '' : ' sin-ejemplo'}`}>
       <header className="cabecera">
-        <span className="logo"><Icono nombre="escudoOk" tam={34} /></span>
+        <span className="logo"><Icono nombre="base" tam={34} /></span>
         <div className="cab-texto">
           <p className="sobretitulo">EIF402 Administración de Bases de Datos · UNA · II Ciclo 2026</p>
           <h1>Controles ISO/IEC 27001:2022 para la confidencialidad en Oracle</h1>

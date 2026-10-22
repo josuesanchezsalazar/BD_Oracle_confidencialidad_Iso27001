@@ -4,31 +4,31 @@
    ============================================================ */
 :root {
   color-scheme: dark;
-  --fondo: #0b1220;
-  --fondo-2: #0f1830;
-  --tarjeta: #111a2e;
-  --tarjeta-2: #17223a;
-  --borde: #26334f;
-  --borde-fuerte: #34456b;
-  --texto: #e8edf7;
-  --suave: #9aa7c0;
+  --fondo: #050506;
+  --fondo-2: #0a0a0c;
+  --tarjeta: #0e0e11;
+  --tarjeta-2: #151519;
+  --borde: #26262c;
+  --borde-fuerte: #3a3a43;
+  --texto: #ececf0;
+  --suave: #a1a1aa;
   --acento: #5aa9ff;
   --acento-fuerte: #2f7fe0;
-  --acento-claro: rgba(90, 169, 255, 0.14);
-  --sobre-acento: #06101f;
+  --acento-claro: rgba(90, 169, 255, 0.08);
+  --sobre-acento: #050506;
   --ejemplo: #2dd4bf;
   --ejemplo-fondo: rgba(45, 212, 191, 0.09);
   --aviso: #f5c451;
   --aviso-fondo: rgba(245, 196, 81, 0.09);
-  --codigo-fondo: #070c17;
-  --codigo-texto: #dbe6ff;
-  --encabezado-tabla: #1a2640;
+  --codigo-fondo: #000000;
+  --codigo-texto: #e4e4e7;
+  --encabezado-tabla: #1c1c21;
 
   --bajo: rgba(52, 211, 153, 0.2);       --bajo-t: #86efac;
   --medio: rgba(250, 204, 21, 0.18);     --medio-t: #fde68a;
   --alto: rgba(251, 146, 60, 0.22);      --alto-t: #fdba74;
   --critico: rgba(248, 113, 113, 0.24);  --critico-t: #fca5a5;
-  --neutro: rgba(154, 167, 192, 0.2);    --neutro-t: #c3cde0;
+  --neutro: rgba(161, 161, 170, 0.2);    --neutro-t: #d4d4d8;
 
   --m0: #e5484d; --m1: #f0883e; --m2: #e6c229; --m3: #5fbf7a; --m4: #2fa66a;
 
@@ -39,7 +39,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: radial-gradient(1200px 500px at 70% -10%, #14224a 0%, transparent 60%), var(--fondo); background-attachment: fixed; line-height: 1.6; font-size: 16px; }
+body { margin: 0; background: radial-gradient(1200px 500px at 70% -10%, #1f1f26 0%, transparent 60%), var(--fondo); background-attachment: fixed; line-height: 1.6; font-size: 16px; }
 h1, h2, h3, h4, h5 { line-height: 1.25; }
 h2 { margin: 0 0 14px; font-size: 1.6rem; display: flex; align-items: center; gap: 12px; }
 h3 { margin: 30px 0 10px; font-size: 1.15rem; color: var(--acento); display: flex; align-items: center; gap: 8px; }
@@ -55,12 +55,12 @@ a { color: var(--acento); }
 :focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; border-radius: 4px; }
 
 /* ---------- Cabecera ---------- */
-.cabecera { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; padding: 22px 32px; background: linear-gradient(120deg, #15306b 0%, #0f1f45 55%, #0b1530 100%); border-bottom: 1px solid var(--borde-fuerte); }
+.cabecera { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; padding: 22px 32px; background: linear-gradient(120deg, #1d1d23 0%, #0e0e11 55%, #000000 100%); border-bottom: 1px solid var(--borde-fuerte); }
 .logo { display: grid; place-items: center; width: 58px; height: 58px; border-radius: 16px; background: var(--acento-claro); border: 1px solid var(--acento); color: var(--acento); }
 .cab-texto { flex: 1; min-width: 260px; }
-.sobretitulo { margin: 0; font-size: 0.8rem; color: #b6c6ea; letter-spacing: 0.02em; }
+.sobretitulo { margin: 0; font-size: 0.8rem; color: #b4b4bc; letter-spacing: 0.02em; }
 .cabecera h1 { margin: 4px 0; font-size: 1.5rem; color: #fff; }
-.subtitulo { margin: 0; font-size: 0.92rem; color: #c8d4f0; }
+.subtitulo { margin: 0; font-size: 0.92rem; color: #cfcfd6; }
 .acciones { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 .interruptor { display: flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.08); border: 1px solid var(--borde-fuerte); padding: 8px 12px; border-radius: 10px; cursor: pointer; font-size: 0.9rem; }
 .interruptor input { width: 18px; height: 18px; accent-color: var(--ejemplo); }
@@ -194,7 +194,7 @@ tbody tr:hover > td.banda-bajo, tbody tr:hover > td.banda-medio, tbody tr:hover 
 .mapa-tabla { width: auto; border-radius: 12px; }
 .mapa-tabla td { width: 66px; height: 46px; text-align: center; vertical-align: middle; border-color: var(--fondo); }
 .mapa-tabla th { border: none; background: none; text-align: center; color: var(--suave); position: static; text-transform: none; letter-spacing: 0; font-size: 0.8rem; }
-.chip { display: inline-block; background: var(--texto); color: #0b1220; border: none; border-radius: 999px; padding: 1px 9px; margin: 1px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
+.chip { display: inline-block; background: var(--texto); color: #050506; border: none; border-radius: 999px; padding: 1px 9px; margin: 1px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
 .chip.sel { outline: 3px solid var(--acento); }
 .apetito { margin-top: 0; }
 
