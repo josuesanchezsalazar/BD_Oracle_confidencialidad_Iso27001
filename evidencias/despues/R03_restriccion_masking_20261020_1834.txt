@@ -1,0 +1,62 @@
+======================================================================
+Remediacion R03_restriccion_masking
+======================================================================
+
+CONTENEDOR   USUARIO      FECHA
+------------ ------------ ----------------------------
+XEPDB1       SYS          2026-10-20 18:34:20 -06:00
+
+1 fila seleccionada.
+
+--- 1) Clasificacion de las 36 columnas segun la Ley 8968 (A5.12)
+OK    36 columnas etiquetadas
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 2) Restriccion por fila (VPD): cada docente ve solo sus notas y adecuaciones (A8.3)
+
+Función creada.
+
+OK    politica P_DOCENTE_NOTAS sobre NOTAS (SELECT,INSERT,UPDATE,DELETE)
+OK    politica P_DOCENTE_ADEC sobre ADECUACIONES (SELECT)
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 3) Redaccion de datos (A8.11): condicion de salud, ingreso familiar y cuenta bancaria
+OK    politicas de redaccion R_ADECUACIONES y R_BECAS
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 4) Clon INSTITUTO_DEV con datos enmascarados (A8.11, A8.33*)
+OK    adecuaciones del clon: 120 filas enmascaradas
+OK    estudiantes del clon: 500 filas enmascaradas
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 5) Resultado
+
+OBJECT_NAME      POLICY_NAME        SEL INS UPD DEL ENA
+---------------- ------------------ --- --- --- --- ---
+NOTAS            P_DOCENTE_NOTAS    YES YES YES YES YES
+ADECUACIONES     P_DOCENTE_ADEC     YES NO  NO  NO  YES
+
+2 filas seleccionadas.
+
+
+OBJECT_NAME      COLUMN_NAME          FUNCTION_TYPE    FUNCTION_PARAMETERS
+---------------- -------------------- ---------------- --------------------------------------------------
+ADECUACIONES     DETALLE_CONDICION    FULL REDACTION
+BECAS            INGRESO_FAMILIAR     FULL REDACTION
+BECAS            NUM_CUENTA           PARTIAL REDACTIO VVVVVVVVVVVVVVVVVVVVVV,VVVVVVVVVVVVVVVVVVVVVV,*,1,
+                                      N                18
+
+
+3 filas seleccionadas.
+
+
+COLUMNAS_SIN_CLASIFICAR
+-----------------------
+                      0
+
+1 fila seleccionada.
+

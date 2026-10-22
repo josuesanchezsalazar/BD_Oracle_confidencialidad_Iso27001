@@ -1,0 +1,46 @@
+======================================================================
+Evidencia: V02_A5_15   |   Fase: despues
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-22 05:35:02 -06:00
+
+1 fila seleccionada.
+
+--- 1) Roles propios (no mantenidos por Oracle)
+
+ROLE                                                                                                                             AUTHENTICAT
+-------------------------------------------------------------------------------------------------------------------------------- -----------
+ROL_APP_MATRICULA                                                                                                                NONE
+ROL_DESARROLLO                                                                                                                   NONE
+ROL_DOCENTE                                                                                                                      NONE
+ROL_SECRETARIA                                                                                                                   NONE
+ROL_TESORERIA                                                                                                                    NONE
+
+5 filas seleccionadas.
+
+--- 2) Roles otorgados a usuarios propios
+
+GRANTEE                   GRANTED_ROLE                   ADM DEF
+------------------------- ------------------------------ --- ---
+APP_MATRICULA             ROL_APP_MATRICULA              NO  YES
+AUDITOR_EXT               AUDIT_VIEWER                   NO  YES
+DEV_RAMIRO                ROL_DESARROLLO                 NO  YES
+DOC_MCHAVES               ROL_DOCENTE                    NO  YES
+DOC_RBRENES               ROL_DOCENTE                    NO  YES
+PDBADMIN                  PDB_DBA                        YES YES
+SEC_LARAYA                ROL_SECRETARIA                 NO  YES
+SEC_MVARGAS               ROL_SECRETARIA                 NO  YES
+TESO_PAULA                ROL_TESORERIA                  NO  YES
+
+9 filas seleccionadas.
+
+--- 3) Privilegios de objeto sobre el esquema otorgados DIRECTO a usuarios (deberia ser 0)
+
+ninguna fila seleccionada
+
+--- 4) Privilegios sobre el esquema otorgados a PUBLIC (deberia ser 0)
+
+ninguna fila seleccionada
+

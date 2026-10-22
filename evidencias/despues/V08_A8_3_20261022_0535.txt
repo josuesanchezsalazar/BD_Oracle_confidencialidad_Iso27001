@@ -1,0 +1,45 @@
+======================================================================
+Evidencia: V08_A8_3   |   Fase: despues
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-22 05:35:07 -06:00
+
+1 fila seleccionada.
+
+--- 1) Politicas VPD (DBMS_RLS) sobre el esquema
+
+OBJECT_NAME
+--------------------------------------------------------------------------------------------------------------------------------
+POLICY_NAME
+--------------------------------------------------------------------------------------------------------------------------------
+PF_OWNER
+--------------------------------------------------------------------------------------------------------------------------------
+FUNCTION                                                                                                                         SEL INS UPD DEL ENA
+-------------------------------------------------------------------------------------------------------------------------------- --- --- --- --- ---
+ADECUACIONES
+P_DOCENTE_ADEC
+INSTITUTO
+VPD_DOCENTE                                                                                                                      YES NO  NO  NO  YES
+
+NOTAS
+P_DOCENTE_NOTAS
+INSTITUTO
+VPD_DOCENTE                                                                                                                      YES YES YES YES YES
+
+
+2 filas seleccionadas.
+
+--- 2) Vistas del esquema (acceso restringido por columnas)
+
+ninguna fila seleccionada
+
+--- 3) Quien puede saltarse VPD (EXEMPT ACCESS POLICY)
+
+GRANTEE                   PRIVILEGE
+------------------------- -----------------------------------
+GSMUSER_ROLE              EXEMPT ACCESS POLICY
+
+1 fila seleccionada.
+

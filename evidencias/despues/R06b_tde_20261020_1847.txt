@@ -1,0 +1,72 @@
+======================================================================
+Remediacion R06b_tde
+======================================================================
+--- 1) Configuracion del keystore (contenedor raiz)
+
+CON_NAME
+------------------------------
+CDB$ROOT
+
+NAME
+--------------------------------------------------------------------------------
+VALUE
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+wallet_root
+C:\ORACLE_LAB\WALLET
+
+tde_configuration
+
+
+
+2 filas seleccionadas.
+
+
+Sistema modificado.
+
+--- 2) Keystore y clave maestra
+
+almacén de claves modificado.
+
+
+almacén de claves modificado.
+
+
+almacén de claves modificado.
+
+
+almacén de claves modificado.
+
+--- 3) Cifrado en linea del tablespace de los datos sensibles (PDB XEPDB1)
+
+Sesión modificada.
+
+
+Tablespace modificado.
+
+--- 4) Resultado
+
+    CON_ID WRL_TYPE             WRL_PARAMETER                                      STATUS           WALLET_TYPE
+---------- -------------------- -------------------------------------------------- ---------------- --------------------
+         3 FILE                                                                    OPEN             PASSWORD
+
+1 fila seleccionada.
+
+
+TABLESPACE_NAME  ENC ENCRYPT
+---------------- --- -------
+SYSAUX
+SYSTEM
+TEMP
+TS_INSTITUTO     YES AES256
+UNDOTBS1
+USERS
+
+6 filas seleccionadas.
+
+
+ESTUDIANTES_LEGIBLES
+--------------------
+                 500
+
+1 fila seleccionada.
+

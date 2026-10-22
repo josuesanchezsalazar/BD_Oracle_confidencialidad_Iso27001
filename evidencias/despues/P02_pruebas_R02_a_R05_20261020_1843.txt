@@ -1,0 +1,402 @@
+======================================================================
+PT-08 | A8.5 | Bloqueo: 5 intentos fallidos como DEV_RAMIRO y luego la clave correcta
+Esperado: ORA-28000 (cuenta bloqueada)
+======================================================================
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Advertencia: ¡Ya no está conectado a ORACLE!
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+--- ahora con la clave CORRECTA:
+ERROR:
+ORA-28000: The account is locked.
+
+
+
+USERNAME        ACCOUNT_STATUS
+--------------- --------------------------------
+DEV_RAMIRO      LOCKED(TIMED)
+
+1 fila seleccionada.
+
+
+Usuario modificado.
+
+======================================================================
+PT-09 | A8.5 | Fuerza bruta contra la aplicacion: 8 intentos fallidos como APP_MATRICULA
+Esperado: ORA-01017 hasta el 5.o intento y ORA-28000 a partir de ahi
+======================================================================
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Advertencia: ¡Ya no está conectado a ORACLE!
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+ERROR:
+ORA-28000: The account is locked.
+
+
+ERROR:
+ORA-28000: The account is locked.
+
+
+ERROR:
+ORA-28000: The account is locked.
+
+
+
+USERNAME        ACCOUNT_STATUS
+--------------- --------------------------------
+APP_MATRICULA   LOCKED(TIMED)
+
+1 fila seleccionada.
+
+
+Usuario modificado.
+
+======================================================================
+PT-10 | A5.17 | Complejidad: DOC_MCHAVES intenta cambiar su clave por "abc"
+Esperado: ORA-28003 (fallo la verificacion de la contrasena)
+======================================================================
+USER es "DOC_MCHAVES"
+ALTER USER doc_mchaves IDENTIFIED BY "abc" REPLACE "Dc#Mc2026!zk"
+*
+ERROR en línea 1:
+ORA-28003: fallo en la verificación de la contraseña especificada
+ORA-20000: password length less than 9 characters
+
+
+======================================================================
+PT-12 | A5.16 | Cuenta huerfana: EX_KSALAS intenta conectarse
+Esperado: ORA-28000 (la cuenta esta bloqueada)
+======================================================================
+ERROR:
+ORA-28000: The account is locked.
+
+
+Advertencia: ¡Ya no está conectado a ORACLE!
+======================================================================
+PT-13 | A5.16 | Cuenta compartida: SECRETARIA intenta conectarse
+Esperado: ORA-28000; cada secretaria usa su cuenta nominal
+======================================================================
+ERROR:
+ORA-28000: The account is locked.
+
+
+USER es "SEC_LARAYA"
+
+ROLE
+--------------------------------------------------------------------------------------------------------------------------------
+ROL_SECRETARIA
+
+1 fila seleccionada.
+
+======================================================================
+PT-03 | A8.3 | Restriccion por filas: DOC_MCHAVES agrupa las notas por docente
+Esperado: solo aparece id_docente = 1
+======================================================================
+USER es "DOC_MCHAVES"
+
+ID_DOCENTE      NOTAS
+---------- ----------
+         1        346
+
+1 fila seleccionada.
+
+
+ID_DOCENTE ADECUACIONES
+---------- ------------
+         1           17
+
+1 fila seleccionada.
+
+======================================================================
+PT-04 | A8.11 | Redaccion parcial: SEC_LARAYA consulta la cuenta bancaria de las becas
+Esperado: solo los ultimos 4 caracteres visibles
+======================================================================
+
+NUM_CUENTA               INGRESO_FAMILIAR
+------------------------ ----------------
+******************4229                  0
+******************4779                  0
+******************6043                  0
+
+3 filas seleccionadas.
+
+======================================================================
+PT-05 | A8.11 | Redaccion total: una cuenta sin rol de docente consulta la condicion de salud
+Esperado: TESO_PAULA sin acceso (ORA-00942); INSTITUTO (duena del esquema, sin rol docente) ve la condicion vacia
+======================================================================
+SELECT detalle_condicion FROM instituto.adecuaciones FETCH FIRST 3 ROWS ONLY
+                                        *
+ERROR en línea 1:
+ORA-00942: la tabla o vista no existe
+
+
+
+ID_ADECUACION DETALLE_CONDICION
+------------- ------------------------------
+            1
+            2
+            3
+
+3 filas seleccionadas.
+
+--- el docente, que SI lo necesita, ve su condicion:
+
+ID_ADECUACION DETALLE_CONDICION
+------------- ------------------------------------------------------------
+            2 F81.0 Trastorno especifico de la lectura (dislexia)
+            4 F41.1 Trastorno de ansiedad generalizada
+           10 F41.1 Trastorno de ansiedad generalizada
+
+3 filas seleccionadas.
+
+======================================================================
+PT-14 | A8.15 | Auditoria de lectura: DOC_MCHAVES lee ADECUACIONES y se revisa el rastro
+Esperado: registro con usuario, fecha, accion SELECT y objeto
+======================================================================
+
+Procedimiento PL/SQL terminado correctamente.
+
+
+FECHA                DBUSERNAME      ACTION_NAME  OBJECT_NAME
+-------------------- --------------- ------------ --------------
+2026-10-20 18:43:47  DOC_MCHAVES     SELECT       ADECUACIONES
+2026-10-20 18:43:47  INSTITUTO       SELECT       ADECUACIONES
+2026-10-20 18:43:47  TESO_PAULA      SELECT       ADECUACIONES
+2026-10-20 18:43:47  DOC_MCHAVES     SELECT       ADECUACIONES
+2026-10-20 18:39:51  SYS             SELECT       ADECUACIONES
+
+5 filas seleccionadas.
+
+======================================================================
+PT-15 | A8.15 | Auditoria de privilegios: GRANT de prueba y su registro
+Esperado: registro de la accion GRANT con usuario y fecha
+======================================================================
+
+Concesión terminada correctamente.
+
+
+Revocación terminada correctamente.
+
+
+Procedimiento PL/SQL terminado correctamente.
+
+
+FECHA                DBUSERNAME      ACTION_NAME  OBJECT_NAME
+-------------------- --------------- ------------ --------------
+2026-10-20 18:43:47  SYS             REVOKE       DOCENTES
+2026-10-20 18:43:47  SYS             GRANT        DOCENTES
+2026-10-20 18:39:51  SYS             REVOKE       DOCENTES
+2026-10-20 18:39:51  SYS             GRANT        DOCENTES
+2026-10-20 18:38:47  SYS             REVOKE       DOCENTES
+
+5 filas seleccionadas.
+
+======================================================================
+PT-16 | A5.33 | Proteccion de registros: AUDITOR_EXT intenta purgar el rastro
+Esperado: ORA-06550 / PLS-00201 o ORA-01031 (sin privilegios); si puede LEER el rastro
+======================================================================
+
+EVENTOS_LEGIBLES
+----------------
+             404
+
+1 fila seleccionada.
+
+  DBMS_AUDIT_MGMT.CLEAN_AUDIT_TRAIL(audit_trail_type => DBMS_AUDIT_MGMT.AUDIT_TRAIL_UNIFIED, use_last_arch_timestamp => FALSE);
+                                                        *
+ERROR en línea 2:
+ORA-06550: línea 2, columna 57:
+PLS-00201: el identificador 'DBMS_AUDIT_MGMT' se debe declarar
+ORA-06550: línea 2, columna 3:
+PL/SQL: Statement ignored
+
+
+======================================================================
+PT-26 | A8.33* | Clon enmascarado: comparar INSTITUTO_DEV con produccion
+Esperado: 0 condiciones de salud reales en el entorno de pruebas
+======================================================================
+
+CONDICIONES_REALES_EN_EL_CLON
+-----------------------------
+                            0
+
+1 fila seleccionada.
+
+
+CEDULAS_REALES_EN_EL_CLON
+-------------------------
+                        0
+
+1 fila seleccionada.
+
+
+ID_ESTUDIANTE CEDULA       NOMBRE                                                                           CORREO
+------------- ------------ -------------------------------------------------------------------------------- --------------------------------------------------------------------------------
+          130 D00000130    Estudiante 130
+          131 D00000131    Estudiante 131
+          132 D00000132    Estudiante 132
+
+3 filas seleccionadas.
+
+======================================================================
+PT-27 | A8.16* | Reporte periodico tras provocar intentos fallidos y bloqueos
+Esperado: aparecen los intentos fallidos y los bloqueos del periodo
+======================================================================
+
+Procedimiento PL/SQL terminado correctamente.
+
+
+Procedimiento PL/SQL terminado correctamente.
+
+
+TIPO                   USUARIO         DETALLE                   EVENTOS
+---------------------- --------------- ---------------------- ----------
+ACCESO_DATO_SENSIBLE   APP_MATRICULA   BECAS                           1
+ACCESO_DATO_SENSIBLE   APP_MATRICULA   BECAS                           1
+ACCESO_DATO_SENSIBLE   APP_MATRICULA   BECAS                           1
+ACCESO_DATO_SENSIBLE   DOC_MCHAVES     ADECUACIONES                    7
+ACCESO_DATO_SENSIBLE   DOC_MCHAVES     ADECUACIONES                    5
+ACCESO_DATO_SENSIBLE   DOC_MCHAVES     ADECUACIONES                    2
+ACCESO_DATO_SENSIBLE   INSTITUTO       ADECUACIONES                    1
+ACCESO_DATO_SENSIBLE   INSTITUTO       ADECUACIONES                    2
+ACCESO_DATO_SENSIBLE   INSTITUTO       ADECUACIONES                    3
+ACCESO_DATO_SENSIBLE   SEC_LARAYA      BECAS                           2
+ACCESO_DATO_SENSIBLE   SEC_LARAYA      BECAS                           1
+ACCESO_DATO_SENSIBLE   SEC_LARAYA      BECAS                           3
+ACCESO_DATO_SENSIBLE   SYS             ADECUACIONES                   16
+ACCESO_DATO_SENSIBLE   SYS             BECAS                          12
+ACCESO_DATO_SENSIBLE   SYS             ADECUACIONES                   18
+ACCESO_DATO_SENSIBLE   SYS             BECAS                          12
+ACCESO_DATO_SENSIBLE   SYS             BECAS                          12
+ACCESO_DATO_SENSIBLE   SYS             ADECUACIONES                   17
+ACCESO_DATO_SENSIBLE   TESO_PAULA      BECAS                           1
+ACCESO_DATO_SENSIBLE   TESO_PAULA      BECAS                           1
+ACCESO_DATO_SENSIBLE   TESO_PAULA      ADECUACIONES                    3
+ACCESO_DATO_SENSIBLE   TESO_PAULA      ADECUACIONES                    1
+ACCESO_DATO_SENSIBLE   TESO_PAULA      ADECUACIONES                    2
+ACCESO_DATO_SENSIBLE   TESO_PAULA      BECAS                           1
+CAMBIO_PRIVILEGIOS     DOC_MCHAVES     ALTER USER                      3
+CAMBIO_PRIVILEGIOS     DOC_MCHAVES     ALTER USER                      1
+CAMBIO_PRIVILEGIOS     DOC_MCHAVES     ALTER USER                      2
+CAMBIO_PRIVILEGIOS     MONITOR_AUD     GRANT                           1
+CAMBIO_PRIVILEGIOS     MONITOR_AUD     CREATE USER                     1
+CAMBIO_PRIVILEGIOS     MONITOR_AUD     CREATE USER                     1
+CAMBIO_PRIVILEGIOS     MONITOR_AUD     GRANT                           1
+CAMBIO_PRIVILEGIOS     SYS             REVOKE                         37
+CAMBIO_PRIVILEGIOS     SYS             CREATE ROLE                     5
+CAMBIO_PRIVILEGIOS     SYS             CREATE USER                    39
+CAMBIO_PRIVILEGIOS     SYS             ALTER USER                     18
+CAMBIO_PRIVILEGIOS     SYS             GRANT                          79
+CAMBIO_PRIVILEGIOS     SYS             REVOKE                         36
+CAMBIO_PRIVILEGIOS     SYS             DROP USER                      34
+CAMBIO_PRIVILEGIOS     SYS             CREATE ROLE                     5
+CAMBIO_PRIVILEGIOS     SYS             CREATE USER                    38
+CAMBIO_PRIVILEGIOS     SYS             ALTER USER                     16
+CAMBIO_PRIVILEGIOS     SYS             GRANT                          77
+CAMBIO_PRIVILEGIOS     SYS             DROP USER                      36
+CAMBIO_PRIVILEGIOS     SYS             REVOKE                         38
+CAMBIO_PRIVILEGIOS     SYS             DROP USER                      38
+CAMBIO_PRIVILEGIOS     SYS             CREATE ROLE                     5
+CAMBIO_PRIVILEGIOS     SYS             CREATE USER                    41
+CAMBIO_PRIVILEGIOS     SYS             ALTER USER                     20
+CAMBIO_PRIVILEGIOS     SYS             GRANT                          82
+CAMBIO_PRIVILEGIOS     TESO_PAULA      GRANT                           1
+CAMBIO_PRIVILEGIOS     TESO_PAULA      GRANT                           1
+CAMBIO_PRIVILEGIOS     TESO_PAULA      GRANT                           1
+LOGON_FALLIDO          APP_MATRICULA   WORKGROUP\JOSUE                 8
+LOGON_FALLIDO          APP_MATRICULA   WORKGROUP\JOSUE                16
+LOGON_FALLIDO          APP_MATRICULA   WORKGROUP\JOSUE                24
+LOGON_FALLIDO          DEV_RAMIRO      WORKGROUP\JOSUE                 6
+LOGON_FALLIDO          DEV_RAMIRO      WORKGROUP\JOSUE                12
+LOGON_FALLIDO          DEV_RAMIRO      WORKGROUP\JOSUE                18
+LOGON_FALLIDO          EX_KSALAS       WORKGROUP\JOSUE                 2
+LOGON_FALLIDO          EX_KSALAS       WORKGROUP\JOSUE                 4
+LOGON_FALLIDO          EX_KSALAS       WORKGROUP\JOSUE                 3
+LOGON_FALLIDO          SECRETARIA      WORKGROUP\JOSUE                 2
+LOGON_FALLIDO          SECRETARIA      WORKGROUP\JOSUE                 1
+LOGON_FALLIDO          SECRETARIA      WORKGROUP\JOSUE                 3
+
+64 filas seleccionadas.
+
+
+JOB_NAME
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+STATUS                         INICIO
+------------------------------ ----------------
+JOB_REPORTE_SEMANAL
+SUCCEEDED                      2026-10-20 18:43
+
+JOB_REPORTE_SEMANAL
+SUCCEEDED                      2026-10-20 18:39
+
+
+2 filas seleccionadas.
+
+======================================================================
+PT-11 | A8.5 | Sesion inactiva: perfil de prueba con IDLE_TIME 1 minuto (espera ~3 minutos)
+Esperado: ORA-02396 (se excedio el tiempo maximo de inactividad)
+======================================================================
+
+Perfil creado.
+
+
+Usuario creado.
+
+
+Concesión terminada correctamente.
+
+
+ESTADO
+-------------
+sesion activa
+
+1 fila seleccionada.
+
+--- esperando 190 segundos sin actividad...
+
+SELECT 'sesion activa' AS estado FROM dual
+*
+ERROR en línea 1:
+ORA-02396: ha excedido el tiempo máximo de inactividad, vuelva a conectarse
+
+
+
+Usuario borrado.
+
+
+Perfil borrado.
+

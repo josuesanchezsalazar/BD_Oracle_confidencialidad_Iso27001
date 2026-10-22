@@ -1,0 +1,225 @@
+{
+  "general": {
+    "cadena": [
+      { "titulo": "1 · Riesgo", "texto": "Algo que puede salir mal con la confidencialidad de los datos. Ejemplo: un desarrollador con rol DBA puede leer diagnósticos de estudiantes." },
+      { "titulo": "2 · Tarea del DBA", "texto": "La labor concreta del administrador donde nace ese riesgo (o donde se evita). Ejemplo: asignar privilegios y roles." },
+      { "titulo": "3 · Control ISO 27001:2022", "texto": "La medida del estándar que previene el riesgo. Ejemplo: A8.2, derechos de acceso privilegiado." },
+      { "titulo": "4 · Script / prueba", "texto": "La consulta SQL que mira la configuración (V01–V17) y el intento real que demuestra que funciona (PT-01…PT-29)." },
+      { "titulo": "5 · Evidencia", "texto": "El archivo con la salida real del script, con fecha, usuario y contenedor. Se guarda ANTES y DESPUÉS de corregir." }
+    ],
+    "usar": [
+      "Usa el menú de la izquierda o los botones Anterior y Siguiente para recorrer los pasos en el orden del PDF.",
+      "Cada paso tiene arriba una tarjeta «Ayuda de este paso» con cuatro pestañas: qué es, cómo leerlo, términos y cómo defenderlo.",
+      "El interruptor «Mostrar ejemplo» oculta o muestra los recuadros verdes con lo que pasó en el escenario ficticio (el Instituto Oracle Heredia).",
+      "Donde aparece un enlace subrayado (V03_A5_16, por ejemplo) se abre la salida real del script en el paso Evidencias.",
+      "En la Matriz y en la Batería de pruebas, las pestañas «Antes» y «Después de la evaluación» muestran el mismo cuadro en dos momentos.",
+      "El botón Imprimir / PDF imprime todos los pasos seguidos, sin ayudas ni menús."
+    ],
+    "glosario": [
+      ["Confidencialidad", "Que la información solo la vea quien debe verla. Es una de las tres propiedades de la seguridad (junto con integridad y disponibilidad); este proyecto se enfoca solo en ella."],
+      ["ISO/IEC 27001:2022", "Norma internacional certificable para gestionar la seguridad de la información. Su Anexo A tiene 93 controles en 4 temas."],
+      ["ISO/IEC 27002:2022", "Guía que explica cómo implementar cada control del Anexo A. 27001 dice qué; 27002 dice cómo."],
+      ["Anexo A", "Lista de controles de seguridad de ISO 27001. Los de este proyecto son de dos temas: A5 (Organizacional) y A8 (Tecnológico)."],
+      ["Control", "Una medida concreta de seguridad (por ejemplo A8.11, enmascaramiento de datos). Puede ser preventivo, detectivo o correctivo."],
+      ["Control complementario (*)", "Control que no está en la lista de 15 del PDF pero que el proyecto agregó porque el PDF exige una tarea que esa lista no cubre (TDE, parcheo, monitoreo, listener, clones)."],
+      ["R-CONF", "Riesgo de confidencialidad. Hay seis: R-CONF-01 a R-CONF-06."],
+      ["Probabilidad × Impacto", "Forma de calificar un riesgo: ambas de 1 a 5; el producto es el nivel (1–4 bajo, 5–9 medio, 10–14 alto, 15–25 crítico)."],
+      ["Riesgo inherente", "El riesgo antes de aplicar controles."],
+      ["Riesgo residual", "El riesgo que queda después de aplicar controles."],
+      ["Apetito de riesgo", "Nivel de riesgo que se acepta. Propuesta del proyecto: residual de 6 o menos."],
+      ["DBA", "Administrador de la base de datos: custodio técnico de los datos."],
+      ["Mínimo privilegio", "Cada cuenta recibe solo los permisos que necesita para su función, nada más."],
+      ["Separación de funciones", "Quien administra no es quien audita; quien opera no es quien exporta. Evita que una sola persona pueda abusar y encubrirlo."],
+      ["Rol", "Conjunto de permisos que se asigna a varias cuentas. Es la forma ordenada de dar acceso (en lugar de permisos sueltos a cada usuario)."],
+      ["PUBLIC", "En Oracle, «todos». Un permiso otorgado a PUBLIC lo tiene cualquier cuenta, presente o futura."],
+      ["GRANT OPTION", "Permite a quien recibe un permiso volver a otorgárselo a otros. Es un riesgo porque se pierde el control de quién accede."],
+      ["PHVA", "Planificar, Hacer, Verificar, Actuar: el ciclo de mejora que sigue el proyecto."],
+      ["ANTES / DESPUÉS", "Estado medido antes y después de aplicar las correcciones. La diferencia es la evidencia de que los controles funcionan."],
+      ["Mala práctica sembrada (MP-01…MP-12)", "Falla puesta a propósito en el escenario ficticio para tener algo que diagnosticar y corregir."],
+      ["Script de verificación (V01–V17)", "Archivo .sql que consulta el catálogo de Oracle para comprobar un control y guarda su salida."],
+      ["Prueba (PT-01…PT-29)", "Intento real con una cuenta concreta. Una prueba negativa debe fallar; una positiva debe funcionar."],
+      ["Madurez 0–4", "Escala del proyecto: 0 inexistente, 1 inicial, 2 documentado, 3 implementado y verificado, 4 gestionado."],
+      ["Estado Cumple / Parcial / No cumple", "Resultado derivado de la madurez: 0–1 No cumple, 2 Parcial, 3–4 Cumple."],
+      ["Evidencia observable", "Algo que un auditor puede ver y repetir: una consulta SQL, un archivo de configuración, una salida guardada."],
+      ["Auditor externo", "Persona ajena a la administración que revisa si los controles realmente existen. Los 15 controles del paso 4 son lo que él puede observar."],
+      ["TDE", "Transparent Data Encryption: cifra los datos en disco. Protege archivos y respaldos robados, no a quien ya tiene permiso de lectura."],
+      ["Data Redaction", "Oculta el valor de una columna al consultarla, según quién consulta. (En Oracle es el equivalente del «Dynamic Data Masking» que menciona el PDF)."],
+      ["VPD", "Virtual Private Database: agrega un filtro automático por usuario para que cada uno vea solo sus filas."],
+      ["Keystore / wallet", "Archivo que guarda la clave maestra de TDE. Sin él, los datos cifrados no se pueden leer."],
+      ["RMAN", "Herramienta de respaldo de Oracle."],
+      ["Auditoría unificada", "Mecanismo de Oracle que registra eventos (quién leyó, quién cambió permisos) en una sola vista, UNIFIED_AUDIT_TRAIL."],
+      ["SIEM", "Sistema que reúne y correlaciona los registros de muchos sistemas para detectar patrones. El proyecto no lo instala; lo describe como evolución natural."],
+      ["Ley 8968", "Ley costarricense de protección de la persona frente al tratamiento de sus datos personales. Define los datos sensibles (salud, por ejemplo) y exige medidas de seguridad."],
+      ["Dato sensible", "Dato personal cuya divulgación puede dañar gravemente a la persona (salud, condición socioeconómica…). Recibe la mayor protección."],
+      ["PDB / CDB", "Base conectable / contenedora. El escenario vive en la PDB XEPDB1."],
+      ["ORA-00942", "La tabla o vista no existe (o no tienes permiso para verla). En una prueba negativa es el resultado deseado."],
+      ["ORA-28000", "La cuenta está bloqueada."],
+      ["ORA-01031", "Privilegios insuficientes."],
+      ["ORA-28003", "La contraseña no cumple la regla de complejidad."],
+      ["ORA-02396", "Se excedió el tiempo máximo de inactividad de la sesión."]
+    ],
+    "preguntas": [
+      { "p": "¿De qué trata el proyecto en una frase?", "r": "Mide con scripts SQL si una base Oracle protege la confidencialidad de sus datos según ISO 27001:2022, la corrige y demuestra con evidencia que mejoró." },
+      { "p": "¿Por qué hay un escenario ficticio?", "r": "El PDF pide ejecutar pruebas técnicas. Para ejecutarlas hace falta una base con datos y configuraciones. Se usó un colegio ficticio con datos generados, para no tocar datos reales (Ley 8968)." },
+      { "p": "¿Por qué todo salía «No cumple» al inicio?", "r": "Porque es la línea base: las fallas se sembraron a propósito. Si todo cumpliera desde el inicio no habría nada que demostrar." },
+      { "p": "¿Qué diferencia hay entre un script V y una prueba PT?", "r": "El script mira cómo está configurado; la prueba intenta un acceso real y demuestra que el control funciona." },
+      { "p": "¿Qué significa «Falla» en una prueba?", "r": "Que el acceso indebido fue posible. En el ANTES es lo esperado. En el DESPUÉS «Cumple» significa que el intento fue bloqueado." },
+      { "p": "¿Por qué hay pruebas pendientes?", "r": "Porque no se pueden intentar todavía (no existía un respaldo que restaurar, o requieren permisos de administrador). Se marcan para no inventar resultados." },
+      { "p": "¿Por qué hay controles con asterisco?", "r": "Son complementarios: el PDF exige tareas (TDE, parcheo, monitoreo, listener, clones) cuyo control no está en su lista de 15." },
+      { "p": "¿Por qué ningún control llegó a nivel 4?", "r": "El 4 exige operación periódica sostenida en el tiempo (revisiones trimestrales, reportes semanales). En semanas de laboratorio no se puede demostrar el paso del tiempo." }
+    ]
+  },
+
+  "pasos": {
+    "inicio": {
+      "queEs": "La portada del proyecto. Resume cuántos riesgos, tareas, controles y pruebas hay, en qué punto del ciclo PHVA estás y cómo se conecta todo.",
+      "paraQue": "Para que cualquiera entienda en dos minutos qué se mide, cómo se mide y qué avance hay, antes de entrar al detalle de cada paso.",
+      "comoLeer": [
+        "Las tarjetas de arriba son el resumen: cuántos riesgos (y cuántos críticos), tareas, controles y pruebas con salida real.",
+        "El bloque ANTES / DESPUÉS explica el método: se mide con fallas, se corrige, se mide otra vez con los mismos scripts.",
+        "El ciclo PHVA marca la fase actual. Planificar ya está hecho; Hacer y Verificar avanzan; Actuar cierra el proyecto.",
+        "La ruta paso a paso es el índice: cada fila lleva al paso y dice qué punto del PDF cubre.",
+        "El selector «Sigue un riesgo de punta a punta» recorre Riesgo → Tarea → Control → Evidencia → Pruebas para un mismo riesgo."
+      ],
+      "terminos": [["PHVA", "Planificar, Hacer, Verificar, Actuar."], ["Riesgo crítico", "Nivel entre 15 y 25 (probabilidad × impacto)."], ["Cadena de trazabilidad", "El recorrido que une un riesgo con su evidencia."]],
+      "defender": [
+        { "p": "¿Cuál es la idea central del proyecto?", "r": "No afirmo que la base esté segura: lo mido. Primero diagnostico con scripts, luego corrijo y vuelvo a medir con los mismos scripts para demostrar la mejora." },
+        { "p": "¿Cómo está organizado?", "r": "Un paso por cada requisito del PDF. Cada riesgo se conecta con una tarea del DBA, un control de ISO 27001, un script y una evidencia." }
+      ]
+    },
+
+    "contexto": {
+      "queEs": "La descripción del escenario de prueba: el Instituto Oracle Heredia, un colegio técnico ficticio con docentes, estudiantes, notas, adecuaciones y becas.",
+      "paraQue": "El PDF pide ejecutar pruebas técnicas. Para ejecutarlas hace falta una base con datos y configuraciones reales; este escenario es ese banco de pruebas. El resto del artefacto se explica primero en general y luego con este ejemplo.",
+      "comoLeer": [
+        "Clasificación de los datos: qué columnas son sensibles, restringidas, internas o públicas según la Ley 8968. De esa clasificación depende qué control se aplica.",
+        "Actores y cuentas: quién existe, qué debe y qué no debe poder hacer. Es la «matriz de acceso» contra la cual se juzga cada permiso.",
+        "Malas prácticas sembradas (MP-01…MP-12): las fallas puestas a propósito, cada una con su consecuencia, su riesgo y sus controles.",
+        "Hallazgos reales: fallas que los scripts encontraron sin que yo las sembrara. Son la prueba de que los scripts auditan de verdad."
+      ],
+      "terminos": [["Dato sensible", "Dato cuya divulgación daña gravemente (salud, situación económica)."], ["Mala práctica sembrada", "Falla puesta a propósito para diagnosticarla."], ["Columna crítica", "La columna de mayor sensibilidad (detalle_condicion)."], ["Esquema", "Conjunto de tablas de un propietario (INSTITUTO)."]],
+      "defender": [
+        { "p": "¿Por qué un escenario ficticio?", "r": "Para tener una base sobre la cual ejecutar las pruebas sin exponer datos reales de menores. Los datos se generan con DBMS_RANDOM." },
+        { "p": "¿Las fallas son reales o las pusiste tú?", "r": "Sembré 12 a propósito, pero los scripts además encontraron otras que no sembré (por ejemplo UTL_* abierto a PUBLIC y el cifrado de red ausente)." }
+      ]
+    },
+
+    "riesgos": {
+      "queEs": "La tabla de riesgos de confidencialidad R-CONF con su probabilidad, impacto, nivel y meta de riesgo residual.",
+      "paraQue": "Para saber qué puede salir mal y en qué orden atenderlo. Todo lo demás (tareas, controles, pruebas) existe para reducir estos riesgos.",
+      "comoLeer": [
+        "Nivel = Probabilidad × Impacto, ambos de 1 a 5. Las bandas: 1–4 bajo, 5–9 medio, 10–14 alto, 15–25 crítico.",
+        "Los dos mapas de calor comparan el riesgo de hoy (inherente) con la meta después de aplicar controles (residual). Cada R01…R06 se ubica en su celda.",
+        "Cada tarjeta explica el riesgo en general (descripción, causas típicas en Oracle, activo, controles) y, en el recuadro verde, cómo se manifestó en el escenario y por qué se calificó así.",
+        "La escala del final define qué significa cada valor de probabilidad e impacto, para que la calificación se pueda discutir con criterio."
+      ],
+      "terminos": [["Probabilidad", "Qué tan posible es que ocurra (1 rara, 5 casi segura)."], ["Impacto", "Qué tan grave sería (1 insignificante, 5 catastrófico)."], ["Riesgo inherente", "Antes de aplicar controles."], ["Riesgo residual", "Después de aplicarlos."], ["Apetito de riesgo", "Nivel que se acepta: propuesta, residual ≤ 6."], ["Activo", "Lo que se protege (tablas, archivos, cuentas)."]],
+      "defender": [
+        { "p": "¿Por qué 6 riesgos y no 5?", "r": "El PDF pide al menos 5. El sexto, falta de trazabilidad, cierra un hueco: sin registro de quién lee los datos, los otros cinco pueden ocurrir sin que nadie lo note." },
+        { "p": "¿Cómo calificaste probabilidad e impacto?", "r": "Con evidencia del escenario, no con intuición. Por ejemplo, R-CONF-01 tiene P=5 porque ya se demostró en el diagnóstico que una ex-secretaria leyó diagnósticos." },
+        { "p": "¿Qué es el riesgo residual?", "r": "Lo que queda después de aplicar controles. La meta de cada riesgo es provisional y se recalcula con lo que realmente se logre en Verificar." }
+      ]
+    },
+
+    "tareas": {
+      "queEs": "Las 12 tareas críticas del DBA que el PDF enumera, con lo que hace el administrador, la frecuencia, los riesgos que reduce y los controles que aplica.",
+      "paraQue": "Para demostrar que cada riesgo nace (o se evita) en algo concreto que el DBA hace. Una tarea sin riesgo es trabajo sin motivo; un riesgo sin tarea no tiene responsable.",
+      "comoLeer": [
+        "Cada fila es una tarea: ID, nombre, qué hace el DBA, cada cuánto y qué riesgos y controles la vinculan.",
+        "El recuadro verde muestra la tarea aplicada al escenario (por ejemplo, dar de baja a EX_KSALAS).",
+        "La cuadrícula «Qué control aplica cada tarea» cruza tareas (filas) con controles (columnas): un punto indica que la tarea aplica ese control, y el color indica la madurez ANTES de ese control (rojo = 0, verde = 4)."
+      ],
+      "terminos": [["Tarea crítica", "Labor del DBA cuyo error puede exponer datos."], ["Frecuencia", "Cada cuánto debe ejecutarse (por evento, mensual, trimestral…)."], ["Control complementario (*)", "No está en la lista de 15 del PDF."]],
+      "defender": [
+        { "p": "¿Por qué estas 12 tareas?", "r": "Son exactamente las que el PDF enumera entre paréntesis (usuarios, privilegios, autenticación, TDE, masking, backup, auditoría, parcheo, listener, eliminación segura, logs, clones)." },
+        { "p": "¿Para qué sirve conectar tareas con riesgos?", "r": "Demuestra que cada tarea existe porque reduce un riesgo concreto y que cada riesgo tiene una tarea responsable." }
+      ]
+    },
+
+    "mapeo": {
+      "queEs": "El catálogo de 20 controles de ISO 27001:2022 (los 15 del PDF más 5 complementarios): qué exige cada uno, cómo se implementa en Oracle y qué consulta lo comprueba.",
+      "paraQue": "Es el puente entre la norma (abstracta) y Oracle (concreto). Justifica por qué cada control es pertinente, cómo se aplica y cómo se demuestra.",
+      "comoLeer": [
+        "«Qué exige»: lo que dice el estándar, en lenguaje claro.",
+        "«Riesgos»: qué R-CONF trata ese control.",
+        "«Implementación en Oracle»: el comando o configuración concreta.",
+        "«Evidencia observable»: la consulta SQL que lo comprueba, con el enlace al script y su salida.",
+        "«Tipo»: preventivo (evita), detectivo (descubre) o correctivo (repara).",
+        "Los controles con asterisco son complementarios. El filtro permite ver solo oficiales o solo complementarios."
+      ],
+      "terminos": [["A5 / A8", "Temas del Anexo A: A5 Organizacional, A8 Tecnológico."], ["27001 vs 27002", "27001 dice qué controlar; 27002 explica cómo."], ["Preventivo / detectivo", "Evita el problema / lo descubre."], ["Evidencia observable", "Algo que un auditor puede repetir (una consulta)."]],
+      "defender": [
+        { "p": "¿Cómo justificas un control?", "r": "Con cuatro preguntas: qué exige la norma, por qué aplica a un DBA, cómo se implementa en Oracle y cómo se comprueba. Cada fila de esta tabla las responde." },
+        { "p": "¿Por qué agregaste controles fuera de la lista?", "r": "El PDF exige tareas (TDE, parcheo, monitoreo, listener, clones) cuyo control no está en su lista de 15. Los agregué, los marqué con asterisco y pregunté al profesor si los acepta." },
+        { "p": "¿Por qué no usaste otros controles A8?", "r": "Un control sin tarea del PDF que lo requiera es ruido. Elegí los que tienen una tarea y un riesgo detrás." }
+      ]
+    },
+
+    "observables": {
+      "queEs": "Los 15 controles oficiales del PDF vistos desde un auditor externo: qué observa, con qué criterio lo acepta y qué script usa.",
+      "paraQue": "El PDF pide una lista de 15 controles observables por un auditor externo. Un auditor puede ejecutar la consulta él mismo y obtener el mismo resultado: eso es lo que hace al control auditable.",
+      "comoLeer": [
+        "«Qué observa el auditor»: lo que revisa en la base.",
+        "«Criterio de aceptación»: el resultado exacto que debe obtener para dar el control por bueno (por ejemplo «0 cuentas no administrativas con rol DBA»).",
+        "«Script»: el archivo que lo comprueba.",
+        "La diferencia con el paso anterior: allá se explica cómo implementar; aquí, cómo lo verifica un tercero."
+      ],
+      "terminos": [["Auditor externo", "Persona independiente que verifica los controles."], ["Criterio de aceptación", "Resultado que debe dar la consulta para que el control se considere cumplido."]],
+      "defender": [
+        { "p": "¿Qué diferencia hay con el mapeo?", "r": "El mapeo explica cómo se implementa cada control. Esta lista dice qué mira un auditor externo y con qué resultado lo acepta." },
+        { "p": "¿Por qué son exactamente 15?", "r": "Porque el PDF pide 15. Los complementarios no se incluyen aquí." }
+      ]
+    },
+
+    "matriz": {
+      "queEs": "La matriz de evaluación del PDF: por cada par tarea–control, el nivel de madurez 0–4, la evidencia y el estado, medidos antes y después de corregir.",
+      "paraQue": "Convierte «¿está bien?» en algo medible y auditable. Resume en una tabla qué controles cumplen y con qué prueba.",
+      "comoLeer": [
+        "Cambia entre «Antes» y «Después de la evaluación» con las pestañas: cada una muestra solo su momento.",
+        "Criterio 0-4: la barra se llena hasta el nivel logrado; el recuadro punteado «meta» marca el nivel que se quiere alcanzar.",
+        "Evidencia: el enlace abre la salida real del script de esa fase.",
+        "Estado: 0–1 No cumple, 2 Parcial, 3–4 Cumple.",
+        "Un mismo control aparece en varias filas cuando lo aplican varias tareas."
+      ],
+      "terminos": [["Madurez 0–4", "0 inexistente · 1 inicial · 2 documentado · 3 implementado y verificado · 4 gestionado."], ["Par tarea–control", "Una fila de la matriz."], ["Meta", "Nivel que se pretende alcanzar."], ["Sin medir aún", "Control cuyo DESPUÉS depende de algo pendiente."]],
+      "defender": [
+        { "p": "¿Qué significa nivel 3?", "r": "Implementado y verificado: un script V-xx lo demuestra. No basta con decir que está hecho; tiene que haber una salida que lo pruebe." },
+        { "p": "¿Por qué ningún control está en 4?", "r": "El 4 exige operación periódica sostenida (revisión trimestral, reporte semanal). En un laboratorio de semanas no se puede demostrar el paso del tiempo; se deja como mejora." },
+        { "p": "¿Por qué todo estaba en «No cumple» al inicio?", "r": "Es la línea base medida con la base con fallas. Su valor está en la diferencia con el DESPUÉS." }
+      ]
+    },
+
+    "pruebas": {
+      "queEs": "La batería de 29 pruebas técnicas: intentos reales con cuentas concretas que demuestran si cada control funciona, medidos antes y después de corregir.",
+      "paraQue": "El PDF pide pruebas que «demuestren la efectividad de los controles». Un permiso puede aparecer revocado en la configuración y aun así existir otra vía de acceso; la prueba demuestra que el acceso indebido ya no es posible.",
+      "comoLeer": [
+        "Cada fila: ID, tipo, procedimiento, resultado esperado y herramienta. El «caso» muestra el comando exacto con la cuenta usada.",
+        "Prueba negativa: intenta algo prohibido y debe fallar. Prueba positiva: hace algo permitido y debe funcionar.",
+        "En el ANTES, «Falla» significa que el acceso indebido fue posible. En el DESPUÉS, «Cumple» significa que fue bloqueado.",
+        "«Origen» (solo en ANTES): ejecutada (hay salida real), inferida (deducida de la configuración) o pendiente.",
+        "El panel amarillo explica por qué cada prueba está pendiente."
+      ],
+      "terminos": [["Prueba negativa / positiva", "Debe fallar / debe funcionar."], ["ORA-00942", "La tabla o vista no existe."], ["ORA-28000", "Cuenta bloqueada."], ["ORA-01031", "Privilegios insuficientes."], ["ORA-28003", "Contraseña no cumple la complejidad."], ["ORA-02396", "Sesión cerrada por inactividad."]],
+      "defender": [
+        { "p": "¿Por qué hacen falta pruebas si ya hay scripts?", "r": "El script dice cómo está configurado; la prueba demuestra que el control funciona intentando el acceso real." },
+        { "p": "¿Ejecutaste todas?", "r": "En el ANTES, 14 de 29 con salida real; el resto está marcado como inferida o pendiente. En el DESPUÉS, 27 de 29; faltan dos que requieren administrador." },
+        { "p": "¿Por qué hay pendientes?", "r": "No se podían intentar todavía (no había respaldo que restaurar, o requieren PowerShell como administrador). Se marcan en vez de inventar un resultado." }
+      ]
+    },
+
+    "evidencias": {
+      "queEs": "El archivo de salidas reales de los scripts de verificación V01–V17, guardadas con fecha, usuario y contenedor, antes y después de corregir.",
+      "paraQue": "El PDF exige scripts de verificación. Esta evidencia permite que cualquiera revise qué devolvió Oracle exactamente, sin depender de mi palabra.",
+      "comoLeer": [
+        "La pestaña «Comparar» pone cada control con su script, su nivel ANTES → DESPUÉS y las dos salidas.",
+        "Las pestañas ANTES y DESPUÉS listan los archivos por grupo: Verificación (la salida SQL de cada control), Pruebas ejecutadas y Registro de lo que se aplicó.",
+        "Al abrir un archivo, el encabezado muestra el script, la fase, el contenedor, el usuario y la fecha: así se sabe que la salida es real."
+      ],
+      "terminos": [["Evidencia", "Salida guardada de un script o prueba."], ["V00", "Script que ejecuta todos los V01–V17 de una vez."], ["SPOOL", "Comando de SQL*Plus que guarda la salida en un archivo."]],
+      "defender": [
+        { "p": "¿Cómo sé que la evidencia es real?", "r": "Cada archivo trae en su encabezado el contenedor, el usuario de Oracle, el host y la fecha exacta de ejecución, y se puede reproducir ejecutando el mismo script." },
+        { "p": "¿Por qué hay archivos de ANTES y de DESPUÉS con el mismo nombre?", "r": "Son los mismos scripts ejecutados en dos momentos. La diferencia entre ambas salidas es la prueba de que el control se aplicó." }
+      ]
+    }
+  }
+}

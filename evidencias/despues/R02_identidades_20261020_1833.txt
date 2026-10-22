@@ -1,0 +1,80 @@
+======================================================================
+Remediacion R02_identidades
+======================================================================
+
+CONTENEDOR   USUARIO      FECHA
+------------ ------------ ----------------------------
+XEPDB1       SYS          2026-10-20 18:33:54 -06:00
+
+1 fila seleccionada.
+
+--- 1) Perfiles con complejidad, bloqueo por intentos, expiracion e IDLE_TIME (A5.17, A8.5)
+OK    CREATE PROFILE perfil_usuarios LIMIT SESSIONS_PER_USER UNLIMITED
+OK    ALTER PROFILE perfil_usuarios LIMIT FAILED_LOGIN_ATTEMPTS 5 PASSWORD_LOCK_TIME 1 PASSWORD_LIFE_TIME 90 PASSWORD_GRACE_TIME 7 PASSWORD_REUSE_MAX 5 PASSWORD_REUSE_TIME UNLIMITED IDLE_TIME 15
+PASSWORD_VERIFY_FUNCTION ora12c_strong_verify_function
+OK    ALTER PROFILE perfil_aplicaciones LIMIT FAILED_LOGIN_ATTEMPTS 5 PASSWORD_LOCK_TIME 1 PASSWORD_LIFE_TIME 180 IDLE_TIME 15 PASSWORD_VERIFY_FUNCTION ora12c_strong_verify_function
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 2) Cuentas nominales y baja de la cuenta compartida y de la ex-secretaria (A5.16)
+OK    CREATE USER sec_laraya IDENTIFIED BY "***" PROFILE perfil_usuarios
+OK    CREATE USER sec_mvargas IDENTIFIED BY "***" PROFILE perfil_usuarios
+OK    GRANT CREATE SESSION TO sec_laraya, sec_mvargas
+OK    GRANT rol_secretaria TO sec_laraya, sec_mvargas
+OK    REVOKE rol_secretaria FROM secretaria
+OK    ALTER USER secretaria ACCOUNT LOCK
+OK    ALTER USER ex_ksalas ACCOUNT LOCK
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 3) Perfil y contrasena fuerte para cada cuenta activa (A5.17)
+OK    ALTER USER dev_ramiro    PROFILE perfil_usuarios     IDENTIFIED BY "***"
+OK    ALTER USER doc_mchaves   PROFILE perfil_usuarios     IDENTIFIED BY "***"
+OK    ALTER USER doc_rbrenes   PROFILE perfil_usuarios     IDENTIFIED BY "***"
+OK    ALTER USER teso_paula    PROFILE perfil_usuarios     IDENTIFIED BY "***"
+OK    ALTER USER auditor_ext   PROFILE perfil_usuarios     IDENTIFIED BY "***"
+OK    ALTER USER soporte_ti    PROFILE perfil_usuarios     IDENTIFIED BY "***"
+OK    ALTER USER instituto_dev PROFILE perfil_usuarios     IDENTIFIED BY "***"
+OK    ALTER USER app_matricula PROFILE perfil_aplicaciones IDENTIFIED BY "***"
+OK    ALTER USER instituto     PROFILE perfil_aplicaciones IDENTIFIED BY "***"
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 4) Resultado: estado de las cuentas propias
+
+USERNAME               ACCOUNT_STATUS   PROFILE
+---------------------- ---------------- ----------------------
+APP_MATRICULA          OPEN             PERFIL_APLICACIONES
+AUDITOR_EXT            OPEN             PERFIL_USUARIOS
+DEV_RAMIRO             OPEN             PERFIL_USUARIOS
+DOC_MCHAVES            OPEN             PERFIL_USUARIOS
+DOC_RBRENES            OPEN             PERFIL_USUARIOS
+EX_KSALAS              LOCKED           DEFAULT
+INSTITUTO              OPEN             PERFIL_APLICACIONES
+INSTITUTO_DEV          OPEN             PERFIL_USUARIOS
+PDBADMIN               OPEN             DEFAULT
+SEC_LARAYA             OPEN             PERFIL_USUARIOS
+SEC_MVARGAS            OPEN             PERFIL_USUARIOS
+SECRETARIA             LOCKED           DEFAULT
+SOPORTE_TI             OPEN             PERFIL_USUARIOS
+TESO_PAULA             OPEN             PERFIL_USUARIOS
+
+14 filas seleccionadas.
+
+--- Limites de los perfiles
+
+PROFILE                RESOURCE_NAME              LIMIT
+---------------------- -------------------------- ----------------------------------------
+PERFIL_APLICACIONES    FAILED_LOGIN_ATTEMPTS      5
+PERFIL_APLICACIONES    IDLE_TIME                  15
+PERFIL_APLICACIONES    PASSWORD_LIFE_TIME         180
+PERFIL_APLICACIONES    PASSWORD_LOCK_TIME         1
+PERFIL_APLICACIONES    PASSWORD_VERIFY_FUNCTION   ORA12C_STRONG_VERIFY_FUNCTION
+PERFIL_USUARIOS        FAILED_LOGIN_ATTEMPTS      5
+PERFIL_USUARIOS        IDLE_TIME                  15
+PERFIL_USUARIOS        PASSWORD_LIFE_TIME         90
+PERFIL_USUARIOS        PASSWORD_LOCK_TIME         1
+PERFIL_USUARIOS        PASSWORD_VERIFY_FUNCTION   ORA12C_STRONG_VERIFY_FUNCTION
+
+10 filas seleccionadas.
+

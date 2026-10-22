@@ -105,8 +105,10 @@ ${aviso}
 ${tabla(['Tarea', 'Riesgo', 'Control', 'Criterio 0-4', 'Evidencia', 'Estado'],
   pares.map(({ tarea, control, riesgos: rs }) => [
     `${tarea.id} ${tarea.tarea}`, lista(rs), `${control.id} ${control.nombre}`,
-    `${control.madurez.antes} → meta ${control.madurez.meta}: ${control.madurez.justAntes}`,
-    control.script ? `evidencias/antes/${control.script}_*.txt` : control.evidenciaManual, estado(control.madurez.antes)]))}
+    `${control.madurez.antes} → meta ${control.madurez.meta}: ${control.madurez.justAntes}` +
+      (control.madurez.despues !== undefined ? ` | DESPUÉS ${control.madurez.despues}: ${control.madurez.justDespues}` : ''),
+    control.script ? `evidencias/antes/${control.script}_*.txt` + (control.madurez.despues !== undefined ? ` · evidencias/despues/${control.script}_*.txt` : '') : control.evidenciaManual,
+    estado(control.madurez.antes) + (control.madurez.despues !== undefined ? ` → ${estado(control.madurez.despues)}` : '')]))}
 `);
 
 escribir('05-pruebas.md', `
@@ -116,8 +118,8 @@ ${aviso}
 "Falla" en el estado ANTES significa que el acceso indebido fue posible; después de la remediación la prueba debe dar el resultado esperado.
 **Origen:** ejecutada (se corrió la prueba o su script y hay salida real) · inferida (deducida de la configuración observada, el intento no se ha corrido) · pendiente.
 
-${tabla(['ID', 'Tipo', 'Control', 'Procedimiento', 'Resultado esperado', 'Herramienta', 'Origen', 'Estado ANTES', 'Caso en el escenario', 'Resultado ANTES'],
-  pruebas.map((p) => [p.id, p.tipo, p.control, p.procedimiento, p.esperado, p.herramienta, p.origen, p.estadoAntes, `\`${p.caso}\``, p.antes]))}
+${tabla(['ID', 'Tipo', 'Control', 'Procedimiento', 'Resultado esperado', 'Herramienta', 'Origen', 'Estado ANTES', 'Caso en el escenario', 'Resultado ANTES', 'Estado DESPUÉS', 'Resultado DESPUÉS'],
+  pruebas.map((p) => [p.id, p.tipo, p.control, p.procedimiento, p.esperado, p.herramienta, p.origen, p.estadoAntes, `\`${p.caso}\``, p.antes, p.estadoDespues ?? 'Pendiente', p.despues ?? p.razonDespues ?? '—']))}
 `);
 
 // ---------------------------------------------------------------------------

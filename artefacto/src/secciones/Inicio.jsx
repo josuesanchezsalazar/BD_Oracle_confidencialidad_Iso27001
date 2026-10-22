@@ -1,6 +1,10 @@
 import { riesgos, tareas, controles, oficiales, complementarios, pruebas, pasos } from '../data.js';
 import { nivel, banda, estado } from '../calculos.js';
 import Cadena from '../componentes/Cadena.jsx';
+import Icono, { ICONO_PASO } from '../componentes/Icono.jsx';
+import Kpi from '../componentes/Kpi.jsx';
+import GuiaInicio from '../componentes/GuiaInicio.jsx';
+import AvisoDespues from '../componentes/AvisoDespues.jsx';
 
 const FASES = [
   { nombre: 'Planificar', texto: 'Riesgos, tareas, mapeo, matriz y diagnóstico ANTES', actual: true },
@@ -10,28 +14,34 @@ const FASES = [
 ];
 
 export default function Inicio({ ir, indice, alAbrir }) {
+  const hayDespues = (indice?.despues ?? []).length > 0;
   const criticos = riesgos.filter((r) => banda(nivel(r.p, r.i)) === 'Crítico').length;
   const noCumple = controles.filter((c) => estado(c.madurez.antes) === 'No cumple').length;
   const ejecutadas = pruebas.filter((p) => p.origen === 'ejecutada').length;
 
   return (
     <>
+      <GuiaInicio />
+
       <div className="kpis">
-        <div className="kpi"><strong>{riesgos.length}</strong><span>riesgos R-CONF, {criticos} críticos</span></div>
-        <div className="kpi"><strong>{tareas.length}</strong><span>tareas críticas del DBA</span></div>
-        <div className="kpi"><strong>{oficiales.length} + {complementarios.length}</strong><span>controles oficiales + complementarios</span></div>
-        <div className="kpi"><strong>{noCumple} de {controles.length}</strong><span>controles en "No cumple" (estado ANTES)</span></div>
-        <div className="kpi"><strong>{ejecutadas} de {pruebas.length}</strong><span>pruebas con salida real</span></div>
+        <Kpi icono="alerta" tono="critico" valor={riesgos.length} texto={`riesgos R-CONF, ${criticos} críticos`} />
+        <Kpi icono="lista" valor={tareas.length} texto="tareas críticas del DBA" />
+        <Kpi icono="escudo" valor={`${oficiales.length} + ${complementarios.length}`} texto="controles oficiales + complementarios" />
+        <Kpi icono="x" tono="critico" valor={`${noCumple} de ${controles.length}`} texto='controles en "No cumple" (ANTES)' />
+        <Kpi icono="matraz" tono="ok" valor={`${ejecutadas} de ${pruebas.length}`} texto="pruebas con salida real" />
       </div>
 
-      <h3>Cómo leer este artefacto</h3>
+      <h3><Icono nombre="reloj" tam={18} /> ANTES y DESPUÉS</h3>
+      <AvisoDespues ir={ir} hayDespues={hayDespues} />
+
+      <h3><Icono nombre="ayuda" tam={18} /> Cómo leer este artefacto</h3>
       <ul className="como-leer">
         <li><strong>Primero lo general.</strong> Cada riesgo, tarea y control se explica para cualquier base Oracle.</li>
         <li><strong>Después el ejemplo.</strong> Lo que ocurrió en el escenario de prueba aparece en recuadros verdes. El interruptor de arriba los muestra u oculta.</li>
         <li><strong>Un paso por cada requisito del PDF.</strong> Cada pantalla empieza con lo que pide el PDF y cómo se resolvió.</li>
       </ul>
 
-      <h3>Ciclo PHVA: dónde está el proyecto</h3>
+      <h3><Icono nombre="objetivo" tam={18} /> Ciclo PHVA: dónde está el proyecto</h3>
       <ol className="phva">
         {FASES.map((f) => (
           <li key={f.nombre} className={f.actual ? 'actual' : ''}>
@@ -42,13 +52,13 @@ export default function Inicio({ ir, indice, alAbrir }) {
         ))}
       </ol>
 
-      <h3>Ruta paso a paso</h3>
+      <h3><Icono nombre="lista" tam={18} /> Ruta paso a paso</h3>
       <ol className="ruta">
         {pasos.filter((p) => p.id !== 'inicio').map((p) => (
           <li key={p.id}>
             <button type="button" className="ruta-item" onClick={() => ir(p.id)}>
               <span className={`punto punto-${p.estado}`} />
-              <span className="ruta-num">{p.numero}</span>
+              <span className="ruta-num"><Icono nombre={ICONO_PASO[p.id]} tam={16} /></span>
               <span className="ruta-tit">{p.titulo}</span>
               <span className="ruta-pdf">{p.pdf}</span>
             </button>
@@ -56,7 +66,7 @@ export default function Inicio({ ir, indice, alAbrir }) {
         ))}
       </ol>
 
-      <h3>Sigue un riesgo de punta a punta</h3>
+      <h3><Icono nombre="enlace" tam={18} /> Sigue un riesgo de punta a punta</h3>
       <p>Elige un riesgo y mira su cadena completa: tarea del DBA, control ISO, evidencia y pruebas.</p>
       <Cadena indice={indice} alAbrir={alAbrir} />
     </>

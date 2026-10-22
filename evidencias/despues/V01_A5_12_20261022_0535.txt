@@ -1,0 +1,57 @@
+======================================================================
+Evidencia: V01_A5_12   |   Fase: despues
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-22 05:35:02 -06:00
+
+1 fila seleccionada.
+
+--- 1) Columnas etiquetadas con clasificacion (COMMENT 'CLASIF:...')
+
+OWNER           TABLE_NAME                COLUMN_NAME               COMMENTS
+--------------- ------------------------- ------------------------- ---------------------------------------------
+INSTITUTO       ADECUACIONES              DETALLE_CONDICION         CLASIF:Sensible
+INSTITUTO       ADECUACIONES              FECHA_RESOLUCION          CLASIF:Restringido
+INSTITUTO       ADECUACIONES              ID_ADECUACION             CLASIF:Interno
+INSTITUTO       ADECUACIONES              ID_DOCENTE                CLASIF:Interno
+INSTITUTO       ADECUACIONES              ID_ESTUDIANTE             CLASIF:Interno
+INSTITUTO       ADECUACIONES              RECOMENDACIONES           CLASIF:Sensible
+INSTITUTO       ADECUACIONES              TIPO_ADECUACION           CLASIF:Restringido
+INSTITUTO       BECAS                     FECHA_APROBACION          CLASIF:Interno
+INSTITUTO       BECAS                     ID_BECA                   CLASIF:Interno
+INSTITUTO       BECAS                     ID_ESTUDIANTE             CLASIF:Interno
+INSTITUTO       BECAS                     INGRESO_FAMILIAR          CLASIF:Sensible
+INSTITUTO       BECAS                     MONTO_MENSUAL             CLASIF:Interno
+INSTITUTO       BECAS                     NUM_CUENTA                CLASIF:Restringido
+INSTITUTO       BECAS                     TIPO_BECA                 CLASIF:Interno
+INSTITUTO       DOCENTES                  CODIGO_EMPLEADO           CLASIF:Interno
+INSTITUTO       DOCENTES                  ESPECIALIDAD              CLASIF:Publico
+INSTITUTO       DOCENTES                  ID_DOCENTE                CLASIF:Interno
+INSTITUTO       DOCENTES                  NOMBRE                    CLASIF:Publico
+INSTITUTO       DOCENTES                  USUARIO_BD                CLASIF:Interno
+INSTITUTO       ESTUDIANTES               CEDULA                    CLASIF:Restringido
+INSTITUTO       ESTUDIANTES               CORREO                    CLASIF:Restringido
+INSTITUTO       ESTUDIANTES               DIRECCION                 CLASIF:Restringido
+INSTITUTO       ESTUDIANTES               ENCARGADO                 CLASIF:Restringido
+INSTITUTO       ESTUDIANTES               FECHA_INGRESO             CLASIF:Interno
+INSTITUTO       ESTUDIANTES               FECHA_NAC                 CLASIF:Restringido
+INSTITUTO       ESTUDIANTES               GRUPO                     CLASIF:Interno
+INSTITUTO       ESTUDIANTES               ID_ESTUDIANTE             CLASIF:Interno
+INSTITUTO       ESTUDIANTES               NOMBRE                    CLASIF:Interno
+INSTITUTO       ESTUDIANTES               SEXO                      CLASIF:Interno
+INSTITUTO       ESTUDIANTES               TELEFONO                  CLASIF:Restringido
+INSTITUTO       NOTAS                     ID_DOCENTE                CLASIF:Interno
+INSTITUTO       NOTAS                     ID_ESTUDIANTE             CLASIF:Interno
+INSTITUTO       NOTAS                     ID_NOTA                   CLASIF:Interno
+INSTITUTO       NOTAS                     MATERIA                   CLASIF:Restringido
+INSTITUTO       NOTAS                     NOTA                      CLASIF:Restringido
+INSTITUTO       NOTAS                     PERIODO                   CLASIF:Restringido
+
+36 filas seleccionadas.
+
+--- 2) Columnas del esquema SIN clasificacion (deberia ser 0 filas)
+
+ninguna fila seleccionada
+

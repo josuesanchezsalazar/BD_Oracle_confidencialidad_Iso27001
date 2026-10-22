@@ -1,0 +1,64 @@
+======================================================================
+Evidencia: V11_A8_11   |   Fase: despues
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-22 05:35:07 -06:00
+
+1 fila seleccionada.
+
+--- 1) Politicas de redaccion
+
+OBJECT_OWNER
+--------------------------------------------------------------------------------------------------------------------------------
+OBJECT_NAME
+--------------------------------------------------------------------------------------------------------------------------------
+POLICY_NAME
+--------------------------------------------------------------------------------------------------------------------------------
+EXPRESSION
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ENA
+---
+INSTITUTO
+ADECUACIONES
+R_ADECUACIONES
+SYS_CONTEXT('SYS_SESSION_ROLES','ROL_DOCENTE') = 'FALSE'
+YES
+
+INSTITUTO
+BECAS
+R_BECAS
+SYS_CONTEXT('SYS_SESSION_ROLES','ROL_TESORERIA') = 'FALSE'
+YES
+
+
+2 filas seleccionadas.
+
+--- 2) Columnas redactadas y tipo de redaccion
+
+OBJECT_OWNER
+--------------------------------------------------------------------------------------------------------------------------------
+OBJECT_NAME                                                                                                                      COLUMN_NAME               FUNCTION_TYPE
+-------------------------------------------------------------------------------------------------------------------------------- ------------------------- ---------------------------
+FUNCTION_PARAMETERS
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+INSTITUTO
+ADECUACIONES                                                                                                                     DETALLE_CONDICION         FULL REDACTION
+
+
+INSTITUTO
+BECAS                                                                                                                            INGRESO_FAMILIAR          FULL REDACTION
+
+
+INSTITUTO
+BECAS                                                                                                                            NUM_CUENTA                PARTIAL REDACTION
+VVVVVVVVVVVVVVVVVVVVVV,VVVVVVVVVVVVVVVVVVVVVV,*,1,18
+
+
+3 filas seleccionadas.
+
+--- 3) Cuentas propias EXENTAS de redaccion (directo o por roles) - deben ser minimas
+
+ninguna fila seleccionada
+

@@ -1,0 +1,45 @@
+======================================================================
+Evidencia: V03_A5_16   |   Fase: despues
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-22 05:35:04 -06:00
+
+1 fila seleccionada.
+
+--- 1) Cuentas propias (no mantenidas por Oracle)
+
+USERNAME                  ACCOUNT_STATUS       PROFILE              CREADA     ULTIMO_LOGIN     COM
+------------------------- -------------------- -------------------- ---------- ---------------- ---
+APP_MATRICULA             OPEN                 PERFIL_APLICACIONES  2026-10-20 2026-10-20 18:38 NO
+AUDITOR_EXT               OPEN                 PERFIL_USUARIOS      2026-10-20 2026-10-20 18:43 NO
+DEV_RAMIRO                OPEN                 PERFIL_USUARIOS      2026-10-20                  NO
+DOC_MCHAVES               OPEN                 PERFIL_USUARIOS      2026-10-20 2026-10-20 18:43 NO
+DOC_RBRENES               OPEN                 PERFIL_USUARIOS      2026-10-20                  NO
+EX_KSALAS                 LOCKED               DEFAULT              2026-10-20 2026-10-20 18:28 NO
+INSTITUTO                 OPEN                 PERFIL_APLICACIONES  2026-10-20 2026-10-20 18:43 NO
+INSTITUTO_DEV             OPEN                 PERFIL_USUARIOS      2026-10-20                  NO
+MONITOR_AUD               OPEN                 DEFAULT              2026-10-20                  NO
+PDBADMIN                  OPEN                 DEFAULT              2026-10-17                  NO
+SEC_LARAYA                OPEN                 PERFIL_USUARIOS      2026-10-20 2026-10-20 18:43 NO
+SEC_MVARGAS               OPEN                 PERFIL_USUARIOS      2026-10-20                  NO
+SECRETARIA                LOCKED               DEFAULT              2026-10-20                  NO
+SOPORTE_TI                OPEN                 PERFIL_USUARIOS      2026-10-20 2026-10-20 18:43 NO
+TESO_PAULA                OPEN                 PERFIL_USUARIOS      2026-10-20 2026-10-20 18:43 NO
+
+15 filas seleccionadas.
+
+--- 2) Cuentas ABIERTAS sin acceso en 90 dias o que nunca han ingresado (candidatas a bloqueo)
+
+USERNAME                  ACCOUNT_STATUS       ULTIMO_LOG
+------------------------- -------------------- ----------
+DEV_RAMIRO                OPEN
+DOC_RBRENES               OPEN
+INSTITUTO_DEV             OPEN
+MONITOR_AUD               OPEN
+PDBADMIN                  OPEN
+SEC_MVARGAS               OPEN
+
+6 filas seleccionadas.
+

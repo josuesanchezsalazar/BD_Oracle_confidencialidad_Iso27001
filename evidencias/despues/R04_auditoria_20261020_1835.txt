@@ -1,0 +1,63 @@
+======================================================================
+Remediacion R04_auditoria
+======================================================================
+
+CONTENEDOR   USUARIO      FECHA
+------------ ------------ ----------------------------
+XEPDB1       SYS          2026-10-20 18:35:31 -06:00
+
+1 fila seleccionada.
+
+--- 1) El auditor externo solo LEE el rastro: AUDIT_VIEWER en lugar de AUDIT_ADMIN (A5.33)
+OMITIDO (ya aplicado) REVOKE audit_admin FROM auditor_ext
+OK    GRANT audit_viewer TO auditor_ext
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 2) Politicas de auditoria unificada (A8.15)
+OK    politica pol_datos_sensibles creada y habilitada
+OK    politica pol_gestion_accesos creada y habilitada
+OK    politica pol_exportaciones creada y habilitada
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 3) Reporte semanal automatizado en una cuenta sin autenticacion (A8.16*)
+OK    GRANT CREATE TABLE, CREATE PROCEDURE, CREATE JOB TO monitor_aud
+OK    GRANT SELECT ON audsys.unified_audit_trail TO monitor_aud
+OK    CREATE TABLE monitor_aud.rep_auditoria (fecha_reporte TIMESTAMP, tipo VARCHAR2(30), usuario VARCHAR2(128), detalle VARCH
+
+Procedimiento PL/SQL terminado correctamente.
+
+
+Procedimiento creado.
+
+OK    job MONITOR_AUD.JOB_REPORTE_SEMANAL (cada lunes 07:00)
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 4) Resultado
+
+POLICY_NAME            ENABLED_OPTION   ENTITY_NAME  SUC FAI
+---------------------- ---------------- ------------ --- ---
+POL_DATOS_SENSIBLES    BY USER          ALL USERS    YES YES
+POL_EXPORTACIONES      BY USER          ALL USERS    YES YES
+POL_GESTION_ACCESOS    BY USER          ALL USERS    YES YES
+
+3 filas seleccionadas.
+
+
+GRANTEE                   GRANTED_ROLE
+------------------------- ----------------------------
+SYS                       AUDIT_ADMIN
+AUDITOR_EXT               AUDIT_VIEWER
+SYS                       AUDIT_VIEWER
+
+3 filas seleccionadas.
+
+
+JOB_NAME               ENABL REPEAT_INTERVAL
+---------------------- ----- ---------------------------------------------
+JOB_REPORTE_SEMANAL    TRUE  FREQ=WEEKLY;BYDAY=MON;BYHOUR=7;BYMINUTE=0
+
+1 fila seleccionada.
+

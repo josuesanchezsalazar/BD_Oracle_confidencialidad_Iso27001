@@ -8,7 +8,7 @@ El escenario de prueba es un colegio técnico ficticio, el **Instituto Oracle He
 
 | Carpeta | Contenido |
 |---|---|
-| `artefacto/` | Aplicación React (Vite) con el paso a paso del PDF: riesgos, tareas, mapeo, controles observables, matriz, pruebas, demostración y evidencias. |
+| `artefacto/` | Aplicación React (Vite) con el paso a paso del PDF: riesgos, tareas, mapeo, controles observables, matriz, pruebas y evidencias. |
 | `artefacto/src/data/` | **Fuente única de datos** (JSON). Todo lo demás se genera desde aquí. |
 | `sql/00_escenario/` | Crea el escenario con malas prácticas sembradas (`00_crear_escenario.sql`) y lo borra (`99_limpiar_escenario.sql`). |
 | `sql/01_verificacion/` | Scripts V01–V17: verifican el estado de cada control y guardan su salida. |

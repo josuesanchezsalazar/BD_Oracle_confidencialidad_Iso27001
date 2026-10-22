@@ -1,0 +1,34 @@
+======================================================================
+Evidencia: V15_A8_20   |   Fase: despues
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-22 05:35:21 -06:00
+
+1 fila seleccionada.
+
+--- 1) Adaptadores de red de la sesion actual (debe aparecer cifrado AES256 y checksum)
+
+NETWORK_SERVICE_BANNER
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Oracle Bequeath NT Protocol Adapter for 64-bit Windows: Version 21.0.0.0.0 - Production
+Authentication service for 64-bit Windows: Version 21.0.1.0.0 - Production
+NTS Authentication service adapter for 64-bit Windows: Version 2.0.0.0.0 - Production
+Encryption service for 64-bit Windows: Version 21.0.1.0.0 - Production
+Crypto-checksumming service for 64-bit Windows: Version 21.0.1.0.0 - Production
+
+5 filas seleccionadas.
+
+--- 2) Protocolo de la sesion actual (tcp / tcps)
+
+PROTOCOLO
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+IP_CLIENTE
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+1 fila seleccionada.
+

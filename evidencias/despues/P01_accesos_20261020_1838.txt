@@ -1,0 +1,52 @@
+======================================================================
+PT-01 | A8.2 | Minimo privilegio: APP_MATRICULA no debe leer BECAS
+Esperado: ORA-00942
+======================================================================
+USER es "APP_MATRICULA"
+SELECT COUNT(*) FROM instituto.becas
+                               *
+ERROR en línea 1:
+ORA-00942: la tabla o vista no existe
+
+
+======================================================================
+PT-02 | A5.15 | Acceso legitimo por rol: DOC_MCHAVES lee NOTAS
+Esperado: devuelve filas y el permiso viene de ROL_DOCENTE
+======================================================================
+USER es "DOC_MCHAVES"
+
+ROLE
+--------------------------------------------------------------------------------------------------------------------------------
+ROL_DOCENTE
+
+1 fila seleccionada.
+
+
+NOTAS_VISIBLES
+--------------
+           346
+
+1 fila seleccionada.
+
+======================================================================
+PT-07 | A5.15 | Permisos a PUBLIC: EX_KSALAS intenta leer ADECUACIONES
+Esperado: ORA-28000 (cuenta bloqueada) u ORA-00942
+======================================================================
+ERROR:
+ORA-28000: The account is locked.
+
+
+Advertencia: ¡Ya no está conectado a ORACLE!
+USER es ""
+SP2-0640: No conectado
+======================================================================
+PT-28 | A5.18 | Derechos re-otorgables: TESO_PAULA intenta re-otorgar
+Esperado: ORA-01031 (privilegios insuficientes)
+======================================================================
+USER es "TESO_PAULA"
+GRANT SELECT ON instituto.becas TO secretaria
+                          *
+ERROR en línea 1:
+ORA-01031: privilegios insuficientes
+
+

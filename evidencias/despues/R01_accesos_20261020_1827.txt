@@ -1,0 +1,59 @@
+======================================================================
+Remediacion R01: accesos y privilegios
+======================================================================
+
+CONTENEDOR
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+USUARIO                                                                                                                          FECHA
+-------------------------------------------------------------------------------------------------------------------------------- --------------------------
+XEPDB1
+SYS                                                                                                                              2026-10-20 18:27:31 -06:00
+
+
+1 fila seleccionada.
+
+--- 1) Roles por funcion (A5.15)
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 2) Retirar privilegios de sistema y roles excesivos (A8.2)
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 3) Retirar los permisos directos sobre INSTITUTO, incluido PUBLIC y GRANT OPTION (A5.15, A5.18)
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 4) Asignar cada cuenta a su rol de funcion
+
+Concesión terminada correctamente.
+
+
+Concesión terminada correctamente.
+
+
+Concesión terminada correctamente.
+
+
+Concesión terminada correctamente.
+
+
+Concesión terminada correctamente.
+
+--- 5) Resultado: roles y permisos directos que quedan
+
+GRANTEE                GRANTED_ROLE
+---------------------- ----------------------
+APP_MATRICULA          ROL_APP_MATRICULA
+DEV_RAMIRO             ROL_DESARROLLO
+DOC_MCHAVES            ROL_DOCENTE
+DOC_RBRENES            ROL_DOCENTE
+SECRETARIA             ROL_SECRETARIA
+TESO_PAULA             ROL_TESORERIA
+
+6 filas seleccionadas.
+
+
+ninguna fila seleccionada
+
+(La segunda consulta debe salir vacia: nadie tiene permisos directos ni PUBLIC.)

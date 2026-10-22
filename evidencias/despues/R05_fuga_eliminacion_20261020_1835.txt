@@ -1,0 +1,50 @@
+======================================================================
+Remediacion R05_fuga_eliminacion
+======================================================================
+
+CONTENEDOR   USUARIO      FECHA
+------------ ------------ ----------------------------
+XEPDB1       SYS          2026-10-20 18:35:20 -06:00
+
+1 fila seleccionada.
+
+--- 1) SOPORTE_TI deja de exportar la base completa (A8.12, MP-09)
+OK    REVOKE datapump_exp_full_database FROM soporte_ti
+OMITIDO (ya aplicado) REVOKE exp_full_database FROM soporte_ti
+OMITIDO (ya aplicado) REVOKE select_catalog_role FROM soporte_ti
+OK    REVOKE read, write ON DIRECTORY dir_exportes FROM PUBLIC
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 2) PUBLIC pierde los paquetes de salida de datos (A8.12)
+OK    REVOKE EXECUTE ON sys.UTL_TCP FROM PUBLIC
+OK    REVOKE EXECUTE ON sys.UTL_HTTP FROM PUBLIC
+OK    REVOKE EXECUTE ON sys.UTL_FILE FROM PUBLIC
+OK    REVOKE EXECUTE ON sys.UTL_INADDR FROM PUBLIC
+OK    REVOKE EXECUTE ON sys.UTL_SMTP FROM PUBLIC
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 3) Papelera: purgar los objetos de INSTITUTO que siguen recuperables (A8.10, MP-10)
+OK    purgado INSTITUTO.ESTUDIANTES_RESPALDO_2025
+OK    1 objetos purgados de la papelera
+
+Procedimiento PL/SQL terminado correctamente.
+
+--- 4) Resultado
+
+ninguna fila seleccionada
+
+
+ninguna fila seleccionada
+
+
+ninguna fila seleccionada
+
+
+OBJETOS_EN_PAPELERA
+-------------------
+                  0
+
+1 fila seleccionada.
+

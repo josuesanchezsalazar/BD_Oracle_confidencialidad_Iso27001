@@ -1,0 +1,34 @@
+======================================================================
+Evidencia: V07_A8_2   |   Fase: despues
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-22 05:35:06 -06:00
+
+1 fila seleccionada.
+
+--- 1) Roles poderosos en cuentas propias (directos o heredados)
+
+USERNAME                  GRANTED_ROLE
+------------------------- ------------------------------
+PDBADMIN                  PDB_DBA
+
+1 fila seleccionada.
+
+--- 2) Privilegios de sistema peligrosos otorgados DIRECTO a cuentas o roles propios
+
+ninguna fila seleccionada
+
+--- 3) Cantidad de privilegios peligrosos efectivos por cuenta propia (incluye roles)
+
+ninguna fila seleccionada
+
+--- 4) Privilegios administrativos del archivo de contrasenas (SYSDBA, SYSBACKUP, SYSKM...)
+
+USERNAME                  SYSDB SYSOP SYSBA SYSDG SYSKM ACCOUNT_STATUS
+------------------------- ----- ----- ----- ----- ----- --------------------
+SYS                       TRUE  TRUE  FALSE FALSE FALSE OPEN
+
+1 fila seleccionada.
+

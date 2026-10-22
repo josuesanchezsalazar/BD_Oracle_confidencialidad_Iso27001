@@ -1,0 +1,43 @@
+======================================================================
+Evidencia: V05_A5_18   |   Fase: despues
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-22 05:35:04 -06:00
+
+1 fila seleccionada.
+
+--- 1) Privilegios de objeto sobre el esquema (comparar con matriz rol-objeto)
+
+GRANTEE                   TABLE_NAME                PRIVILEGE                           GRA
+------------------------- ------------------------- ----------------------------------- ---
+ROL_APP_MATRICULA         ESTUDIANTES               INSERT                              NO
+ROL_APP_MATRICULA         ESTUDIANTES               SELECT                              NO
+ROL_APP_MATRICULA         ESTUDIANTES               UPDATE                              NO
+ROL_DOCENTE               ADECUACIONES              SELECT                              NO
+ROL_DOCENTE               ESTUDIANTES               SELECT                              NO
+ROL_DOCENTE               NOTAS                     INSERT                              NO
+ROL_DOCENTE               NOTAS                     SELECT                              NO
+ROL_DOCENTE               NOTAS                     UPDATE                              NO
+ROL_SECRETARIA            BECAS                     SELECT                              NO
+ROL_SECRETARIA            ESTUDIANTES               SELECT                              NO
+ROL_SECRETARIA            NOTAS                     SELECT                              NO
+ROL_TESORERIA             BECAS                     SELECT                              NO
+ROL_TESORERIA             BECAS                     UPDATE                              NO
+ROL_TESORERIA             ESTUDIANTES               SELECT                              NO
+
+14 filas seleccionadas.
+
+--- 2) Privilegios por columna sobre el esquema
+
+ninguna fila seleccionada
+
+--- 3) Derechos re-otorgables (WITH GRANT / WITH ADMIN) en cuentas propias
+
+GRANTEE                   OBJETO_O_ROL                                                                                                                     PRIVILEGE                           TIPO
+------------------------- -------------------------------------------------------------------------------------------------------------------------------- ----------------------------------- ------------
+PDBADMIN                  PDB_DBA                                                                                                                                                              ADMIN OPTION
+
+1 fila seleccionada.
+

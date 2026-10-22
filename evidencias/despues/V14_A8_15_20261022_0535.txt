@@ -1,0 +1,276 @@
+======================================================================
+Evidencia: V14_A8_15   |   Fase: despues
+======================================================================
+
+CONTENEDOR   USUARIO      HOST                      FECHA
+------------ ------------ ------------------------- ----------------------------
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-22 05:35:15 -06:00
+
+1 fila seleccionada.
+
+--- 1) Modo de auditoria (TRUE = unificada pura; FALSE = modo mixto)
+
+PARAMETER                                                        VALUE
+---------------------------------------------------------------- ----------------------------------------------------------------
+Unified Auditing                                                 FALSE
+
+1 fila seleccionada.
+
+--- 2) Politicas de auditoria habilitadas
+
+POLICY_NAME                                                                                                                      ENABLED_OPTION
+-------------------------------------------------------------------------------------------------------------------------------- ---------------
+ENTITY_NAME                                                                                                                      SUC FAI
+-------------------------------------------------------------------------------------------------------------------------------- --- ---
+ORA_LOGON_FAILURES                                                                                                               BY USER
+ALL USERS                                                                                                                        NO  YES
+
+ORA_SECURECONFIG                                                                                                                 BY USER
+ALL USERS                                                                                                                        YES YES
+
+POL_DATOS_SENSIBLES                                                                                                              BY USER
+ALL USERS                                                                                                                        YES YES
+
+POL_EXPORTACIONES                                                                                                                BY USER
+ALL USERS                                                                                                                        YES YES
+
+POL_GESTION_ACCESOS                                                                                                              BY USER
+ALL USERS                                                                                                                        YES YES
+
+
+5 filas seleccionadas.
+
+--- 3) Definicion de politicas propias (no ORA_*)
+
+POLICY_NAME
+--------------------------------------------------------------------------------------------------------------------------------
+AUDIT_OPTION
+--------------------------------------------------------------------------------------------------------------------------------
+OBJECT_SCHEMA
+--------------------------------------------------------------------------------------------------------------------------------
+OBJECT_NAME
+--------------------------------------------------------------------------------------------------------------------------------
+POL_DATOS_SENSIBLES
+SELECT
+INSTITUTO
+BECAS
+
+POL_DATOS_SENSIBLES
+DELETE
+INSTITUTO
+BECAS
+
+POL_DATOS_SENSIBLES
+UPDATE
+INSTITUTO
+ADECUACIONES
+
+POL_DATOS_SENSIBLES
+SELECT
+INSTITUTO
+ADECUACIONES
+
+POL_DATOS_SENSIBLES
+DELETE
+INSTITUTO
+ADECUACIONES
+
+POL_DATOS_SENSIBLES
+UPDATE
+INSTITUTO
+BECAS
+
+POL_EXPORTACIONES
+EXPORT
+NONE
+NONE
+
+POL_GESTION_ACCESOS
+ALTER ROLE
+NONE
+NONE
+
+POL_GESTION_ACCESOS
+GRANT
+NONE
+NONE
+
+POL_GESTION_ACCESOS
+REVOKE
+NONE
+NONE
+
+POL_GESTION_ACCESOS
+ALTER PROFILE
+NONE
+NONE
+
+POL_GESTION_ACCESOS
+DROP PROFILE
+NONE
+NONE
+
+POL_GESTION_ACCESOS
+CREATE PROFILE
+NONE
+NONE
+
+POL_GESTION_ACCESOS
+DROP ROLE
+NONE
+NONE
+
+POL_GESTION_ACCESOS
+DROP USER
+NONE
+NONE
+
+POL_GESTION_ACCESOS
+CREATE ROLE
+NONE
+NONE
+
+POL_GESTION_ACCESOS
+ALTER USER
+NONE
+NONE
+
+POL_GESTION_ACCESOS
+CREATE USER
+NONE
+NONE
+
+
+18 filas seleccionadas.
+
+--- 4) Ultimos 30 eventos sobre el esquema o de gestion de accesos
+
+FECHA                        DBUSERNAME
+---------------------------- --------------------------------------------------------------------------------------------------------------------------------
+ACTION_NAME                                                      OBJECT_SCHEMA
+---------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------
+OBJECT_NAME                                                                                                                      RETURN_CODE
+-------------------------------------------------------------------------------------------------------------------------------- -----------
+2026-10-20 18:46:59          SYS
+DROP USER
+USR_PRUEBA_IDLE                                                                                                                            0
+
+2026-10-20 18:43:47          SYS
+GRANT
+                                                                                                                                           0
+
+2026-10-20 18:43:47          SYS
+CREATE USER
+USR_PRUEBA_IDLE                                                                                                                            0
+
+2026-10-20 18:43:47          SYS
+SELECT                                                           INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+2026-10-20 18:43:47          SYS
+REVOKE                                                           INSTITUTO
+DOCENTES                                                                                                                                   0
+
+2026-10-20 18:43:47          SYS
+GRANT                                                            INSTITUTO
+DOCENTES                                                                                                                                   0
+
+2026-10-20 18:43:47          DOC_MCHAVES
+SELECT                                                           INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+2026-10-20 18:43:47          INSTITUTO
+SELECT                                                           INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+2026-10-20 18:43:47          TESO_PAULA
+SELECT                                                           INSTITUTO
+ADECUACIONES                                                                                                                            2004
+
+2026-10-20 18:43:47          SEC_LARAYA
+SELECT                                                           INSTITUTO
+BECAS                                                                                                                                      0
+
+2026-10-20 18:43:47          DOC_MCHAVES
+SELECT                                                           INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+2026-10-20 18:43:46          DOC_MCHAVES
+ALTER USER
+DOC_MCHAVES                                                                                                                            28003
+
+2026-10-20 18:43:46          SYS
+ALTER USER
+APP_MATRICULA                                                                                                                              0
+
+2026-10-20 18:43:41          SYS
+ALTER USER
+DEV_RAMIRO                                                                                                                                 0
+
+2026-10-20 18:43:35          SYS
+DROP USER
+USR_PRUEBA_IDLE                                                                                                                            0
+
+2026-10-20 18:40:13          SYS
+GRANT
+                                                                                                                                           0
+
+2026-10-20 18:40:13          SYS
+CREATE USER
+USR_PRUEBA_IDLE                                                                                                                            0
+
+2026-10-20 18:39:51          SYS
+DROP USER
+USR_PRUEBA_IDLE                                                                                                                            0
+
+2026-10-20 18:39:51          SYS
+GRANT
+                                                                                                                                           0
+
+2026-10-20 18:39:51          SYS
+CREATE USER
+USR_PRUEBA_IDLE                                                                                                                            0
+
+2026-10-20 18:39:51          SYS
+SELECT                                                           INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+2026-10-20 18:39:51          SYS
+REVOKE                                                           INSTITUTO
+DOCENTES                                                                                                                                   0
+
+2026-10-20 18:39:51          SYS
+GRANT                                                            INSTITUTO
+DOCENTES                                                                                                                                   0
+
+2026-10-20 18:39:51          DOC_MCHAVES
+SELECT                                                           INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+2026-10-20 18:39:51          INSTITUTO
+SELECT                                                           INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+2026-10-20 18:39:51          TESO_PAULA
+SELECT                                                           INSTITUTO
+ADECUACIONES                                                                                                                            2004
+
+2026-10-20 18:39:51          SEC_LARAYA
+SELECT                                                           INSTITUTO
+BECAS                                                                                                                                      0
+
+2026-10-20 18:39:50          DOC_MCHAVES
+SELECT                                                           INSTITUTO
+ADECUACIONES                                                                                                                               0
+
+2026-10-20 18:39:50          DOC_MCHAVES
+ALTER USER
+DOC_MCHAVES                                                                                                                            28003
+
+2026-10-20 18:39:50          SYS
+ALTER USER
+APP_MATRICULA                                                                                                                              0
+
+
+30 filas seleccionadas.
+
