@@ -1,0 +1,18 @@
+﻿======================================================================
+ PT-29 | A8.21* | Listener limitado: en que interfaces escucha el puerto 1521
+ Esperado: solo 127.0.0.1
+ Fecha: 2026-10-27 07:52:39
+ Comando: netstat -ano | findstr :1521
+======================================================================
+  TCP    127.0.0.1:1521         0.0.0.0:0              LISTENING       4048
+
+ Comando: lsnrctl status (resumen)
+Conect�ndose a (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))
+ESTADO del LISTENER
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=127.0.0.1)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcps)(HOST=127.0.0.1)(PORT=5500))(Security=(my_wallet_directory=C:\APP\TEMPADMIN\PRODUCT\21C\admin\XE\xdb_wallet))(Presentation=HTTP)(Session=RAW))
+  La instancia "xe", con estado READY, tiene 2 manejador(es) para este servicio...
+  La instancia "CLRExtProc", con estado UNKNOWN, tiene 1 manejador(es) para este servicio...
+  La instancia "xe", con estado READY, tiene 2 manejador(es) para este servicio...
+  La instancia "xe", con estado READY, tiene 1 manejador(es) para este servicio...
+  La instancia "xe", con estado READY, tiene 2 manejador(es) para este servicio...

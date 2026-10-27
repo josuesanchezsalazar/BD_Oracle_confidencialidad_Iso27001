@@ -14,7 +14,7 @@ export default function AvisoDespues({ ir, hayDespues }) {
         <span className="ad-etiqueta"><Icono nombre="escudoOk" tam={14} /> DESPUÉS</span>
         <p>Se aplican los scripts de remediación (fase <em>Hacer</em>) y se <strong>repiten los mismos scripts</strong>. La comparación demuestra qué mejoró.</p>
         <span className={`ad-estado ${hayDespues ? 'listo' : 'pend'}`}>
-          <Icono nombre={hayDespues ? 'check' : 'reloj'} tam={14} /> {hayDespues ? 'En curso: se remedia por bloques' : 'Pendiente: fase Hacer y Verificar'}
+          <Icono nombre={hayDespues ? 'check' : 'reloj'} tam={14} /> {hayDespues ? 'Hecho: remediación aplicada y verificada' : 'Pendiente: fase Hacer y Verificar'}
         </span>
       </div>
       {ir && <button type="button" className="boton" onClick={() => ir('evidencias')}>Ver comparación <Icono nombre="derecha" tam={14} /></button>}

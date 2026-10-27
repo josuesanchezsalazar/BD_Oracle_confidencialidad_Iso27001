@@ -202,7 +202,7 @@
       "terminos": [["Prueba negativa / positiva", "Debe fallar / debe funcionar."], ["ORA-00942", "La tabla o vista no existe."], ["ORA-28000", "Cuenta bloqueada."], ["ORA-01031", "Privilegios insuficientes."], ["ORA-28003", "Contraseña no cumple la complejidad."], ["ORA-02396", "Sesión cerrada por inactividad."]],
       "defender": [
         { "p": "¿Por qué hacen falta pruebas si ya hay scripts?", "r": "El script dice cómo está configurado; la prueba demuestra que el control funciona intentando el acceso real." },
-        { "p": "¿Ejecutaste todas?", "r": "En el ANTES, 14 de 29 con salida real; el resto está marcado como inferida o pendiente. En el DESPUÉS, 27 de 29; faltan dos que requieren administrador." },
+        { "p": "¿Ejecutaste todas?", "r": "En el ANTES, 14 de 29 con salida real; el resto está marcado como inferida o pendiente. En el DESPUÉS, las 29." },
         { "p": "¿Por qué hay pendientes?", "r": "No se podían intentar todavía (no había respaldo que restaurar, o requieren PowerShell como administrador). Se marcan en vez de inventar un resultado." }
       ]
     },

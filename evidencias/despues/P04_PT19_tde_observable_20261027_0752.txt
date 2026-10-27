@@ -1,0 +1,47 @@
+﻿======================================================================
+ PT-19 | A8.24* | TDE observable: el texto aparece en un archivo sin cifrar y no en uno cifrado
+ Esperado: sin cifrar > 0 coincidencias; datafile cifrado y piezas del respaldo = 0
+ Fecha: 2026-10-27 07:52:22   Texto buscado: 'Maria Monge Campos'
+======================================================================
+--- 1) Referencia SIN cifrar: tablespace temporal TS_PT19_PLANO
+
+Sesi�n modificada.
+
+
+Tablespace creado.
+
+
+Tabla creada.
+
+
+Sistema modificado.
+
+
+TABLESPACE_NAME 	       ENC
+------------------------------ ---
+TS_INSTITUTO		       YES
+TS_PT19_PLANO		       NO
+
+
+Tablespace modificado.
+
+Coincidencias en C:\app\tempadmin\product\21c\oradata\XE\XEPDB1\TS_PT19_PLANO.DBF (sin cifrar): 1
+--- 2) Datafile cifrado (TDE AES256)
+Coincidencias en C:\app\tempadmin\product\21c\oradata\XE\XEPDB1\TS_INSTITUTO01_CIF.DBF : 0
+--- 3) Piezas del respaldo RMAN cifrado
+Coincidencias en C:\oracle_lab\backup\0155CETR_1_1_1 (1 729 175 552 bytes): 0
+Coincidencias en C:\oracle_lab\backup\0255CEUA_2_1_1 (559 513 600 bytes): 0
+Coincidencias en C:\oracle_lab\backup\0355CEUH_3_1_1 (533 798 912 bytes): 0
+--- 4) Limpieza del tablespace temporal
+
+Sesi�n modificada.
+
+
+Tablespace borrado.
+
+
+    QUEDAN
+----------
+	 0
+
+Archivo temporal eliminado: True

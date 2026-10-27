@@ -12,9 +12,9 @@
   --borde-fuerte: #3a3a43;
   --texto: #ececf0;
   --suave: #a1a1aa;
-  --acento: #5aa9ff;
-  --acento-fuerte: #2f7fe0;
-  --acento-claro: rgba(90, 169, 255, 0.08);
+  --acento: #a78bfa;
+  --acento-fuerte: #7c3aed;
+  --acento-claro: rgba(167, 139, 250, 0.10);
   --sobre-acento: #050506;
   --ejemplo: #2dd4bf;
   --ejemplo-fondo: rgba(45, 212, 191, 0.09);
@@ -30,6 +30,7 @@
   --critico: rgba(248, 113, 113, 0.24);  --critico-t: #fca5a5;
   --neutro: rgba(161, 161, 170, 0.2);    --neutro-t: #d4d4d8;
 
+  --serie-1: #f472b6; --serie-2: #fbbf24; --serie-3: #34d399; --serie-4: #fb923c; --serie-5: #22d3ee; --serie-6: #c084fc;
   --m0: #e5484d; --m1: #f0883e; --m2: #e6c229; --m3: #5fbf7a; --m4: #2fa66a;
 
   font-family: 'Segoe UI', system-ui, Calibri, Arial, sans-serif;
@@ -68,7 +69,7 @@ a { color: var(--acento); }
 .boton:hover { background: var(--acento-claro); border-color: var(--acento); }
 .boton:active { transform: translateY(1px); }
 .boton.primario { background: var(--acento); border-color: var(--acento); color: var(--sobre-acento); font-weight: 600; }
-.boton.primario:hover { background: #7bbcff; }
+.boton.primario:hover { background: #c4b5fd; }
 
 /* ---------- Estructura ---------- */
 .cuerpo { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 24px; padding: 24px 32px; align-items: start; max-width: 1500px; margin: 0 auto; }
@@ -129,7 +130,7 @@ th, td { border-bottom: 1px solid var(--borde); border-right: 1px solid var(--bo
 tr > :last-child { border-right: none; }
 tbody tr:last-child > * { border-bottom: none; }
 thead th { background: var(--encabezado-tabla); color: #fff; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
-tbody tr:hover > td { background: rgba(90, 169, 255, 0.05); }
+tbody tr:hover > td { background: rgba(167, 139, 250, 0.06); }
 .nowrap { white-space: nowrap; }
 code.sql { display: block; white-space: pre-wrap; word-break: break-word; background: var(--codigo-fondo); color: var(--codigo-texto); padding: 8px 10px; border-radius: 8px; margin-bottom: 6px; }
 
@@ -147,7 +148,7 @@ tbody tr:hover > td.banda-bajo, tbody tr:hover > td.banda-medio, tbody tr:hover 
 .pendiente-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 999px; font-size: 0.78rem; background: var(--neutro); color: var(--neutro-t); border: 1px dashed var(--borde-fuerte); white-space: nowrap; }
 
 .enlace { display: inline-flex; align-items: center; gap: 5px; background: none; border: none; padding: 0; color: var(--acento); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; text-align: left; }
-.enlace:hover { color: #9ccbff; }
+.enlace:hover { color: #c4b5fd; }
 .enlace.sel { font-weight: 700; color: #fff; }
 .sin-evidencia { color: var(--suave); font-size: 0.82rem; }
 
@@ -317,6 +318,7 @@ tbody tr:hover > td.banda-bajo, tbody tr:hover > td.banda-medio, tbody tr:hover 
     --codigo-fondo: #f1f3f7; --codigo-texto: #14213d; --encabezado-tabla: #eef1f6;
     --bajo: #dff1db; --bajo-t: #14532d; --medio: #fdf0bf; --medio-t: #713f12; --alto: #fbd9bb; --alto-t: #7c2d12;
     --critico: #f5c2c2; --critico-t: #7f1d1d; --neutro: #e3e7ee; --neutro-t: #374151;
+    --serie-1: #be185d; --serie-2: #b45309; --serie-3: #047857; --serie-4: #c2410c; --serie-5: #0e7490; --serie-6: #7e22ce;
   }
   body { background: #fff; font-size: 10pt; }
   strong, thead th, .guia-cab > span:first-child, .enlace.sel { color: #000; }
@@ -417,3 +419,46 @@ tr.fila-pendiente > td { background: rgba(245, 196, 81, 0.05); }
 .tabla-ad th.col-despues { color: var(--bajo-t); }
 .tabla-ad td:nth-child(3) { border-left: 3px solid var(--critico); }
 .tabla-ad td:nth-child(4) { border-left: 3px solid var(--bajo); }
+
+/* ---------- Curva de mejora y controles clave (Vision general) ---------- */
+.curva { margin: 10px 0 6px; padding: 16px 18px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 14px; }
+.curva figcaption { display: grid; gap: 2px; margin-bottom: 10px; }
+.curva figcaption span { color: var(--suave); font-size: 0.88rem; }
+.curva-leyenda { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.curva-serie { display: inline-flex; align-items: center; gap: 7px; padding: 3px 11px; border-radius: 999px; border: 1px solid var(--borde-fuerte); background: var(--tarjeta-2); font-size: 0.8rem; cursor: pointer; }
+.curva-serie i { width: 14px; height: 4px; border-radius: 2px; }
+.curva-serie i.punteada { height: 0; border-top: 2px dotted var(--suave); background: none; }
+.curva-serie.apagada { opacity: 0.4; text-decoration: line-through; }
+.curva-serie.meta { cursor: default; color: var(--suave); border-style: dashed; }
+.curva-lienzo { overflow-x: auto; }
+.curva-lienzo svg { display: block; width: 100%; min-width: 560px; height: auto; }
+.curva-rejilla { stroke: var(--borde); stroke-width: 1; }
+.curva-guia { stroke: var(--borde); stroke-width: 1; stroke-dasharray: 2 4; }
+.curva-meta { stroke: var(--suave); stroke-width: 1.5; stroke-dasharray: 2 5; }
+.curva-eje { fill: var(--suave); font-size: 12px; }
+.curva-eje.peq { font-size: 10px; opacity: 0.8; }
+.curva-eje.medido { fill: var(--texto); font-weight: 700; }
+.curva-eje.meta { font-size: 11px; }
+.curva-linea { transition: opacity 0.15s; }
+.curva-linea.atenuada { opacity: 0.15; }
+.curva-nota { display: flex; gap: 6px; align-items: flex-start; color: var(--suave); font-size: 0.85rem; }
+.curva-tabla { margin-top: 6px; }
+.curva-tabla summary { cursor: pointer; color: var(--acento); font-size: 0.9rem; }
+.tabla-scroll { overflow-x: auto; margin-top: 8px; }
+.tabla-scroll td, .tabla-scroll th { white-space: nowrap; }
+.tabla-scroll td:nth-child(2) { white-space: normal; min-width: 220px; }
+
+.clave { margin: 8px 0 6px; }
+.clave-criterio { color: var(--suave); font-size: 0.9rem; }
+.clave-lista { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 10px; }
+.clave-item { display: flex; gap: 14px; padding: 14px 16px; background: var(--tarjeta); border: 1px solid var(--borde); border-left: 3px solid var(--acento); border-radius: 12px; }
+.clave-num { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--acento-claro); border: 1px solid var(--acento); color: var(--acento); font-weight: 700; }
+.clave-cuerpo { min-width: 0; }
+.clave-cuerpo h4 { margin: 0 0 4px; }
+.clave-cuerpo h4 span { color: var(--suave); font-weight: 400; font-size: 0.92rem; margin-left: 4px; }
+.clave-cuerpo p { margin: 4px 0; }
+.clave-mirar { color: var(--suave); font-size: 0.9rem; }
+.clave-pie { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; font-size: 0.85rem; }
+.clave-puntaje { padding: 1px 10px; border-radius: 999px; background: var(--acento-claro); color: var(--acento); }
+@media print { .curva-lienzo svg { min-width: 0; } .curva-serie { border-color: #999; } details.curva-tabla { display: block; } .curva-tabla[open] summary { display: none; } }
+@media (max-width: 600px) { .clave-item { padding: 12px; gap: 10px; } .curva { padding: 12px; } }

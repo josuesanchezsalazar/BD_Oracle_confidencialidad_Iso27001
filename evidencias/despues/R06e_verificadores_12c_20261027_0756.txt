@@ -1,0 +1,103 @@
+======================================================================
+Remediacion R06e_verificadores_12c
+======================================================================
+
+CONTENEDOR   USUARIO      FECHA
+------------ ------------ ----------------------------
+XEPDB1       SYS          2026-10-27 07:56:37 -06:00
+
+1 fila seleccionada.
+
+--- ANTES: verificadores de las cuentas del escenario
+
+USERNAME               PASSWORD_VERSIONS
+---------------------- -----------------
+APP_MATRICULA          11G 12C
+AUDITOR_EXT            11G 12C
+DEV_RAMIRO             11G 12C
+DOC_MCHAVES            11G 12C
+DOC_RBRENES            11G 12C
+INSTITUTO              12C
+INSTITUTO_DEV          11G 12C
+SEC_LARAYA             11G 12C
+SEC_MVARGAS            11G 12C
+SOPORTE_TI             11G 12C
+TESO_PAULA             11G 12C
+
+11 filas seleccionadas.
+
+
+Perfil modificado.
+
+
+Usuario modificado.
+
+
+Usuario modificado.
+
+
+Usuario modificado.
+
+
+Usuario modificado.
+
+
+Usuario modificado.
+
+
+Usuario modificado.
+
+
+Usuario modificado.
+
+
+Usuario modificado.
+
+
+Usuario modificado.
+
+
+Usuario modificado.
+
+
+Usuario modificado.
+
+
+Perfil modificado.
+
+--- Limite de reutilizacion restaurado (se espera 5)
+
+LIMIT
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5
+
+1 fila seleccionada.
+
+--- DESPUES: verificadores (se espera solo 12C)
+
+USERNAME               PASSWORD_VERSIONS
+---------------------- -----------------
+APP_MATRICULA          12C
+AUDITOR_EXT            12C
+DEV_RAMIRO             12C
+DOC_MCHAVES            12C
+DOC_RBRENES            12C
+INSTITUTO              12C
+INSTITUTO_DEV          12C
+SEC_LARAYA             12C
+SEC_MVARGAS            12C
+SOPORTE_TI             12C
+TESO_PAULA             12C
+
+11 filas seleccionadas.
+
+--- Cuentas con verificador 11G que siguen sin contrasena de laboratorio definida
+
+USERNAME               PASSWORD_VERSIONS ACCOUNT_STATUS
+---------------------- ----------------- ----------------
+EX_KSALAS              11G 12C           LOCKED
+PDBADMIN               11G 12C           OPEN
+SECRETARIA             11G 12C           LOCKED
+
+3 filas seleccionadas.
+

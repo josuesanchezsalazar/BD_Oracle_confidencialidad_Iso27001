@@ -5,6 +5,8 @@ import Icono, { ICONO_PASO } from '../componentes/Icono.jsx';
 import Kpi from '../componentes/Kpi.jsx';
 import GuiaInicio from '../componentes/GuiaInicio.jsx';
 import AvisoDespues from '../componentes/AvisoDespues.jsx';
+import CurvaMejora from '../componentes/CurvaMejora.jsx';
+import ControlesClave from '../componentes/ControlesClave.jsx';
 
 const FASES = [
   { nombre: 'Planificar', texto: 'Riesgos, tareas, mapeo, matriz y diagnóstico ANTES', actual: true },
@@ -17,7 +19,8 @@ export default function Inicio({ ir, indice, alAbrir }) {
   const hayDespues = (indice?.despues ?? []).length > 0;
   const criticos = riesgos.filter((r) => banda(nivel(r.p, r.i)) === 'Crítico').length;
   const noCumple = controles.filter((c) => estado(c.madurez.antes) === 'No cumple').length;
-  const ejecutadas = pruebas.filter((p) => p.origen === 'ejecutada').length;
+  const ejecutadasAntes = pruebas.filter((p) => p.origen === 'ejecutada').length;
+  const conDespues = pruebas.filter((p) => p.estadoDespues).length;
 
   return (
     <>
@@ -28,11 +31,17 @@ export default function Inicio({ ir, indice, alAbrir }) {
         <Kpi icono="lista" valor={tareas.length} texto="tareas críticas del DBA" />
         <Kpi icono="escudo" valor={`${oficiales.length} + ${complementarios.length}`} texto="controles oficiales + complementarios" />
         <Kpi icono="x" tono="critico" valor={`${noCumple} de ${controles.length}`} texto='controles en "No cumple" (ANTES)' />
-        <Kpi icono="matraz" tono="ok" valor={`${ejecutadas} de ${pruebas.length}`} texto="pruebas con salida real" />
+        <Kpi icono="matraz" tono="ok" valor={`${conDespues} de ${pruebas.length}`} texto={`pruebas con resultado DESPUÉS (en el ANTES, ${ejecutadasAntes} con salida real)`} />
       </div>
 
       <h3><Icono nombre="reloj" tam={18} /> ANTES y DESPUÉS</h3>
       <AvisoDespues ir={ir} hayDespues={hayDespues} />
+
+      <h3><Icono nombre="objetivo" tam={18} /> Cómo mejoró el instituto con cada bloque</h3>
+      <CurvaMejora />
+
+      <h3><Icono nombre="idea" tam={18} /> Si vas a evaluar este escenario, empieza por estos 5 controles</h3>
+      <ControlesClave indice={indice} alAbrir={alAbrir} ir={ir} />
 
       <h3><Icono nombre="ayuda" tam={18} /> Cómo leer este artefacto</h3>
       <ul className="como-leer">

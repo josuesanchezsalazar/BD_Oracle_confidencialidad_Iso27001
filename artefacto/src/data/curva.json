@@ -1,0 +1,15 @@
+{
+  "nota": "Solo ANTES (20/10/2026) y DESPUÉS (27/10/2026) son mediciones reales con los scripts V01–V17. Los puntos intermedios son CALCULADOS: cada control conserva su nivel ANTES hasta el bloque que lo remedia y desde ahí toma su nivel DESPUÉS.",
+  "bloques": [
+    { "id": "antes",   "etiqueta": "ANTES",   "nombre": "Diagnóstico inicial, sin remediar",                    "medido": true, "fecha": "20/10/2026", "controles": [] },
+    { "id": "r01",     "etiqueta": "R01",     "nombre": "Accesos y privilegios",                                 "script": "R01_accesos",            "controles": ["A8.2", "A5.15", "A5.18"] },
+    { "id": "r02",     "etiqueta": "R02",     "nombre": "Identidades y autenticación (perfiles y cuentas)",      "script": "R02_identidades",        "controles": ["A5.16", "A5.17", "A8.5"], "parcial": { "A8.5": 2 } },
+    { "id": "r03",     "etiqueta": "R03",     "nombre": "Restricción por fila, redacción y clon enmascarado",    "script": "R03_restriccion_masking", "controles": ["A5.12", "A8.3", "A8.11", "A8.33*"] },
+    { "id": "r04",     "etiqueta": "R04",     "nombre": "Auditoría y monitoreo",                                 "script": "R04_auditoria",          "controles": ["A8.15", "A5.33", "A8.16*"] },
+    { "id": "r05",     "etiqueta": "R05",     "nombre": "Fuga de datos y eliminación segura",                    "script": "R05_fuga_eliminacion",   "controles": ["A8.12", "A8.10"] },
+    { "id": "tde",     "etiqueta": "TDE",     "nombre": "Cifrado en reposo con TDE (R06b)",                      "script": "R06b_tde",               "controles": ["A8.24*"] },
+    { "id": "rman",    "etiqueta": "RMAN",    "nombre": "Respaldo cifrado con RMAN (R06c)",                      "script": "R06c_backup_rman",       "controles": ["A8.13"] },
+    { "id": "red",     "etiqueta": "Red",     "nombre": "Cifrado de red, verificadores 12C y listener (R06a, R06e)", "script": "R06a_sqlnet_admin",  "controles": ["A8.20", "A8.21*", "A8.5"] },
+    { "id": "despues", "etiqueta": "DESPUÉS", "nombre": "Cierre: riesgo aceptado del parcheo (A8.8*) y V00 final", "medido": true, "fecha": "27/10/2026", "controles": ["A8.8*"] }
+  ]
+}

@@ -4,7 +4,7 @@ Evidencia: V14_A8_15   |   Fase: despues
 
 CONTENEDOR   USUARIO      HOST                      FECHA
 ------------ ------------ ------------------------- ----------------------------
-XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-22 05:35:15 -06:00
+XEPDB1       SYS          WORKGROUP\JOSUE           2026-10-27 07:57:29 -06:00
 
 1 fila seleccionada.
 
@@ -151,6 +151,58 @@ ACTION_NAME                                                      OBJECT_SCHEMA
 ---------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------
 OBJECT_NAME                                                                                                                      RETURN_CODE
 -------------------------------------------------------------------------------------------------------------------------------- -----------
+2026-10-27 07:56:37          SYS
+ALTER USER
+SEC_MVARGAS                                                                                                                                0
+
+2026-10-27 07:56:37          SYS
+ALTER USER
+SEC_LARAYA                                                                                                                                 0
+
+2026-10-27 07:56:37          SYS
+ALTER USER
+SOPORTE_TI                                                                                                                                 0
+
+2026-10-27 07:56:37          SYS
+ALTER USER
+AUDITOR_EXT                                                                                                                                0
+
+2026-10-27 07:56:37          SYS
+ALTER USER
+TESO_PAULA                                                                                                                                 0
+
+2026-10-27 07:56:37          SYS
+ALTER USER
+DOC_RBRENES                                                                                                                                0
+
+2026-10-27 07:56:37          SYS
+ALTER USER
+DOC_MCHAVES                                                                                                                                0
+
+2026-10-27 07:56:37          SYS
+ALTER USER
+APP_MATRICULA                                                                                                                              0
+
+2026-10-27 07:56:37          SYS
+ALTER USER
+DEV_RAMIRO                                                                                                                                 0
+
+2026-10-27 07:56:37          SYS
+ALTER USER
+INSTITUTO_DEV                                                                                                                              0
+
+2026-10-27 07:56:37          SYS
+ALTER USER
+INSTITUTO                                                                                                                                  0
+
+2026-10-27 07:56:16          SYS
+ALTER USER
+INSTITUTO_DEV                                                                                                                          28007
+
+2026-10-27 07:56:16          SYS
+ALTER USER
+INSTITUTO                                                                                                                                  0
+
 2026-10-20 18:46:59          SYS
 DROP USER
 USR_PRUEBA_IDLE                                                                                                                            0
@@ -218,58 +270,6 @@ GRANT
 2026-10-20 18:40:13          SYS
 CREATE USER
 USR_PRUEBA_IDLE                                                                                                                            0
-
-2026-10-20 18:39:51          SYS
-DROP USER
-USR_PRUEBA_IDLE                                                                                                                            0
-
-2026-10-20 18:39:51          SYS
-GRANT
-                                                                                                                                           0
-
-2026-10-20 18:39:51          SYS
-CREATE USER
-USR_PRUEBA_IDLE                                                                                                                            0
-
-2026-10-20 18:39:51          SYS
-SELECT                                                           INSTITUTO
-ADECUACIONES                                                                                                                               0
-
-2026-10-20 18:39:51          SYS
-REVOKE                                                           INSTITUTO
-DOCENTES                                                                                                                                   0
-
-2026-10-20 18:39:51          SYS
-GRANT                                                            INSTITUTO
-DOCENTES                                                                                                                                   0
-
-2026-10-20 18:39:51          DOC_MCHAVES
-SELECT                                                           INSTITUTO
-ADECUACIONES                                                                                                                               0
-
-2026-10-20 18:39:51          INSTITUTO
-SELECT                                                           INSTITUTO
-ADECUACIONES                                                                                                                               0
-
-2026-10-20 18:39:51          TESO_PAULA
-SELECT                                                           INSTITUTO
-ADECUACIONES                                                                                                                            2004
-
-2026-10-20 18:39:51          SEC_LARAYA
-SELECT                                                           INSTITUTO
-BECAS                                                                                                                                      0
-
-2026-10-20 18:39:50          DOC_MCHAVES
-SELECT                                                           INSTITUTO
-ADECUACIONES                                                                                                                               0
-
-2026-10-20 18:39:50          DOC_MCHAVES
-ALTER USER
-DOC_MCHAVES                                                                                                                            28003
-
-2026-10-20 18:39:50          SYS
-ALTER USER
-APP_MATRICULA                                                                                                                              0
 
 
 30 filas seleccionadas.

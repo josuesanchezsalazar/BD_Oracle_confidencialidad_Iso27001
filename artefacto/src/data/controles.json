@@ -96,7 +96,8 @@
     "consulta": "SELECT profile, resource_name, limit FROM dba_profiles WHERE resource_name IN ('FAILED_LOGIN_ATTEMPTS','IDLE_TIME');  SELECT username, password_versions FROM dba_users;",
     "script": "V09_A8_5",
     "auditor": { "observa": "Que las cuentas se bloqueen tras intentos fallidos y las sesiones inactivas se cierren.", "criterio": "Ningún perfil con intentos ilimitados, IDLE_TIME definido y solo verificadores 12C.", "ejemplo": "Todas las cuentas de INSTITUTO con 5 intentos y 15 minutos de inactividad." },
-    "madurez": { "antes": 1, "justAntes": "Bloqueo por defecto a los 10 intentos, pero PERFIL_APLICACIONES es ilimitado, IDLE_TIME es ilimitado y hay verificadores 11G", "meta": 3, "despues": 2, "justDespues": "Bloqueo a los 5 intentos e IDLE_TIME 15 comprobados (PT-08, PT-09, PT-11); siguen verificadores 11G hasta aplicar R06a (sqlnet.ora)" }
+    "madurez": { "antes": 1, "justAntes": "Bloqueo por defecto a los 10 intentos, pero PERFIL_APLICACIONES es ilimitado, IDLE_TIME es ilimitado y hay verificadores 11G", "meta": 3, "despues": 3,
+    "justDespues": "Bloqueo a los 5 intentos e IDLE_TIME 15 (PT-08, PT-09, PT-11); ALLOWED_LOGON_VERSION_SERVER = 12a y verificadores solo 12C en las 11 cuentas del escenario con clave de laboratorio (V09, R06e). Quedan EX_KSALAS y SECRETARIA (bloqueadas) y PDBADMIN con verificador 11G almacenado, que 12a ya no admite para iniciar sesión" }
   },
   {
     "id": "A8.10", "nombre": "Eliminación de la información", "tema": "Tecnológico", "oficial": true, "tipo": "Preventivo",
@@ -162,7 +163,9 @@
     "consulta": "SELECT network_service_banner FROM v$session_connect_info WHERE sid = SYS_CONTEXT('USERENV','SID');",
     "script": "V15_A8_20",
     "auditor": { "observa": "Que el tráfico entre la aplicación y la base viaje cifrado (sesión por TCP, no local).", "criterio": "El banner de una sesión TCP muestra el adaptador de cifrado con algoritmo AES256 activo.", "ejemplo": "Sesión a localhost:1521/XEPDB1 con AES256." },
-    "madurez": { "antes": 0, "justAntes": "Sin cifrado configurado: el banner por TCP lista los adaptadores pero ningún algoritmo activo", "meta": 3 }
+    "madurez": { "antes": 0, "justAntes": "Sin cifrado configurado: el banner por TCP lista los adaptadores pero ningún algoritmo activo", "meta": 3,
+    "despues": 3,
+    "justDespues": "V15 por TCP: el banner lista AES256 y SHA256 activos; SQLNET.ENCRYPTION_SERVER y CRYPTO_CHECKSUM_SERVER = REQUIRED (PT-24, 27/10/2026)" }
   },
   {
     "id": "A8.24*", "nombre": "Uso de criptografía", "tema": "Tecnológico", "oficial": false, "tipo": "Preventivo",
@@ -184,7 +187,9 @@
     "consulta": "SELECT banner_full FROM v$version;  SELECT patch_id, status FROM dba_registry_sqlpatch;",
     "script": "V17_A8_8",
     "auditor": { "observa": "Qué versión corre y si el riesgo de no parchear está documentado y aceptado.", "criterio": "Versión registrada y riesgo aceptado por escrito.", "ejemplo": "XE 21.3 con la limitación documentada." },
-    "madurez": { "antes": 1, "justAntes": "Versión 21.3.0.0.0 sin parches; la limitación no estaba documentada", "meta": 2 }
+    "madurez": { "antes": 1, "justAntes": "Versión 21.3.0.0.0 sin parches; la limitación no estaba documentada", "meta": 2,
+    "despues": 2,
+    "justDespues": "V17 registra 21.3.0.0.0 sin parches y la limitación de XE queda documentada como riesgo aceptado en docs/riesgo-aceptado-parcheo.md (borrador pendiente de mi aprobación)" }
   },
   {
     "id": "A8.16*", "nombre": "Actividades de monitoreo", "tema": "Tecnológico", "oficial": false, "tipo": "Detectivo",
@@ -206,7 +211,9 @@
     "consulta": "lsnrctl status  (sección Resumen de Puntos Finales);  SELECT value FROM v$parameter WHERE name = 'local_listener';",
     "script": null, "evidenciaManual": "Salida de lsnrctl status y copia de listener.ora",
     "auditor": { "observa": "En qué interfaces escucha el listener y quién puede conectarse.", "criterio": "El listener escucha solo en las direcciones necesarias.", "ejemplo": "Solo 127.0.0.1:1521." },
-    "madurez": { "antes": 0, "justAntes": "Listener sobre una IP de red que no existía y sin restricciones; se corrigió a localhost el 19/10", "meta": 3 }
+    "madurez": { "antes": 0, "justAntes": "Listener sobre una IP de red que no existía y sin restricciones; se corrigió a localhost el 19/10", "meta": 3,
+    "despues": 3,
+    "justDespues": "PT-29: netstat y lsnrctl muestran el listener solo en 127.0.0.1:1521 (27/10/2026)" }
   },
   {
     "id": "A8.33*", "nombre": "Información de prueba", "tema": "Tecnológico", "oficial": false, "tipo": "Preventivo",
