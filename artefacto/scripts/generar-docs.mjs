@@ -190,3 +190,19 @@ ${demosData.cierre.nota}
 
 ${tabla(['Usuario', 'Contraseña', 'Mala práctica'], demosData.cuentas.map((c) => [`\`${c.usuario}\``, `\`${c.clave}\``, c.mala]))}
 `);
+
+// Guia de demostracion en vivo del estado DESPUES y orden de los scripts: se generan desde scripts.json
+const scriptsData = leer('scripts.json');
+escribir('guia-demostracion-en-vivo.md', `
+# ${scriptsData.demo.titulo}
+
+> Archivo generado desde \`artefacto/src/data/scripts.json\` con \`npm run docs\`. Para cambiarlo, edita ese JSON.
+
+> **Aviso:** ${scriptsData.demo.aviso}
+
+${scriptsData.demo.pasos.map((p, k) => `## Paso ${k + 1}. ${p.titulo}\n\n*${p.donde}*\n\n${bloque(p.comando)}\n\n${p.luego ? bloque(p.luego) + '\n\n' : ''}**Debe verse:** ${p.esperado}`).join('\n\n')}
+
+# Orden de los scripts del repositorio
+
+${scriptsData.etapas.map((e) => `## ${e.numero}. ${e.titulo}\n\n${e.texto}\n\n${e.comando ? bloque(e.comando) + '\n\n' : ''}${e.aviso ? `> ${e.aviso}\n\n` : ''}${e.archivos.map((a) => `- \`sql/${a}\``).join('\n')}`).join('\n\n')}
+`);

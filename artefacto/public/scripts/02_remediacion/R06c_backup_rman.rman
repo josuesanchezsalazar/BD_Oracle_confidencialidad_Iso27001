@@ -1,0 +1,12 @@
+# R06c | HACER: respaldo cifrado con RMAN (A8.13) - requiere TDE listo (R06b) con el keystore abierto o de inicio automatico
+# XE trabaja en NOARCHIVELOG: el respaldo se hace con la base MONTADA (no abierta).
+#
+# Pasos (desde la RAIZ del repositorio):
+#   1) sqlplus "sys/<clave> as sysdba"  ->  SHUTDOWN IMMEDIATE;  STARTUP MOUNT;  EXIT
+#   2) rman target "sys/<clave>" cmdfile=sql/02_remediacion/R06c_backup_rman.rman log=evidencias/despues/R06c_backup_rman.log
+#   3) sqlplus "sys/<clave> as sysdba"  ->  ALTER DATABASE OPEN;  ALTER PLUGGABLE DATABASE ALL OPEN;  EXIT
+CONFIGURE ENCRYPTION FOR DATABASE ON;
+CONFIGURE ENCRYPTION ALGORITHM 'AES256';
+BACKUP DATABASE FORMAT 'C:\oracle_lab\backup\%U';
+RESTORE DATABASE VALIDATE;
+LIST BACKUP SUMMARY;

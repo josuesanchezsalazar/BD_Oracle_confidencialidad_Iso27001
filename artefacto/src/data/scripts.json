@@ -1,0 +1,51 @@
+{
+  "nota": "Los scripts se muestran tal como están en la carpeta sql/ del repositorio. _claves.sql (contraseñas ficticias de laboratorio) no se publica en el artefacto.",
+  "etapas": [
+    {
+      "id": "creacion", "numero": 1, "titulo": "Creación del escenario", "icono": "base",
+      "texto": "Crea el esquema INSTITUTO con datos ficticios y siembra las 12 malas prácticas (MP-01 a MP-12). Es el punto de partida: la base «con fallas».",
+      "comando": "sqlplus \"sys@localhost:1521/XEPDB1 as sysdba\" \"@sql/00_escenario/00_crear_escenario.sql\"",
+      "aviso": "99_limpiar_escenario.sql borra el escenario para repetirlo desde cero. No lo ejecutes en una demostración: vuelve la base al estado ANTES y deshace la remediación.",
+      "archivos": ["00_escenario/00_crear_escenario.sql", "00_escenario/99_limpiar_escenario.sql"]
+    },
+    {
+      "id": "antes", "numero": 2, "titulo": "Verificación ANTES: ver las fallas", "icono": "ojo",
+      "texto": "Un script por control ISO. Solo leen (consultan el catálogo de Oracle) y guardan su salida en evidencias/antes. V00 los ejecuta todos.",
+      "comando": "sqlplus \"sys@localhost:1521/XEPDB1 as sysdba\" \"@sql/01_verificacion/V00_ejecutar_todo.sql\" antes",
+      "fase": "antes",
+      "archivos": ["01_verificacion/V00_ejecutar_todo.sql", "01_verificacion/V01_A5_12_clasificacion.sql", "01_verificacion/V02_A5_15_control_acceso.sql", "01_verificacion/V03_A5_16_identidades.sql", "01_verificacion/V04_A5_17_autenticacion_info.sql", "01_verificacion/V05_A5_18_derechos_acceso.sql", "01_verificacion/V06_A5_33_proteccion_registros.sql", "01_verificacion/V07_A8_2_acceso_privilegiado.sql", "01_verificacion/V08_A8_3_restriccion_acceso.sql", "01_verificacion/V09_A8_5_autenticacion_segura.sql", "01_verificacion/V10_A8_10_eliminacion.sql", "01_verificacion/V11_A8_11_enmascaramiento.sql", "01_verificacion/V12_A8_12_fuga_datos.sql", "01_verificacion/V13_A8_13_respaldo.sql", "01_verificacion/V14_A8_15_registro.sql", "01_verificacion/V15_A8_20_redes.sql", "01_verificacion/V16_A8_24_criptografia.sql", "01_verificacion/V17_A8_8_vulnerabilidades.sql"]
+    },
+    {
+      "id": "solucion", "numero": 3, "titulo": "Solución: remediación por bloques (Hacer)", "icono": "candado",
+      "texto": "Cada bloque corrige un grupo de malas prácticas. Se aplican en este orden. R06a necesita PowerShell como administrador; R06b y R06c llevan pasos manuales que cada archivo explica.",
+      "comando": "sqlplus \"sys@localhost:1521/XEPDB1 as sysdba\" \"@sql/02_remediacion/R01_accesos.sql\"",
+      "archivos": ["02_remediacion/R01_accesos.sql", "02_remediacion/R02_identidades.sql", "02_remediacion/R03_restriccion_masking.sql", "02_remediacion/R04_auditoria.sql", "02_remediacion/R05_fuga_eliminacion.sql", "02_remediacion/R06b_paso1_wallet_root.sql", "02_remediacion/R06b_tde.sql", "02_remediacion/R06c_backup_rman.rman", "02_remediacion/R06a_sqlnet_admin.ps1", "02_remediacion/R06e_verificadores_12c.sql", "02_remediacion/_inicio.sql"]
+    },
+    {
+      "id": "despues", "numero": 4, "titulo": "Verificación DESPUÉS y pruebas", "icono": "escudoOk",
+      "texto": "Se repiten los mismos scripts V (ver etapa 2) y se corren las pruebas, que intentan cada acción con la cuenta indicada: las negativas deben dar error.",
+      "comando": "sqlplus \"sys@localhost:1521/XEPDB1 as sysdba\" \"@sql/01_verificacion/V00_ejecutar_todo.sql\" despues",
+      "archivos": ["03_pruebas/P01_accesos.sql", "03_pruebas/P02_pruebas_R02_a_R05.sql", "03_pruebas/P04_PT19_tde_observable.ps1", "03_pruebas/P05_PT24_cifrado_red.sql"]
+    },
+    {
+      "id": "apoyo", "numero": 5, "titulo": "Apoyo", "icono": "archivo",
+      "texto": "Archivos que usan los demás: configuración común y encabezado de evidencia.",
+      "archivos": ["01_verificacion/_config.sql", "01_verificacion/_encabezado.sql"]
+    }
+  ],
+  "demo": {
+    "titulo": "Demostración en vivo del estado actual (DESPUÉS)",
+    "aviso": "No ejecutes 99_limpiar_escenario.sql ni 00_crear_escenario.sql durante la demostración: devuelven la base al estado ANTES y borran la remediación. Para mostrar el ANTES usa las salidas guardadas en la pestaña ANTES.",
+    "pasos": [
+      { "titulo": "Encender Oracle y abrir la base", "donde": "PowerShell como administrador", "comando": "Get-Service Oracle*\nStart-Service OracleServiceXE\nStart-Service OracleOraDB21Home1TNSListener", "luego": "sqlplus sys as sysdba\nALTER DATABASE OPEN;\nALTER PLUGGABLE DATABASE ALL OPEN;\nSELECT name, open_mode FROM v$pdbs;", "esperado": "XEPDB1 en READ WRITE. Si la base ya estaba abierta, Oracle lo avisa y no pasa nada." },
+      { "titulo": "Entrar por TCP a la base del proyecto", "donde": "PowerShell, en la carpeta del proyecto", "comando": "cd C:\\Users\\josue\\OneDrive\\Desktop\\BD_Oracle_confidencialidad_Iso27001\nsqlplus \"sys@localhost:1521/XEPDB1 as sysdba\"", "esperado": "Pide la contraseña de SYS (no se ve al escribir). Entrar por TCP, no local, activa el cifrado de red." },
+      { "titulo": "Ver lo corregido con consultas cortas", "donde": "SQL*Plus", "comando": "SET LINESIZE 160 PAGESIZE 40\nSHOW CON_NAME\n-- 1) Nadie conserva el rol DBA salvo SYS y SYSTEM\nSELECT grantee FROM dba_role_privs WHERE granted_role = 'DBA' AND grantee NOT IN ('SYS','SYSTEM');\n-- 2) Ya no hay permisos a PUBLIC sobre INSTITUTO\nSELECT COUNT(*) FROM dba_tab_privs WHERE grantee = 'PUBLIC' AND owner = 'INSTITUTO';\n-- 3) Datos en reposo cifrados\nSELECT tablespace_name, encrypted FROM dba_tablespaces WHERE tablespace_name = 'TS_INSTITUTO';\nSELECT status, wallet_type FROM v$encryption_wallet;\n-- 4) La sesión va cifrada por la red\nSELECT network_service_banner FROM v$session_connect_info WHERE sid = SYS_CONTEXT('USERENV','SID') AND network_service_banner LIKE '%AES%';", "esperado": "1) ninguna fila. 2) 0. 3) TS_INSTITUTO con YES y wallet OPEN. 4) AES256 Encryption service adapter." },
+      { "titulo": "Mostrar la restricción por fila con una cuenta de docente", "donde": "SQL*Plus (la contraseña de DOC_MCHAVES está en sql/02_remediacion/_claves.sql)", "comando": "CONNECT doc_mchaves@localhost:1521/XEPDB1\nSELECT COUNT(*) FROM instituto.notas;\nCONNECT sys@localhost:1521/XEPDB1 AS SYSDBA\nSELECT COUNT(*) FROM instituto.notas;", "esperado": "El docente ve solo sus notas (346); SYS ve las 2000. Antes de remediar veía todas." },
+      { "titulo": "Verificar un control con su script", "donde": "SQL*Plus, desde la raíz del repositorio", "comando": "DEFINE fase = despues\n@sql/01_verificacion/V16_A8_24_criptografia.sql", "esperado": "Muestra la salida en pantalla y la guarda en evidencias/despues. Sirve igual con V02, V07, V09 o V15." },
+      { "titulo": "Correr la batería completa de verificación", "donde": "PowerShell, raíz del repositorio", "comando": "sqlplus \"sys@localhost:1521/XEPDB1 as sysdba\" \"@sql/01_verificacion/V00_ejecutar_todo.sql\" despues", "esperado": "Genera 17 archivos nuevos en evidencias/despues (tarda unos segundos). Quedan duplicados de los anteriores: borra el juego viejo antes de entregar." },
+      { "titulo": "Probar los intentos que deben fallar", "donde": "PowerShell, raíz del repositorio", "comando": "sqlplus /nolog \"@sql/03_pruebas/P01_accesos.sql\"", "esperado": "Pide la clave de SYS. Cada acción prohibida (ex-secretaria, DBA, etc.) debe terminar en error ORA-xxxxx. P02 hace lo mismo para R02–R05 y dura unos 4 minutos." },
+      { "titulo": "Mostrar el cifrado del respaldo (PT-19)", "donde": "PowerShell, raíz del repositorio", "comando": "$env:ORA_SYS_PWD = Read-Host 'Clave de SYS'\n.\\sql\\03_pruebas\\P04_PT19_tde_observable.ps1", "esperado": "El nombre buscado aparece 1 vez en el archivo sin cifrar temporal y 0 veces en el datafile cifrado y en el respaldo." },
+      { "titulo": "Cerrar con el artefacto", "donde": "Navegador", "comando": "cd artefacto\nnpm run dev", "esperado": "Visión general (curva de mejora y 5 controles clave), Evidencias → Comparar ANTES/DESPUÉS y la matriz de evaluación." }
+    ]
+  }
+}

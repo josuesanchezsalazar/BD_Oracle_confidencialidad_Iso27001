@@ -462,3 +462,26 @@ tr.fila-pendiente > td { background: rgba(245, 196, 81, 0.05); }
 .clave-puntaje { padding: 1px 10px; border-radius: 999px; background: var(--acento-claro); color: var(--acento); }
 @media print { .curva-lienzo svg { min-width: 0; } .curva-serie { border-color: #999; } details.curva-tabla { display: block; } .curva-tabla[open] summary { display: none; } }
 @media (max-width: 600px) { .clave-item { padding: 12px; gap: 10px; } .curva { padding: 12px; } }
+
+/* ---------- Scripts del repositorio y demostracion en vivo (Evidencias) ---------- */
+.boton.chico { padding: 3px 10px; font-size: 0.78rem; }
+.etapa { padding: 12px 0 6px; border-top: 1px solid var(--borde); }
+.etapa:first-child { border-top: none; padding-top: 0; }
+.etapa h4 { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; }
+.etapa-num { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--acento-claro); border: 1px solid var(--acento); color: var(--acento); font-size: 0.8rem; }
+.etapa-texto { margin: 2px 0 6px; font-size: 0.88rem; color: var(--suave); }
+.etapa-cmd { display: flex; gap: 8px; align-items: flex-start; margin: 6px 0; }
+.etapa-cmd pre { flex: 1; min-width: 0; margin: 0; padding: 8px 10px; font-size: 0.8rem; max-height: 170px; overflow: auto; white-space: pre-wrap; word-break: break-all; }
+.etapa-aviso { display: flex; gap: 6px; align-items: flex-start; padding: 8px 10px; border-radius: 8px; background: var(--aviso-fondo); border: 1px solid var(--aviso); font-size: 0.85rem; }
+.etapa ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 6px; }
+.etapa-cab { display: block; color: var(--suave); }
+.etapa-salidas { display: block; font-size: 0.8rem; color: var(--suave); }
+.visor-cab { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; word-break: break-all; }
+.scripts-repo .visor pre { max-height: 75vh; overflow: auto; }
+.demo-pasos { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 12px; }
+.demo-paso { display: flex; gap: 14px; padding: 14px 16px; background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; }
+.demo-cuerpo { min-width: 0; flex: 1; }
+.demo-cuerpo h4 { margin: 0 0 2px; }
+.demo-esperado { display: flex; gap: 6px; align-items: flex-start; margin: 6px 0 0; font-size: 0.88rem; color: var(--bajo-t); }
+@media print { .etapa-cmd .boton, .visor-cab .boton { display: none; } }
+@media (max-width: 600px) { .demo-paso { padding: 12px; gap: 10px; } }

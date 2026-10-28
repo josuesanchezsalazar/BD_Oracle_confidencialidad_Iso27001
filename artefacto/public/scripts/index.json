@@ -1,0 +1,113 @@
+{
+  "00_escenario/00_crear_escenario.sql": {
+    "cabecera": "00_crear_escenario.sql | Instituto Oracle Heredia - estado \"ANTES\""
+  },
+  "00_escenario/99_limpiar_escenario.sql": {
+    "cabecera": "99_limpiar_escenario.sql | Borra TODO lo creado por el proyecto en XEPDB1"
+  },
+  "01_verificacion/V00_ejecutar_todo.sql": {
+    "cabecera": "V00_ejecutar_todo.sql | Ejecuta todas las verificaciones y guarda evidencias"
+  },
+  "01_verificacion/V01_A5_12_clasificacion.sql": {
+    "cabecera": "V01 | A5.12 Clasificacion de la informacion"
+  },
+  "01_verificacion/V02_A5_15_control_acceso.sql": {
+    "cabecera": "V02 | A5.15 Control de acceso"
+  },
+  "01_verificacion/V03_A5_16_identidades.sql": {
+    "cabecera": "V03 | A5.16 Gestion de identidades"
+  },
+  "01_verificacion/V04_A5_17_autenticacion_info.sql": {
+    "cabecera": "V04 | A5.17 Informacion de autenticacion"
+  },
+  "01_verificacion/V05_A5_18_derechos_acceso.sql": {
+    "cabecera": "V05 | A5.18 Derechos de acceso"
+  },
+  "01_verificacion/V06_A5_33_proteccion_registros.sql": {
+    "cabecera": "V06 | A5.33 Proteccion de registros"
+  },
+  "01_verificacion/V07_A8_2_acceso_privilegiado.sql": {
+    "cabecera": "V07 | A8.2 Derechos de acceso privilegiado"
+  },
+  "01_verificacion/V08_A8_3_restriccion_acceso.sql": {
+    "cabecera": "V08 | A8.3 Restriccion de acceso a la informacion"
+  },
+  "01_verificacion/V09_A8_5_autenticacion_segura.sql": {
+    "cabecera": "V09 | A8.5 Autenticacion segura"
+  },
+  "01_verificacion/V10_A8_10_eliminacion.sql": {
+    "cabecera": "V10 | A8.10 Eliminacion de la informacion"
+  },
+  "01_verificacion/V11_A8_11_enmascaramiento.sql": {
+    "cabecera": "V11 | A8.11 Enmascaramiento de datos (Data Redaction)"
+  },
+  "01_verificacion/V12_A8_12_fuga_datos.sql": {
+    "cabecera": "V12 | A8.12 Prevencion de fuga de datos (DLP)"
+  },
+  "01_verificacion/V13_A8_13_respaldo.sql": {
+    "cabecera": "V13 | A8.13 Respaldo de la informacion"
+  },
+  "01_verificacion/V14_A8_15_registro.sql": {
+    "cabecera": "V14 | A8.15 Registro (logging) - Auditoria unificada"
+  },
+  "01_verificacion/V15_A8_20_redes.sql": {
+    "cabecera": "V15 | A8.20 Seguridad de redes"
+  },
+  "01_verificacion/V16_A8_24_criptografia.sql": {
+    "cabecera": "V16 | A8.24* Uso de criptografia (complementario) - TDE"
+  },
+  "01_verificacion/V17_A8_8_vulnerabilidades.sql": {
+    "cabecera": "V17 | A8.8* Gestion de vulnerabilidades tecnicas (complementario) - Parcheo"
+  },
+  "02_remediacion/R01_accesos.sql": {
+    "cabecera": "R01 | HACER: accesos y privilegios (MP-01, MP-02, MP-03, MP-06)"
+  },
+  "02_remediacion/R02_identidades.sql": {
+    "cabecera": "R02 | HACER: identidades y autenticacion (MP-04, MP-05, MP-12)"
+  },
+  "02_remediacion/R03_restriccion_masking.sql": {
+    "cabecera": "R03 | HACER: restriccion por fila, redaccion, clasificacion y clon enmascarado (MP-07, MP-11)"
+  },
+  "02_remediacion/R04_auditoria.sql": {
+    "cabecera": "R04 | HACER: auditoria y monitoreo (MP-08)"
+  },
+  "02_remediacion/R05_fuga_eliminacion.sql": {
+    "cabecera": "R05 | HACER: fuga de datos y eliminacion segura (MP-09, MP-10)"
+  },
+  "02_remediacion/R06b_paso1_wallet_root.sql": {
+    "cabecera": "R06b paso 1 | Ubicacion del keystore (WALLET_ROOT). Es un parametro ESTATICO: requiere reiniciar la instancia."
+  },
+  "02_remediacion/R06b_tde.sql": {
+    "cabecera": "R06b | HACER: cifrado de datos en reposo con TDE (A8.24*, riesgo R-CONF-03)"
+  },
+  "02_remediacion/R06c_backup_rman.rman": {
+    "cabecera": "R06c | HACER: respaldo cifrado con RMAN (A8.13) - requiere TDE listo (R06b) con el keystore abierto o de inicio automatico"
+  },
+  "02_remediacion/R06a_sqlnet_admin.ps1": {
+    "cabecera": "R06a | HACER: cifrado de red y verificadores de contrasena modernos (A8.20, A5.17, A8.5)"
+  },
+  "02_remediacion/R06e_verificadores_12c.sql": {
+    "cabecera": "R06e | HACER: regenerar los verificadores de contrasena para que queden solo en 12C (A8.5, A5.17)"
+  },
+  "02_remediacion/_inicio.sql": {
+    "cabecera": "_inicio.sql | Comun a los scripts de remediacion (R02..R06)"
+  },
+  "03_pruebas/P01_accesos.sql": {
+    "cabecera": "P01 | Pruebas del bloque R01 (accesos): PT-01, PT-02, PT-07, PT-28"
+  },
+  "03_pruebas/P02_pruebas_R02_a_R05.sql": {
+    "cabecera": "P02 | Pruebas de los bloques R02 a R05 (identidades, restriccion/masking, auditoria, fuga/eliminacion)"
+  },
+  "03_pruebas/P04_PT19_tde_observable.ps1": {
+    "cabecera": "P04_PT19_tde_observable.ps1 | PT-19 (A8.24*): un texto conocido es visible en un archivo sin cifrar"
+  },
+  "03_pruebas/P05_PT24_cifrado_red.sql": {
+    "cabecera": "P05 | PT-24 (A8.20): cifrado de red AES256 + SHA256 activo en una conexion por TCP"
+  },
+  "01_verificacion/_config.sql": {
+    "cabecera": "_config.sql | Parametros comunes de los scripts de verificacion"
+  },
+  "01_verificacion/_encabezado.sql": {
+    "cabecera": "_encabezado.sql | Abre el SPOOL de evidencia con fecha, usuario y contenedor"
+  }
+}

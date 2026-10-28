@@ -6,8 +6,9 @@ import pruebas from './data/pruebas.json';
 import pasos from './data/pasos.json';
 import ayuda from './data/ayuda.json';
 import curva from './data/curva.json';
+import scriptsData from './data/scripts.json';
 
-export { org, tareas, controles, pruebas, pasos, ayuda, curva };
+export { org, tareas, controles, pruebas, pasos, ayuda, curva, scriptsData };
 export const { escala, riesgos } = riesgosData;
 
 export const tareaPorId = Object.fromEntries(tareas.map((t) => [t.id, t]));

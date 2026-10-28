@@ -3,11 +3,15 @@ import { controles } from '../data.js';
 import { archivoEvidencia } from '../calculos.js';
 import Icono from '../componentes/Icono.jsx';
 import AvisoDespues from '../componentes/AvisoDespues.jsx';
+import ScriptsRepo from '../componentes/ScriptsRepo.jsx';
+import Demostracion from '../componentes/Demostracion.jsx';
 
 const PESTANAS = [
   { id: 'comparar', nombre: 'Comparar', icono: 'columnas' },
   { id: 'antes', nombre: 'ANTES', icono: 'alerta' },
   { id: 'despues', nombre: 'DESPUÉS', icono: 'escudoOk' },
+  { id: 'scripts', nombre: 'Scripts', icono: 'terminal' },
+  { id: 'demo', nombre: 'Demostración en vivo', icono: 'play' },
 ];
 
 function Visor({ visor }) {
@@ -120,7 +124,7 @@ export default function Evidencias({ indice, visor, alAbrir }) {
         {PESTANAS.map((p) => (
           <button key={p.id} type="button" role="tab" aria-selected={pestana === p.id} className={pestana === p.id ? 'sel' : ''} onClick={() => setPestana(p.id)}>
             <Icono nombre={p.icono} tam={15} /> {p.nombre}
-            {p.id !== 'comparar' && <span className="contador">{indice[p.id].length}</span>}
+            {(p.id === 'antes' || p.id === 'despues') && <span className="contador">{indice[p.id].length}</span>}
           </button>
         ))}
       </div>
@@ -130,7 +134,9 @@ export default function Evidencias({ indice, visor, alAbrir }) {
           <Comparacion indice={indice} alAbrir={(fase, archivo) => { setPestana(fase); alAbrir(fase, archivo); }} />
         </>
       )}
-      {pestana !== 'comparar' && (
+      {pestana === 'scripts' && <ScriptsRepo indice={indice} abrirSalida={(fase, archivo) => { setPestana(fase); alAbrir(fase, archivo); }} />}
+      {pestana === 'demo' && <Demostracion />}
+      {(pestana === 'antes' || pestana === 'despues') && (
         <div className="evidencias">
           {lista(pestana)}
           <div className="visor"><Visor visor={visor} /></div>
